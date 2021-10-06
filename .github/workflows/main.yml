@@ -1,0 +1,33 @@
+name: "Deploy with vercel"
+
+on:
+  push:
+    branches:
+      - main
+      - 01-testing
+      - development
+      - staging
+      - uat
+      - production
+
+jobs:
+  vercel:
+    runs-on: ubuntu-latest
+    name: "deploy react app with vercel"
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+
+      - name: "deploy to vercel"
+        run: |
+          prodRun=""
+          if [[ ${GITHUB_REF} == "refs/heads/main" ]]; then
+            prodRun="--prod"
+          fi
+          npx vercel --token ${VERCEL_TOKEN} $prodRun
+          CI='' npm run build
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

@@ -1,0 +1,111 @@
+const JenisTransaksi = [
+  {
+    key: "laku-pandai",
+    value: "disabled",
+    label: "Laku Pandai",
+    isDisabled: true,
+  },
+  {
+    key: "cash-in-out",
+    value: "Cash In & Out",
+    label: "Cash-in & Out",
+    isDisabled: false,
+  },
+  {
+    key: "report",
+    value: "Report",
+    label: "Report",
+    isDisabled: false,
+  },
+  {
+    key: "setoran-uang",
+    value: "Setoran Uang",
+    label: "Setoran Uang",
+    isDisabled: false,
+  },
+  {
+    key: "tarik-tunai",
+    value: "Tarik Tunai",
+    label: "Tarik Tunai",
+    isDisabled: false,
+  },
+  {
+    key: "isi-ulang-pulsa",
+    value: "Isi Ulang Pulsa",
+    label: "Isi Ulang Pulsa",
+    isDisabled: false,
+  },
+  {
+    key: "belanja-merchant",
+    value: "Belanja Merchant",
+    label: "Belanja Merchant",
+    isDisabled: false,
+  },
+  {
+    key: "tunai",
+    value: "disabled",
+    label: "Tunai",
+    isDisabled: true,
+  },
+  {
+    key: "setoran-pinjaman",
+    value: "Setoran Pinjaman",
+    label: "Setoran Pinjaman",
+    isDisabled: false,
+  },
+  {
+    key: "setoran-simpanan",
+    value: "Setoran Simpanan",
+    label: "Setoran Simpanan",
+    isDisabled: false,
+  },
+  {
+    key: "tarik-tunai-2",
+    value: "Tarik Tunai 2",
+    label: "Tarik Tunai",
+    isDisabled: false,
+  },
+  {
+    key: "mini-atm-bri",
+    value: "Mini ATM BRI",
+    label: "Mini ATM BRI",
+    isDisabled: true,
+  },
+  {
+    key: "registrasi-mobile-banking",
+    value: "Registrasi Mobile Banking",
+    label: "Registrasi Mobile Banking",
+    isDisabled: false,
+  },
+  {
+    key: "registrasi-internet-banking",
+    value: "Registrasi Internet Banking",
+    label: "Registrasi Internet Banking",
+    isDisabled: false,
+  },
+  {
+    key: "informasi-rekening",
+    value: "Informasi Rekening",
+    label: "Informasi Rekening",
+    isDisabled: false,
+  },
+  {
+    key: "transfer-pembayaran",
+    value: "Transfer Pembayaran",
+    label: "Transfer Pembayaran",
+    isDisabled: false,
+  },
+  {
+    key: "isi-ulang-pulsa-2",
+    value: "Isi Ulang Pulsa 2",
+    label: "Isi Ulang Pulsa",
+    isDisabled: false,
+  },
+  {
+    key: "setor-pasti",
+    value: "Setor Pasti",
+    label: "Setor Pasti",
+    isDisabled: false,
+  },
+];
+export default JenisTransaksi;
