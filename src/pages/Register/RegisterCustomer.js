@@ -1,11 +1,18 @@
-import React from "react"
+import React, { useState, useCallback } from "react"
 import { Form, Input, Button, Col, Typography } from "antd"
+import { useHistory } from "react-router-dom"
 
 import "./Register.css"
 
 const { Title } = Typography
 
 const RegisterCustomer = () => {
+  const history = useHistory()
+
+  const handleRegisterCustomerBtn = useCallback(() => {
+    history.push("/")
+  }, [])
+
   return (
     <div className="outer-login">
       <div className="inner-login">
@@ -80,7 +87,7 @@ const RegisterCustomer = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-registerAgenCustomer">Register Customer</Button>
+              <Button className="btn-registerAgenCustomer" onClick={handleRegisterCustomerBtn}>Register Customer</Button>
             </Col>
           </Form.Item>
         </Form>
