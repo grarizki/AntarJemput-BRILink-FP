@@ -25,6 +25,8 @@ jobs:
     needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Download the node_modules folders
         uses: actions/download-artifact@v2
         with:
