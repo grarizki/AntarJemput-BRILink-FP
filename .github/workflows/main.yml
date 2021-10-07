@@ -8,6 +8,13 @@ on:
     branches: [ main ]
 
 jobs:
+  install-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: installing dependencies
+        run: npm install
   testing:
     runs-on: ubuntu-latest
     steps:
