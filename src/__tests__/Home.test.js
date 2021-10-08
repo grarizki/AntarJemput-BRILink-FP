@@ -1,7 +1,9 @@
+import React from "react"
+
 import Home from "../pages/Home/Home"
 import { screen, waitFor } from "@testing-library/react"
 import { QueryClient, QueryClientProvider } from "react-query"
-import Enzyme, { shallow } from "enzyme"
+import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -18,7 +20,7 @@ describe("Home", () => {
       expect(screen.getByText("Waktu")).toBeInTheDocument()
     })
   })
-  
+
   test("There is a Request", async () => {
     const queryClient = new QueryClient()
     return (
