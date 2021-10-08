@@ -1,3 +1,5 @@
+import React from "react"
+
 import { screen, waitFor } from "@testing-library/react"
 import { QueryClient, QueryClientProvider } from "react-query"
 import Enzyme, { shallow } from "enzyme"
