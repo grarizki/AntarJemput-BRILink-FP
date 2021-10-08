@@ -1,5 +1,5 @@
-import { screen, waitFor } from "@testing-library/react"
-import { QueryClient, QueryClientProvider } from "react-query"
+import React from "react"
+
 import Enzyme, { shallow } from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
 import { expect } from "chai"
