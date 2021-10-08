@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { IconContext } from "react-icons"
 import * as FaIcons from "react-icons/fa"
-import * as AiIcons from "react-icons/ai"
 import { Link } from "react-router-dom"
 
 import { SidebarDataAgen } from "../sidebarAgen/sidebarDataAgen"
