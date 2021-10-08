@@ -2,6 +2,7 @@ import { screen, waitFor } from "@testing-library/react"
 import { QueryClient, QueryClientProvider } from "react-query"
 import Enzyme, { shallow } from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
+import { expect } from "chai"
 
 import TransaksiPage from "../pages/Transaksi/TransaksiPage"
 
@@ -75,14 +76,14 @@ describe("TransaksiPage", () => {
     const wrapper = shallow(
       <TransaksiPage
         handleTransaksi={(state) => {
-          expect(state.created_date).to.be.equal(created_date)
-          expect(state.jenis_transaksi).to.be.equal(jenis_transaksi)
-          expect(state.provinsi_customer).to.be.equal(provinsi_customer)
-          expect(state.kabupaten_customer).to.be.equal(kabupaten_customer)
-          expect(state.kecamatan_customer).to.be.equal(kecamatan_customer)
-          expect(state.alamat_lengkap).to.be.equal(alamat_lengkap)
-          expect(state.nominal_transaksi).to.be.equal(nominal_transaksi)
-          expect(state.status).to.be.equal(status)
+          expect(state.created_date).equal(created_date)
+          expect(state.jenis_transaksi).equal(jenis_transaksi)
+          expect(state.provinsi_customer).equal(provinsi_customer)
+          expect(state.kabupaten_customer).equal(kabupaten_customer)
+          expect(state.kecamatan_customer).equal(kecamatan_customer)
+          expect(state.alamat_lengkap).equal(alamat_lengkap)
+          expect(state.nominal_transaksi).equal(nominal_transaksi)
+          expect(state.status).equal(status)
         }}
       />
     )
