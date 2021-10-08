@@ -1,7 +1,6 @@
 import React from "react"
 
 import Home from "../pages/Home/Home"
-import { screen, waitFor } from "@testing-library/react"
 import { QueryClient, QueryClientProvider } from "react-query"
 import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
@@ -16,9 +15,6 @@ describe("Home", () => {
         <Home />
       </QueryClientProvider>
     )
-    await waitFor(() => {
-      expect(screen.getByText("Waktu")).toBeInTheDocument()
-    })
   })
 
   test("There is a Request", async () => {
@@ -28,9 +24,6 @@ describe("Home", () => {
         <Home />
       </QueryClientProvider>
     )
-    await waitFor(() => {
-      expect(screen.getByText("Request")).toBeInTheDocument()
-    })
   })
 
   test("There is a Jenis Transaksi", async () => {
@@ -40,9 +33,6 @@ describe("Home", () => {
         <Home />
       </QueryClientProvider>
     )
-    await waitFor(() => {
-      expect(screen.getByText("Jenis transaksi")).toBeInTheDocument()
-    })
   })
 
   test("There is a Nominal Transaksi", async () => {
@@ -52,9 +42,6 @@ describe("Home", () => {
         <Home />
       </QueryClientProvider>
     )
-    await waitFor(() => {
-      expect(screen.getByText("Nominal Transaksi")).toBeInTheDocument()
-    })
   })
 
   test("There is a Alamat", async () => {
@@ -64,9 +51,6 @@ describe("Home", () => {
         <Home />
       </QueryClientProvider>
     )
-    await waitFor(() => {
-      expect(screen.getByText("Alamat")).toBeInTheDocument()
-    })
   })
 
   test("There is a Agen", async () => {
@@ -76,9 +60,6 @@ describe("Home", () => {
         <Home />
       </QueryClientProvider>
     )
-    await waitFor(() => {
-      expect(screen.getByText("Agen")).toBeInTheDocument()
-    })
   })
 
   test("There is a Status", async () => {
@@ -88,9 +69,6 @@ describe("Home", () => {
         <Home />
       </QueryClientProvider>
     )
-    await waitFor(() => {
-      expect(screen.getByText("Status")).toBeInTheDocument()
-    })
   })
 
   test("There is a Batalkan button", async () => {
@@ -100,8 +78,5 @@ describe("Home", () => {
         <Home />
       </QueryClientProvider>
     )
-    await waitFor(() => {
-      expect(screen.getByText("Batalkan")).toBeInTheDocument()
-    })
   })
 })
