@@ -2,12 +2,11 @@ import React from "react"
 import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import * as IoIcons from "react-icons/io"
-import * as BsIcons from "react-icons/bs"
 
 export const SidebarDataAgen = [
   {
     title: "Beranda",
-    path: "/home",
+    path: "/home-agent",
     icon: <AiIcons.AiFillHome />,
     cName: "nav-text",
   },

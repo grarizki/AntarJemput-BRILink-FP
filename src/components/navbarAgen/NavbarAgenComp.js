@@ -5,7 +5,7 @@ import * as AiIcons from "react-icons/ai"
 import { Link } from "react-router-dom"
 
 import { SidebarDataAgen } from "../sidebarAgen/sidebarDataAgen"
-import "./navbar.sass"
+import "./navbarAgen.sass"
 import Logo from "../../assets/image/BRI-AJ-v2.png"
 
 function NavbarAgenComp() {

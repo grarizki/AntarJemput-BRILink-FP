@@ -1,68 +1,40 @@
-import React from "react"
-import { Modal, Button } from "antd"
+import { useHistory } from "react-router-dom"
 import Cookies from "universal-cookie"
+import Swal from "sweetalert2"
+// import { Redirect } from "react-router-dom";
+import { useAuthorizedContext } from "../../AuthorizedContext"
 
-import NavbarComponent from "../../components/navbar/NavbarComponent"
-import "../Status/logout.css"
 
 const cookies = new Cookies()
 
 function Logout() {
-  const [visible, setVisible] = React.useState(false)
-  const [confirmLoading, setConfirmLoading] = React.useState(false)
+  const { isLoggedIn, setAuthorizedValue } = useAuthorizedContext()
 
-  const showModal = () => {
-    setVisible(true)
-  }
+  const history = useHistory()
 
-  const handleClickButtonLogout = React.useCallback(() => {
-    cookies.remove("accessToken")
-  }, [])
-
-  const handleOk = () => {
-    setConfirmLoading(true)
-    handleClickButtonLogout()
-    setTimeout(() => {
-      setVisible(false)
-      setConfirmLoading(false)
-    }, 1000)
-  }
-
-  const handleCancel = () => {
-    console.log("Clicked cancel button")
-    setVisible(false)
-  }
-
-  return (
-    <>
-      <NavbarComponent />
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "15%" }}>
-        <Button
-          type="primary"
-          style={{
-            margin: "0px",
-            paddingRight: "15px",
-            color: "#000",
-            backgroundColor: "#C8A2C8",
-            fontWeight: "bold",
-            borderRadius: "10px",
-          }}
-          onClick={showModal}
-        >
-          Keluar
-        </Button>
-        <Modal
-          className="my-modal-window"
-          visible={visible}
-          onOk={handleOk}
-          confirmLoading={confirmLoading}
-          onCancel={handleCancel}
-        >
-          <p>anda yakin keluar dari transaksi</p>
-        </Modal>
-      </div>
-    </>
-  )
+  Swal.fire({
+    title: "Konfirmasi",
+    text: "Anda yakin ingin keluar?",
+    icon: "info",
+    showCancelButton: true,
+    confirmButtonText: "Ya",
+    confirmButtonColor: "#292961",
+    cancelButtonColor: "#292961",
+    cancelButtonText: "Tidak",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        icon: "success",
+        title: "Logout Sukses",
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      setAuthorizedValue(false, null)
+      cookies.remove("accessToken")
+      history.replace("/")
+    } else {
+    }
+  })
 }
 
 export default Logout

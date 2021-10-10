@@ -6,7 +6,7 @@ const cookies = new Cookies();
 
 const useGetTransactions = (id = "") => {
   const fetchData = async () => {
-    const response = await fetch(`http://localhost:5000/transactions/${id}`, {
+    const response = await fetch(`https://wulan-belajar.herokuapp.com/transactions/${id}`, {
       headers: new Headers({
         Authorization: "Bearer " + cookies.get("accessToken"),
       }),
