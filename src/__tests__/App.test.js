@@ -23,7 +23,7 @@ describe("App Component", () => {
 
   it("should have two route", function () {
     const wrapper = shallow(<App />)
-    expect(wrapper.find("Route")).toHaveLength(2)
+    expect(wrapper.find("Route")).toHaveLength(4)
   })
 
   it("should have one Switch", function () {
