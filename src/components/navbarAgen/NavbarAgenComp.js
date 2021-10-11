@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { IconContext } from "react-icons"
 import * as FaIcons from "react-icons/fa"
-import * as AiIcons from "react-icons/ai"
 import { Link } from "react-router-dom"
 
 import { SidebarDataAgen } from "../sidebarAgen/sidebarDataAgen"
@@ -30,9 +29,9 @@ function NavbarAgenComp() {
             {SidebarDataAgen.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
-                  <Link to={item.path}>
+                  <Link to={item.path} style={{backgroundColor:"white", marginLeft:"-15px"}}>
                     {item.icon}
-                    <span style={{ marginLeft: "16px" }}>{item.title}</span>
+                    <span style={{ marginLeft: "10px", color:"black"}}>{item.title}</span>
                   </Link>
                 </li>
               )

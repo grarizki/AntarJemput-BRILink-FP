@@ -3,6 +3,10 @@ import { Typography, Row, Col, Form, Button, Card } from "antd"
 import moment from "moment"
 import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import { useHistory } from "react-router-dom"
+import { faBan, faSmile, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Swal from "sweetalert2"
+
 
 const { Title, Text } = Typography
 
@@ -23,60 +27,49 @@ const CardComponent = (props) => {
       // console.log("id transaction >> ", props.transaction.id);
       deleteTransaction()
     }, [deleteTransaction])
+
+
+    const handleDelete = () => {
+      Swal.fire({
+        title: 'Anda yakin ingin menghapus transaksi ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Hapus !'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Berhasil',
+            'Transaksi telah dihapus.',
+            'success'
+          )
+        }
+      })
+    }
   
     return (
-      <Card title=" ">
-        <Form style={{ marginLeft: "10%" }}>
-          <Row>
-            <Col style={{ width: "35%" }}>
-              <Text>Waktu Request </Text>
-            </Col>
-            <Col offset={0} style={{ width: "65%" }}>
-              <Text>
-                {" "}
-                :{" "}
-                {moment(new Date(props.transaction.created_date)).format(
-                  "DD MMMM YYYY, hh:mm A"
-                )}
-              </Text>
-            </Col>
-          </Row>
-          <Row>
-            <Col style={{ width: "35%" }}>
-              <Text>Jenis Transaksi</Text>
-            </Col>
-            <Col style={{ width: "65%" }}>
-              <Text>: {props.transaction.jenis_transaksi} </Text>
-            </Col>
-          </Row>
-  
-          <Row>
-            <Col style={{ width: "35%" }}>
-              <Text>Nominal Transaksi</Text>
-            </Col>
-            <Col sstyle={{ width: "65%" }}>
-              <Text> : Rp{props.transaction.nominal_transaksi} </Text>
-            </Col>
-          </Row>
-  
-          <Row>
-            <Col style={{ width: "35%" }}>
-              <Text>Alamat Anda</Text>
-            </Col>
-            <Col style={{ width: "65%" }}>
-              <Text> : {props.transaction.alamat_lengkap} </Text>
-            </Col>
-          </Row>
-  
-          <Row>
-            <Col style={{ width: "35%" }}>
-              <Text>Status</Text>
-            </Col>
-            <Col style={{ width: "65%" }}>
-              <Text>
-                :{" "}
-                {props.transaction.status === "0"
-                  ? "Menunggu konfirmasi agen"
+      <Card style={{
+        width: 450,
+        border: "2px solid black",
+        marginBottom:"20px"
+      }}>
+              <ul className="alignMe">
+        <li>
+          <b>Waktu Request</b>  {moment(new Date(props.transaction.created_date)).format(
+                  "DD MMMM YYYY, hh:mm A")}
+        </li>
+        <li>
+          <b>Jenis Transaksi</b> {props.transaction.jenis_transaksi}</li>
+        <li>
+          <b>Nominal Transaksi</b>Rp. {props.transaction.nominal_transaksi} 
+        </li>
+        <li>
+          <b>Alamat Customer</b>{props.transaction.alamat_lengkap} 
+        </li>
+        <li>
+          <b>Status</b>  {props.transaction.status === "0"
+                  ? "Menunggu konfirmasi agent"
                   : props.transaction.status === "1"
                   ? "Agen dalam perjalanan"
                   : props.transaction.status === "2"
@@ -84,9 +77,9 @@ const CardComponent = (props) => {
                   : props.transaction.status === "3"
                   ? "Selesai"
                   : "Error"}
-              </Text>
-            </Col>
-          </Row>
+        </li>
+      </ul>
+       
   
           <div className="float-right">
           {
@@ -96,22 +89,42 @@ const CardComponent = (props) => {
               style={{
                 margin: "0px",
                 paddingRight: "15px",
-                backgroundColor: "#F03D3E",
+                backgroundColor: "brown",
                 fontWeight: "bold",
                 borderRadius: "10px",
+                marginLeft:"50px"
               }}
               onClick={handleCancelTransaction}
             >
+              <FontAwesomeIcon icon={faBan} style={{marginRight:"5px"}}/>
               Batalkan
             </Button>
             : props.transaction.status === "3"  ?
-            <Button className="btn btn-primary" onClick={handleRate}> Beri Rating  </Button>
-            : <Button> Hapus</Button>
-
+            <Button   style={{
+              margin: "0px",
+              color:"white",
+              paddingRight: "15px",
+              backgroundColor: "blue",
+              fontWeight: "bold",
+              borderRadius: "10px",
+              marginLeft:"50px"
+            }} onClick={handleRate}> 
+            
+            <FontAwesomeIcon icon={faSmile} style={{marginRight:"5px"}}/>Beri Rating  </Button>
+            : <Button  style={{
+              backgroundColor: "red",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "10px",
+              paddingRight: "15px",
+              margin: "0px",
+              marginLeft:"50px"
+            }}
+            onClick={handleDelete}
+            > <FontAwesomeIcon icon={faTrashAlt} style={{marginRight:"5px"}}/> Hapus </Button>
             } 
            
           </div>
-        </Form>
       </Card>
     )
   }

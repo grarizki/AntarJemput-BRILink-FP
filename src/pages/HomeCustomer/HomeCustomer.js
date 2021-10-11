@@ -4,6 +4,7 @@ import NavbarComponent from "../../components/navbar/NavbarComponent"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 import useGetTransaction from "../../Query/useGetTransaction"
 import CardComponent from "../Card/CardComponent"
+import Background from "../../assets/image/white-wave-background-vector.jpg"
 
 const { Title, Text } = Typography
 
@@ -23,9 +24,9 @@ function HomeCustomer() {
   return (
     <div className="outer-home">
       <NavbarComponent />
-      <div className="statusTransaksi">
+      <div className="statusTransaksi" style={{backgroundImage:`url(${Background})`}}>
         <div className="title">
-          <Title>Transaksi Saat Ini:</Title>
+          <Title  style={{fontFamily:"Comic Sans MS, cursive", color:"#292961"}}>Transaksi Saat Ini</Title>
         </div>
         <div className="resume">
           <Space direction="vertical">

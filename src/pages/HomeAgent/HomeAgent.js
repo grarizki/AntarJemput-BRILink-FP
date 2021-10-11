@@ -1,11 +1,5 @@
 import React from "react"
 import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Button,
-  Card,
   Typography,
   Spin,
   Space,
@@ -16,7 +10,8 @@ import NavbarComponent from "../../components/navbarAgen/NavbarAgenComp"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 import useGetTransaction from "../../Query/useGetTransaction"
 import "./HomeAgent.sass"
-import CardComponent from "../CardAgent/CardAgent"
+import CardAgent from "../CardAgent/CardAgent"
+import Background from "../../assets/image/white-wave-background-vector.jpg"
 
 const { Title} = Typography
 
@@ -35,9 +30,9 @@ function HomeAgent() {
   return (
     <div className="outer-home">
       <NavbarComponent />
-      <div className="statusTransaksi">
+      <div className="statusTransaksi" style={{backgroundImage:`url(${Background})`}}>
         <div className="title">
-          <Title>Request Transaksi Hari Ini:</Title>
+          <Title style={{fontFamily:"Comic Sans MS, cursive", color:"#292961"}}>Request Transaksi Hari Ini</Title>
         </div>
         <div className="resume">
           <Space direction="vertical">
@@ -45,7 +40,7 @@ function HomeAgent() {
               <Spin tip="Loading..."></Spin>
             ) : data ? (
               data.map((transaction) => (
-                <CardComponent
+                <CardAgent
                   key={transaction.id}
                   transaction={transaction}
                   refetchTransactions={refetchTransactions}
