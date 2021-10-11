@@ -3,16 +3,34 @@ import { Row, Form, Input, Button, Select, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
 
 import DataAlamat from "../Transaksi/DataAlamat"
+import useCreateAgen from "../../Mutations/useCreateAgen"
 import "./Register.css"
 
 const { Option } = Select
-const { Title} = Typography
+const { Title } = Typography
 
 const RegisterAgen = () => {
   const history = useHistory()
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
   const [selectedKecamatan, setSelectedKecamatan] = useState(null)
+  const [agentState, setAgentState] = useState({
+    username: "",
+    password: "",
+    agentName: "",
+    noHandphone: "",
+    districtId: "",
+    address: "",
+  })
+
+  const { mutate, isLoadingAgent, isErrorAgent } = useCreateAgen(
+    agentState,
+    (result) => {
+      console.log("success mutation >> ", result)
+      history.push("/")
+    }
+  )
+
   const handleSelectedProvinsi = (value) => {
     setSelectedProvinsi(value)
   }
@@ -23,6 +41,16 @@ const RegisterAgen = () => {
 
   const handleSelectedKecamatan = (value) => {
     setSelectedKecamatan(value)
+  }
+
+  const handleFormProvinsi = (value) => {
+    setAgentState({ ...agentState, province: value })
+  }
+  const handleFormKabupaten = (value) => {
+    setAgentState({ ...agentState, city: value })
+  }
+  const handleFormKecamatan = (value) => {
+    setAgentState({ ...agentState, district: value })
   }
 
   const dataKabupaten = useMemo(() => {
@@ -39,14 +67,10 @@ const RegisterAgen = () => {
     )
   }, [selectedKabupaten, dataKabupaten])
 
-  const handleRegisterAgenBtn = useCallback(() => {
-    history.push("/")
-  }, [])
-
   return (
     <div className="outer-register">
       <div className="inner-register">
-        <div className="logo" style={{ marginTop: '0', marginBottom: "45px" }}>
+        <div className="logo" style={{ marginTop: "0", marginBottom: "45px" }}>
           <Title style={{ textAlign: "center" }}>Sign Up</Title>
         </div>
         <Form
@@ -69,7 +93,17 @@ const RegisterAgen = () => {
               },
             ]}
           >
-            <Input placeholder="Masukkan Nama" name="Nama" />
+            <Input
+              placeholder="Masukkan Nama"
+              name="Nama"
+              onChange={(event) => {
+                console.log("value >> ", agentState)
+                setAgentState({
+                  ...agentState,
+                  agentName: event.target.value,
+                })
+              }}
+            />
           </Form.Item>
           <Form.Item
             name="Alamat"
@@ -88,6 +122,7 @@ const RegisterAgen = () => {
                   placeholder="Pilih Provinsi"
                   onChange={(e) => {
                     handleSelectedProvinsi(e)
+                    handleFormProvinsi(e)
                   }}
                 >
                   {DataAlamat.map((provinsi, index) => (
@@ -102,6 +137,7 @@ const RegisterAgen = () => {
                   placeholder="Pilih Kabupaten"
                   onChange={(e) => {
                     handleSelectedKabupaten(e)
+                    handleFormKabupaten(e)
                   }}
                 >
                   {dataKabupaten.map((kabupaten, index) => (
@@ -117,6 +153,7 @@ const RegisterAgen = () => {
                   placeholder="Pilih Kecamatan"
                   onChange={(e) => {
                     handleSelectedKecamatan(e)
+                    handleFormKecamatan(e)
                   }}
                 >
                   {dataKecamatan.map((kecamatan, index) => (
@@ -142,6 +179,13 @@ const RegisterAgen = () => {
             <Input
               placeholder="Masukkan Detail Alamat Kantor Anda"
               name="alamat-Kantor"
+              onChange={(event) => {
+                console.log("value >> ", agentState)
+                setAgentState({
+                  ...agentState,
+                  address: event.target.value,
+                })
+              }}
             />
           </Form.Item>
           <Form.Item
@@ -155,7 +199,17 @@ const RegisterAgen = () => {
               },
             ]}
           >
-            <Input placeholder="Masukkan Nomor Handphone" name="Nomor-Handphone" />
+            <Input
+              placeholder="Masukkan Nomor Handphone"
+              name="Nomor-Handphone"
+              onChange={(event) => {
+                console.log("value >> ", agentState)
+                setAgentState({
+                  ...agentState,
+                  noHandphone: event.target.value,
+                })
+              }}
+            />
           </Form.Item>
           <Form.Item
             style={{ marginBottom: " 8px", padding: "0px" }}
@@ -168,7 +222,17 @@ const RegisterAgen = () => {
               },
             ]}
           >
-            <Input placeholder="Masukkan Username" name="Username" />
+            <Input
+              placeholder="Masukkan Username"
+              name="Username"
+              onChange={(event) => {
+                console.log("value >> ", agentState)
+                setAgentState({
+                  ...agentState,
+                  username: event.target.value,
+                })
+              }}
+            />
           </Form.Item>
           <Form.Item
             style={{ marginBottom: " 8px", padding: "0px" }}
@@ -181,7 +245,18 @@ const RegisterAgen = () => {
               },
             ]}
           >
-            <Input type="password" placeholder="Password" name="password" />
+            <Input
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={(event) => {
+                console.log("value >> ", agentState)
+                setAgentState({
+                  ...agentState,
+                  password: event.target.value,
+                })
+              }}
+            />
           </Form.Item>
           <Form.Item
             name="konfirmasi-password"
@@ -193,7 +268,18 @@ const RegisterAgen = () => {
               },
             ]}
           >
-            <Input type="password" placeholder="Ulangi Password" name="password" />
+            <Input
+              type="password"
+              placeholder="Ulangi Password"
+              name="password"
+              onChange={(event) => {
+                console.log("value >> ", agentState)
+                setAgentState({
+                  ...agentState,
+                  password: event.target.value,
+                })
+              }}
+            />
           </Form.Item>
           <Form.Item>
             <Col
@@ -204,7 +290,9 @@ const RegisterAgen = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-registerAgenCustomer" onClick={handleRegisterAgenBtn}>Register Agen</Button>
+              <Button className="btn-registerAgenCustomer" onClick={mutate}>
+                Register Agen
+              </Button>
             </Col>
           </Form.Item>
         </Form>
