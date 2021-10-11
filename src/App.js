@@ -6,9 +6,9 @@ import "./App.css"
 import TransaksiPage from "./pages/Transaksi/TransaksiPage"
 import Login from "./pages/login/Login"
 import Home from "./pages/HomeCustomer/HomeCustomer"
-import Logout from "./pages/Status/Logout"
+import Logout from "./pages/Logout/Logout"
 import RegisterAgen from "./pages/Register/RegisterAgen"
-import RegisterCustomer from './pages/Register/RegisterCustomer'
+import RegisterCustomer from "./pages/Register/RegisterCustomer"
 import AuthorizedRoute from "./AuthorizedRoute"
 import RestrictedWrapper from "./RestrictedWrapper"
 import { AuthorizedContextProvider } from "./AuthorizedContext"
@@ -32,9 +32,9 @@ function App() {
         <Router>
           <Switch>
             <Route path="/" exact>
-              <RestrictedWrapper> 
-                <Login /> 
-                 </RestrictedWrapper>
+              <RestrictedWrapper>
+                <Login />
+              </RestrictedWrapper>
             </Route>
             <Route path="/RegisterAgen" exact>
               <RegisterAgen />
@@ -52,9 +52,13 @@ function App() {
             ></AuthorizedRoute>
             <Route path="/signout" exact>
               <Logout />
-              </Route>
+            </Route>
             <AuthorizedRoute path="/home" exact component={Home}></AuthorizedRoute>
-            <AuthorizedRoute path="/home-agent" exact component={HomeAgent}></AuthorizedRoute>
+            <AuthorizedRoute
+              path="/home-agent"
+              exact
+              component={HomeAgent}
+            ></AuthorizedRoute>
           </Switch>
         </Router>
       </AuthorizedContextProvider>
