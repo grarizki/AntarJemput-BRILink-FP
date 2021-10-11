@@ -9,7 +9,6 @@ import Background from "../../assets/image/white-wave-background-vector.jpg"
 const { Title, Text } = Typography
 
 function HomeCustomer() {
- 
   const { isLoggedIn, userLevel } = useAuthorizedContext()
   console.log("value >> ", isLoggedIn, userLevel)
   const {
@@ -24,9 +23,14 @@ function HomeCustomer() {
   return (
     <div className="outer-home">
       <NavbarComponent />
-      <div className="statusTransaksi" style={{backgroundImage:`url(${Background})`}}>
+      <div
+        className="statusTransaksi"
+        style={{ backgroundImage: `url(${Background})` }}
+      >
         <div className="title">
-          <Title  style={{fontFamily:"Comic Sans MS, cursive", color:"#292961"}}>Transaksi Saat Ini</Title>
+          <Title style={{ fontFamily: "Playfair Display", color: "#292961" }}>
+            Transaksi Saat Ini
+          </Title>
         </div>
         <div className="resume">
           <Space direction="vertical">
