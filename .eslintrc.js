@@ -28,6 +28,12 @@ module.exports = {
   rules: {
     "react/prop-types": "off",
     "sonarjs/cognitive-complexity": "warn",
+    "jest/expect-expect": [
+      "error",
+      {
+        assertFunctionNames: ["expect"],
+      },
+    ],
   },
   settings: {
     react: {
