@@ -1,4 +1,4 @@
-import React, { useState, useCallback} from "react"
+import React, { useState, useCallback } from "react"
 import { Modal, Form, Input, Button, Select, Col } from "antd"
 import {
   UserOutlined,
@@ -7,13 +7,13 @@ import {
   EyeInvisibleOutlined,
 } from "@ant-design/icons"
 import { useHistory } from "react-router-dom"
+import Swal from "sweetalert2"
 
 import "./login.css"
 import BRI from "../../assets/image/BRI2.png"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 import useLogin from "../../Mutations/useLogin"
 import Background from "../../assets/image/bg.jpg"
-
 
 const { Option } = Select
 
@@ -27,33 +27,48 @@ const Login = () => {
   const [visible, setVisible] = React.useState(false)
   const [confirmLoading, setConfirmLoading] = React.useState(false)
 
-
-
   const handleSuccessLogin = useCallback(() => {
-    if(selectedUserLevel == "2") {
+    if (selectedUserLevel == "2") {
       setAuthorizedValue(true, selectedUserLevel)
+      Swal.fire({
+        icon: "success",
+        title: "Login Success",
+        showConfirmButton: false,
+        timer: 2000,
+      })
       history.push("/home")
     } else {
       setAuthorizedValue(true, selectedUserLevel)
       history.push("/home-agent")
     }
-   
   }, [setAuthorizedValue, history, selectedUserLevel])
 
- const { mutate: login } = useLogin(
-  { email: username, password: password, login_as : selectedUserLevel  },
-  handleSuccessLogin,
-  (error) => console.log("error >>", error)
-)
+  const handleErrorLogin = useCallback((error) => {
+    if (error) {
+      Swal.fire({
+        icon: "error",
+        text: error,
+        title: "Login gagal",
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      history.push("/home-agent")
+    }
+  }, [])
 
+  const { mutate: login } = useLogin(
+    { email: username, password: password, role: selectedUserLevel },
+    handleSuccessLogin,
+    handleErrorLogin
+  )
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values)
   }
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+    console.log("Failed:", errorInfo)
+  }
 
   const handleSelectedUserLevel = useCallback((value) => {
     setSelectedUserLevel(`${value}`)
@@ -114,21 +129,20 @@ const Login = () => {
   }
 
   const handleRegisterAgen = useCallback(() => {
-    history.push("/RegisterAgen");
-  }, []);
+    history.push("/RegisterAgen")
+  }, [])
 
   const handleRegisterCustomer = useCallback(() => {
-    history.push("/RegisterCustomer");
-  }, []);
-
+    history.push("/RegisterCustomer")
+  }, [])
 
   return (
-    <div className="outer-login" style={{backgroundImage:`url(${Background})`}}>
+    <div className="outer-login" style={{ backgroundImage: `url(${Background})` }}>
       <div className="inner-login">
         <div className="logo" style={{ marginTop: "-50px", width: "200px" }}>
           <img src={BRI} alt="logo" />
         </div>
-       
+
         <Form
           labelCol={{ span: 6 }}
           labelAlign="left"
@@ -147,8 +161,8 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your username  !',
-              }
+                message: "Please input your username  !",
+              },
             ]}
           >
             <Input
@@ -166,8 +180,8 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your password!',
-              }
+                message: "Please input your password!",
+              },
             ]}
           >
             <Input.Password
@@ -182,10 +196,7 @@ const Login = () => {
               }
             />
           </Form.Item>
-          <Form.Item
-            labelCol={{ span: 6 }}
-            name="login_as"
-          >
+          <Form.Item labelCol={{ span: 6 }} name="login_as">
             <Select
               // defaultValue={selectedUserLevel}
               name="login_as"
@@ -201,7 +212,7 @@ const Login = () => {
             </Select>
           </Form.Item>
           <Form.Item>
-          <Col
+            <Col
               span={12}
               offset={2}
               style={{
@@ -218,7 +229,6 @@ const Login = () => {
                 Register
               </Button>
             </Col>
-           
           </Form.Item>
         </Form>
         <Modal
@@ -237,7 +247,6 @@ const Login = () => {
         >
           <p>Register sebagai</p>
         </Modal>
-
       </div>
     </div>
   )
