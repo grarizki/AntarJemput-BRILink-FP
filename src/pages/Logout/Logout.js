@@ -4,7 +4,6 @@ import Swal from "sweetalert2"
 // import { Redirect } from "react-router-dom";
 import { useAuthorizedContext } from "../../AuthorizedContext"
 
-
 const cookies = new Cookies()
 
 function Logout() {
@@ -35,6 +34,7 @@ function Logout() {
     } else {
     }
   })
+  return <div></div>
 }
 
 export default Logout
