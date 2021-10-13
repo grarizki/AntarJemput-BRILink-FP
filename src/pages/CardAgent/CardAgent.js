@@ -1,23 +1,34 @@
-import React, { useCallback } from "react"
-import { Typography, Row, Col, Form, Button, Card } from "antd"
+import React, { useState, useCallback } from "react"
+import { Typography, Button, Card } from "antd"
 import moment from "moment"
 import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import { useHistory } from "react-router-dom"
 import Swal from "sweetalert2"
 import "./CardAgent.css"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {  faCheck, faClipboardCheck, faEye, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faCheck,
+  faClipboardCheck,
+  faEye,
+  faTimesCircle,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons"
 
 const { Title, Text } = Typography
 
 const CardAgent = (props) => {
   const history = useHistory()
+
   const { mutate: deleteTransaction } = useDeleteTransaction(
     props.transaction.id,
     props.refetchTransactions
   )
+  const handleCancelTransaction = useCallback(() => {
+    // console.log("id transaction >> ", props.transaction.id);
+    deleteTransaction()
+  }, [deleteTransaction])
 
-  const handleAcceptTransactions = (() => {
+  const handleAcceptTransactions = () => {
     Swal.fire({
       title: "Konfirmasi",
       text: "Anda yakin ingin menerima request?",
@@ -39,26 +50,21 @@ const CardAgent = (props) => {
       } else {
       }
     })
-  }, [])
-
-
+  }
   const handleDelete = () => {
     Swal.fire({
-      title: 'Anda yakin ingin menghapus transaksi ini?',
-      icon: 'warning',
+      title: "Anda yakin ingin menghapus transaksi ini?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ya, Hapus !'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Hapus !",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Berhasil',
-          'Transaksi telah dihapus.',
-          'success'
-        )
+        Swal.fire("Berhasil", "Transaksi telah dihapus.", "success")
       }
-    })
+    }
+    )
   }
 
   return (
@@ -66,37 +72,42 @@ const CardAgent = (props) => {
       style={{
         width: 450,
         border: "2px solid black",
-        marginBottom:"20px"
+        marginBottom: "20px",
       }}
     >
       <ul className="alignMe">
         <li>
-          <b>Waktu Request</b>  {moment(new Date(props.transaction.created_date)).format(
-                  "DD MMMM YYYY, hh:mm A")}
+          <b>Waktu Request</b>{" "}
+          {moment(new Date(props.transaction.created_date)).format(
+            "DD MMMM YYYY, hh:mm A"
+          )}
         </li>
         <li>
-          <b>Jenis Transaksi</b> {props.transaction.jenis_transaksi}</li>
-        <li>
-          <b>Nominal Transaksi</b>Rp. {props.transaction.nominal_transaksi} 
+          <b>Jenis Transaksi</b> {props.transaction.jenis_transaksi}
         </li>
         <li>
-          <b>Alamat Customer</b>{props.transaction.alamat_lengkap} 
+          <b>Nominal Transaksi</b>Rp. {props.transaction.nominal_transaksi}
         </li>
         <li>
-          <b>Status</b>  {props.transaction.status === "0"
-                  ? "Menunggu konfirmasi agent"
-                  : props.transaction.status === "1"
-                  ? "Agen dalam perjalanan"
-                  : props.transaction.status === "2"
-                  ? "Dibatalkan Customer"
-                  : props.transaction.status === "3"
-                  ? "Selesai"
-                  : "Error"}
+          <b>Alamat Customer</b>
+          {props.transaction.alamat_lengkap}
+        </li>
+        <li>
+          <b>Status</b>{" "}
+          {props.transaction.status === "0"
+            ? "Menunggu konfirmasi agent"
+            : props.transaction.status === "1"
+            ? "Agen dalam perjalanan"
+            : props.transaction.status === "2"
+            ? "Dibatalkan Customer"
+            : props.transaction.status === "3"
+            ? "Selesai"
+            : "Error"}
         </li>
       </ul>
 
       <div className="float-right">
-        {props.transaction.status === "0" ? (
+        {props.transaction.status === "0" ?(
           <>
             <Button
               type="primary"
@@ -107,11 +118,12 @@ const CardAgent = (props) => {
                 fontWeight: "bold",
                 borderRadius: "10px",
                 marginRight: "80px",
-                marginLeft:"50px"
+                marginLeft: "50px",
               }}
               onClick={handleAcceptTransactions}
             >
-             <FontAwesomeIcon icon={faCheck} style={{marginRight:"5px"}}/> Terima
+              <FontAwesomeIcon icon={faCheck} style={{ marginRight: "5px" }} />{" "}
+              Terima
             </Button>
 
             <Button
@@ -122,15 +134,39 @@ const CardAgent = (props) => {
                 borderRadius: "10px",
                 paddingRight: "15px",
                 margin: "0px",
-                marginLeft:"50px"
+                marginLeft: "50px",
               }}
             >
-               <FontAwesomeIcon icon={faTimesCircle} style={{marginRight:"5px"}}/>  Tolak
+              <FontAwesomeIcon icon={faTimesCircle} style={{ marginRight: "5px" }} />{" "}
+              Tolak
             </Button>
           </>
         ) : props.transaction.status === "1" ? (
-          <Button className="btn btn-primary"> <FontAwesomeIcon icon={faClipboardCheck} style={{marginRight:"8px"}} /> 
-          Transaksi Selesai </Button>
+          <>
+            <Button
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                fontWeight: "bold",
+                borderRadius: "10px",
+                paddingRight: "15px",
+                margin: "0px",
+                marginLeft: "50px",
+              }}
+            >
+              <FontAwesomeIcon icon={faTimesCircle} style={{ marginRight: "5px" }} />{" "}
+              Batakan
+            </Button>
+
+            <Button className="btn btn-primary">
+              {" "}
+              <FontAwesomeIcon
+                icon={faClipboardCheck}
+                style={{ marginRight: "8px" }}
+              />
+              Transaksi Selesai{" "}
+            </Button>
+          </>
         ) : props.transaction.status === "2" ? (
           <Button
             style={{
@@ -140,11 +176,12 @@ const CardAgent = (props) => {
               borderRadius: "10px",
               paddingRight: "15px",
               margin: "0px",
-              marginLeft:"50px"
+              marginLeft: "50px",
             }}
             onClick={handleDelete}
           >
-           <FontAwesomeIcon icon={faTrashAlt} style={{marginRight:"5px"}}/> Hapus 
+            <FontAwesomeIcon icon={faTrashAlt} style={{ marginRight: "5px" }} />{" "}
+            Hapus
           </Button>
         ) : (
           <Button
@@ -155,11 +192,12 @@ const CardAgent = (props) => {
               borderRadius: "10px",
               paddingRight: "15px",
               margin: "0px",
-              marginLeft:"50px"
+              marginLeft: "50px",
             }}
           >
             {" "}
-            <FontAwesomeIcon icon={faEye} style={{marginRight:"5px"}}/>  Lihat Rating
+            <FontAwesomeIcon icon={faEye} style={{ marginRight: "5px" }} /> Lihat
+            Rating
           </Button>
         )}
       </div>
