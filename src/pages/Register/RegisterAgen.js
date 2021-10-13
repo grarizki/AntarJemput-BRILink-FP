@@ -1,16 +1,19 @@
 import React, { useState, useMemo, useCallback } from "react"
 import { Row, Form, Input, Button, Select, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
+import Swal from "sweetalert2"
 
 import DataAlamat from "../Transaksi/DataAlamat"
 import useCreateAgen from "../../Mutations/useCreateAgen"
 import "./Register.css"
+import { useAuthorizedContext } from "../../AuthorizedContext"
 
 const { Option } = Select
 const { Title } = Typography
 
 const RegisterAgen = () => {
   const history = useHistory()
+  const { setAuthorizedValue } = useAuthorizedContext()
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
   const [selectedKecamatan, setSelectedKecamatan] = useState(null)
@@ -23,12 +26,38 @@ const RegisterAgen = () => {
     address: "",
   })
 
+  const handleSuccessRegister = useCallback(() => {
+    setAuthorizedValue(true)
+    Swal.fire({
+      icon: "success",
+      title: "Register Success",
+      showConfirmButton: false,
+      timer: 2000,
+    })
+    history.push("/home")
+  }, [setAuthorizedValue, history])
+
+  const handleErrorRegister = useCallback((error) => {
+    if (error) {
+      Swal.fire({
+        icon: "error",
+        text: error,
+        title: "Login gagal",
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    }
+  }, [])
+
   const { mutate, isLoadingAgent, isErrorAgent } = useCreateAgen(
     agentState,
-    (result) => {
-      console.log("success mutation >> ", result)
-      history.push("/")
-    }
+    // (result) => {
+    //   console.log("success mutation >> ", result)
+    //   history.push("/home")
+    // }
+    handleSuccessRegister,
+    handleErrorRegister
+
   )
 
   const handleSelectedProvinsi = (value) => {
