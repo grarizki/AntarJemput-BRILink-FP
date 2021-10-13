@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom"
 
 import DataAlamat from "../Transaksi/DataAlamat"
 import "./Register.css"
+import { changeConfirmLocale } from "antd/lib/modal/locale"
 
 const { Option } = Select
 const { Title} = Typography
@@ -39,9 +40,37 @@ const RegisterAgen = () => {
     )
   }, [selectedKabupaten, dataKabupaten])
 
+  
   const handleRegisterAgenBtn = useCallback(() => {
     history.push("/")
   }, [])
+
+  const [password, setPassword]                 = useState('');
+  const [errorPassword, setErrorPassword]       = useState('');
+  const [confirmPassword, setConfirmPassword]   = useState('');
+  const [errorConfirmPassword,setErrorConfirmPassword] = useState('');
+
+  const changePassword = (e) => {
+    const value = e.target.value
+    setPassword(value)
+    if (!value){
+      setErrorPassword('Password tidak boleh kosong')
+    } else {
+      setErrorPassword('')
+    }
+  }
+
+  const changeConfirmPassword = (e) => {
+    const value = e.target.value
+    setConfirmPassword(value)
+    if (!value){
+      setErrorConfirmPassword('Konfirmasi Password tidak boleh kosong')
+    } else if (password !== value) {    
+      setErrorConfirmPassword('password tidak cocok') 
+    } else {
+      setErrorPassword('')
+    }
+  }
 
   return (
     <div className="outer-register">
@@ -174,26 +203,49 @@ const RegisterAgen = () => {
             style={{ marginBottom: " 8px", padding: "0px" }}
             name="password"
             label="Password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Password!",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: "Please input your Password!",
+            //   },
+            // ]}
           >
-            <Input type="password" placeholder="Password" name="password" />
+            <Input 
+            type="password" 
+            placeholder="Masukan Password" 
+            name="password"
+            value= {password} 
+            onChange= {changePassword} />
+            {
+              errorPassword && (
+                <p className="text-danger">{errorPassword}</p>
+              )
+            }
+            
           </Form.Item>
           <Form.Item
             name="konfirmasi-password"
             label="Konfirmasi Password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Password!",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: "Please input your Password!",
+            //   },
+            // ]}
           >
-            <Input type="password" placeholder="Ulangi Password" name="password" />
+            <Input 
+            type="password" 
+            placeholder="Ulangi Password" 
+            name="password"
+            value= {confirmPassword}
+            onChange= {changeConfirmPassword}/>
+
+            {
+              errorConfirmPassword && (
+               <p className="text-danger">{errorConfirmPassword}</p>
+              )
+            }
+
           </Form.Item>
           <Form.Item>
             <Col

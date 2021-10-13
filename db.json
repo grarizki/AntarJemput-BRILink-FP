@@ -22,6 +22,12 @@
       "password": "hello123",
       "login_as": 1,
       "id": 4
+    },
+    {
+      "email": "raihannissa.hr",
+      "password": "hannis10",
+      "selectedUserLevel": "customer",
+      "id": 5
     }
   ],
   "transactions": [
