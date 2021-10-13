@@ -1,8 +1,10 @@
-
 .outer-register {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
+  background: url(../../assets/image/Waves-Agen-Register.svg) no-repeat bottom;
+  background-size: contain;
 }
 
 .inner-register {
@@ -15,12 +17,9 @@
   transition: all 0.3s;
 }
 
-
 Button.btn-registerAgenCustomer {
   background-color: #292961;
   color: #fff;
   border-radius: 10px;
   margin-left: 190px;
 }
-
-

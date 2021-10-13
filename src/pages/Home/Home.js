@@ -21,6 +21,10 @@ const CardTransactionComponent = (props) => {
     deleteTransaction()
   }, [deleteTransaction])
 
+  const formatMoney = (money) => {
+    return money.toLocaleString("id-ID")
+  }
+
   return (
     <Card title=" ">
       <Form style={{ marginLeft: "10%" }}>
@@ -52,7 +56,7 @@ const CardTransactionComponent = (props) => {
             <Text>Nominal Transaksi</Text>
           </Col>
           <Col sstyle={{ width: "65%" }}>
-            <Text> : Rp{props.transaction.nominal_transaksi} </Text>
+            <Text> : Rp{formatMoney(props.transaction.nominal_transaksi)} </Text>
           </Col>
         </Row>
 
