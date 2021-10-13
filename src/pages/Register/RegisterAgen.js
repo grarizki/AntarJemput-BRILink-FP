@@ -55,9 +55,12 @@ const RegisterAgen = () => {
     setPassword(value)
     if (!value){
       setErrorPassword('Password tidak boleh kosong')
+    } else if (value.length < 8 ){
+      setErrorPassword('Password min harus 8 Karakter')
     } else {
       setErrorPassword('')
     }
+    
   }
 
   const changeConfirmPassword = (e) => {
@@ -203,14 +206,15 @@ const RegisterAgen = () => {
             style={{ marginBottom: " 8px", padding: "0px" }}
             name="password"
             label="Password"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Please input your Password!",
-            //   },
-            // ]}
+            rules={[
+              {
+                required: true,
+                // message: "Please input your Password!",
+              },
+            ]}
           >
             <Input 
+            minLength='8'
             type="password" 
             placeholder="Masukan Password" 
             name="password"
@@ -226,14 +230,15 @@ const RegisterAgen = () => {
           <Form.Item
             name="konfirmasi-password"
             label="Konfirmasi Password"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Please input your Password!",
-            //   },
-            // ]}
+            rules={[
+              {
+                required: true,
+                // message: "Please input your Password!",
+              },
+            ]}
           >
-            <Input 
+            <Input
+            minLength='8' 
             type="password" 
             placeholder="Ulangi Password" 
             name="password"
