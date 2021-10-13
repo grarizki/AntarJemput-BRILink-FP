@@ -12,7 +12,6 @@ const { Title, Text } = Typography
 
 const CardComponent = (props) => {
     
-
     const history = useHistory()
     const { mutate: deleteTransaction } = useDeleteTransaction(
       props.transaction.id,
@@ -65,7 +64,13 @@ const CardComponent = (props) => {
           <b>Nominal Transaksi</b>Rp. {props.transaction.nominal_transaksi} 
         </li>
         <li>
-          <b>Alamat Customer</b>{props.transaction.alamat_lengkap} 
+          <b>Alamat Anda</b>{props.transaction.alamat_lengkap} 
+        </li>
+        <li>
+        <b>Agen BRILink</b> 
+        </li>
+        <li>
+        <b>Alamat Agen</b> 
         </li>
         <li>
           <b>Status</b>  {props.transaction.status === "0"
