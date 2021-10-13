@@ -7,10 +7,13 @@ import {
   EyeInvisibleOutlined,
 } from "@ant-design/icons"
 import { useHistory } from "react-router-dom"
+import Swal from "sweetalert2"
 
 import "./login.css"
 import BRI from "../../assets/image/BRI2.png"
 import { useAuthorizedContext } from "../../AuthorizedContext"
+import useLogin from "../../Mutations/useLogin"
+import Background from "../../assets/image/bg.jpg"
 
 const { Option } = Select
 
@@ -19,33 +22,69 @@ const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [data, setData] = useState({})
-  const [selectedUserLevel, setSelectedUserLevel] = useState("customer")
+  const [selectedUserLevel, setSelectedUserLevel] = useState("")
   const { setAuthorizedValue } = useAuthorizedContext()
   const [visible, setVisible] = React.useState(false)
   const [setConfirmLoading] = React.useState(false)
 
   const handleSuccessLogin = useCallback(() => {
-    setAuthorizedValue(true, selectedUserLevel)
-    history.push("/home")
+    if (selectedUserLevel == "2") {
+      setAuthorizedValue(true, selectedUserLevel)
+      Swal.fire({
+        icon: "success",
+        title: "Login Success",
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      history.push("/home")
+    } else {
+      setAuthorizedValue(true, selectedUserLevel)
+      history.push("/home-agent")
+    }
   }, [setAuthorizedValue, history, selectedUserLevel])
+
+  const handleErrorLogin = useCallback((error) => {
+    if (error) {
+      Swal.fire({
+        icon: "error",
+        text: error,
+        title: "Login gagal",
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      history.push("/home-agent")
+    }
+  }, [])
+
+  const { mutate: login } = useLogin(
+    { email: username, password: password, role: selectedUserLevel },
+    handleSuccessLogin,
+    handleErrorLogin
+  )
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values)
+  }
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo)
   }
 
   const handleSelectedUserLevel = useCallback((value) => {
     setSelectedUserLevel(`${value}`)
   }, [])
 
+  console.log("ini login ", login)
+
   const UserType = [
     {
-      key: "1",
-      value: "customer",
+      key: "2",
+      value: "2",
       label: "Customer",
     },
     {
-      key: "2",
-      value: "agent",
+      key: "1",
+      value: "1",
       label: "Agent",
     },
   ]
@@ -91,18 +130,19 @@ const Login = () => {
 
   const handleRegisterAgen = useCallback(() => {
     history.push("/RegisterAgen")
-  }, [history])
+  }, [])
 
   const handleRegisterCustomer = useCallback(() => {
     history.push("/RegisterCustomer")
-  }, [history])
+  }, [])
 
   return (
-    <div className="outer-login">
+    <div className="outer-login" style={{ backgroundImage: `url(${Background})` }}>
       <div className="inner-login">
         <div className="logo" style={{ marginTop: "-50px", width: "200px" }}>
           <img src={BRI} alt="logo" />
         </div>
+
         <Form
           labelCol={{ span: 6 }}
           labelAlign="left"
@@ -112,15 +152,16 @@ const Login = () => {
             remember: true,
           }}
           onFinish={onFinish}
-          style={{ marginTop: "-30px" }}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          style={{ marginTop: "-40px" }}
         >
           <Form.Item
             name="username"
-            label="Username"
             rules={[
               {
                 required: true,
-                message: "Please input your Username!",
+                message: "Please input your username  !",
               },
             ]}
           >
@@ -136,11 +177,10 @@ const Login = () => {
             labelCol={{ span: 6 }}
             labelAlign="left"
             name="password"
-            label="Password"
             rules={[
               {
                 required: true,
-                message: "Please input your Password!",
+                message: "Please input your password!",
               },
             ]}
           >
@@ -156,21 +196,13 @@ const Login = () => {
               }
             />
           </Form.Item>
-          <Form.Item
-            labelCol={{ span: 6 }}
-            name="login_as"
-            label="Login As"
-            rules={[
-              {
-                required: true,
-                message: "Please choose user type!",
-              },
-            ]}
-          >
+          <Form.Item labelCol={{ span: 6 }} name="login_as">
             <Select
-              defaultValue={selectedUserLevel}
+              // defaultValue={selectedUserLevel}
               name="login_as"
+              placeholder="Select a Role"
               onChange={handleSelectedUserLevel}
+              value={selectedUserLevel}
             >
               {UserType.map((option) => (
                 <Option key={option.key} value={option.value} label={option.label}>
@@ -189,11 +221,7 @@ const Login = () => {
                 justifyContent: "center",
               }}
             >
-              <Button
-                className="btn-login"
-                // onClick={login}
-                onClick={handleSuccessLogin}
-              >
+              <Button className="btn-login" onClick={login}>
                 Login
               </Button>
 
@@ -207,7 +235,7 @@ const Login = () => {
           className="my-modal-window"
           visible={visible}
           onOk={handleOk}
-          onCustomer={handleCancel}
+          onCancel={handleCancel}
           footer={[
             <Button key="Agen" type="primary" onClick={handleRegisterAgen}>
               Agen

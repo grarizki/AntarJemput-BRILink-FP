@@ -4,7 +4,7 @@ import * as FaIcons from "react-icons/fa"
 import { Link } from "react-router-dom"
 
 import { SidebarDataAgen } from "../sidebarAgen/sidebarDataAgen"
-import "./navbar.sass"
+import "./navbarAgen.sass"
 import Logo from "../../assets/image/BRI-AJ-v2.png"
 
 function NavbarAgenComp() {
@@ -34,9 +34,9 @@ function NavbarAgenComp() {
             {SidebarDataAgen.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
-                  <Link to={item.path}>
+                  <Link to={item.path} style={{backgroundColor:"white", marginLeft:"-15px"}}>
                     {item.icon}
-                    <span style={{ marginLeft: "16px" }}>{item.title}</span>
+                    <span style={{ marginLeft: "10px", color:"black"}}>{item.title}</span>
                   </Link>
                 </li>
               )

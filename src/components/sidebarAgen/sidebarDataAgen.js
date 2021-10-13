@@ -6,7 +6,7 @@ import * as IoIcons from "react-icons/io"
 export const SidebarDataAgen = [
   {
     title: "Beranda",
-    path: "/home",
+    path: "/home-agent",
     icon: <AiIcons.AiFillHome />,
     cName: "nav-text",
   },

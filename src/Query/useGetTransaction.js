@@ -5,14 +5,11 @@ const cookies = new Cookies()
 
 const useGetTransactions = (id = "") => {
   const fetchData = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_API_URL}/transactions/${id}`,
-      {
-        headers: new Headers({
-          Authorization: "Bearer " + cookies.get("accessToken"),
-        }),
-      }
-    )
+    const response = await fetch(`https://wulan-belajar.herokuapp.com/transactions/${id}`, {
+      headers: new Headers({
+        Authorization: "Bearer " + cookies.get("accessToken"),
+      }),
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok")
     }
