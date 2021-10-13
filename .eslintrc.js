@@ -28,6 +28,10 @@ module.exports = {
   rules: {
     "react/prop-types": "off",
     "sonarjs/cognitive-complexity": "warn",
+
+    "sonarjs/no-duplicate-string": "warn",
+    "jsx-a11y/click-events-have-key-events": 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 'warn',
   },
   settings: {
     react: {

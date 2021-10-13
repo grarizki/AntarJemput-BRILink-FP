@@ -12,7 +12,7 @@ const RegisterAgen = () => {
   const history = useHistory()
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
-  const [selectedKecamatan, setSelectedKecamatan] = useState(null)
+  const [setSelectedKecamatan] = useState(null)
   const handleSelectedProvinsi = (value) => {
     setSelectedProvinsi(value)
   }

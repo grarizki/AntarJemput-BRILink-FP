@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { IconContext } from "react-icons"
 import * as FaIcons from "react-icons/fa"
-import * as AiIcons from "react-icons/ai"
 import { Link } from "react-router-dom"
 
 import { SidebarDataAgen } from "../sidebarAgen/sidebarDataAgen"
@@ -21,8 +20,13 @@ function NavbarAgenComp() {
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
         </div>
+
         <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
-          <ul className="nav-menu-items" onClick={showSidebar}>
+          <ul
+            className="nav-menu-items"
+            onClick={showSidebar}
+            onKeyDown={showSidebar}
+          >
             <li className="navbar-toggle">
               <img src={Logo} alt="Logo" />
               <Link to="#" className="menu-bars"></Link>

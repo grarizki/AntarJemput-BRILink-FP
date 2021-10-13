@@ -22,7 +22,11 @@ function NavbarComponent() {
           </Link>
         </div>
         <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
-          <ul className="nav-menu-items" onClick={showSidebar}>
+          <ul
+            className="nav-menu-items"
+            onClick={showSidebar}
+            onKeyDown={showSidebar}
+          >
             <li className="navbar-toggle">
               <img src={Logo} alt="Logo" />
               <Link to="#" className="menu-bars"></Link>

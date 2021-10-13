@@ -1,7 +1,8 @@
+import React from "react"
+
 import App from "../App"
 import Enzyme, { shallow } from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
-// import renderer from 'react-test-renderer'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -11,10 +12,10 @@ describe("App Component", () => {
     expect(wrapper.find("div")).toHaveLength(0)
   })
 
-  // it('should have one Router', function () {
-  //     const wrapper = shallow(<App/>)
-  //     expect(wrapper.find('Router')).toHaveLength(1)
-  // });
+  it("should have one Router", function () {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find("Router")).toHaveLength(1)
+  })
 
   it("should not have render", function () {
     const wrapper = shallow(<App />)

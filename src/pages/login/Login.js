@@ -11,7 +11,6 @@ import { useHistory } from "react-router-dom"
 import "./login.css"
 import BRI from "../../assets/image/BRI2.png"
 import { useAuthorizedContext } from "../../AuthorizedContext"
-import useLogin from "../../Mutations/useLogin"
 
 const { Option } = Select
 
@@ -23,7 +22,7 @@ const Login = () => {
   const [selectedUserLevel, setSelectedUserLevel] = useState("customer")
   const { setAuthorizedValue } = useAuthorizedContext()
   const [visible, setVisible] = React.useState(false)
-  const [confirmLoading, setConfirmLoading] = React.useState(false)
+  const [setConfirmLoading] = React.useState(false)
 
   const handleSuccessLogin = useCallback(() => {
     setAuthorizedValue(true, selectedUserLevel)
