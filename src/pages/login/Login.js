@@ -30,12 +30,6 @@ const Login = () => {
     history.push("/home")
   }, [setAuthorizedValue, history, selectedUserLevel])
 
-  const { mutate: login } = useLogin(
-    { email: username, password, selectedUserLevel },
-    handleSuccessLogin,
-    (error) => console.log("error >>", error)
-  )
-
   const onFinish = (values) => {
     console.log("Received values of form: ", values)
   }
@@ -97,13 +91,12 @@ const Login = () => {
   }
 
   const handleRegisterAgen = useCallback(() => {
-    history.push("/RegisterAgen");
-  }, []);
+    history.push("/RegisterAgen")
+  }, [history])
 
   const handleRegisterCustomer = useCallback(() => {
-    history.push("/RegisterCustomer");
-  }, []);
-
+    history.push("/RegisterCustomer")
+  }, [history])
 
   return (
     <div className="outer-login">
@@ -197,9 +190,11 @@ const Login = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-login" 
-              // onClick={login} 
-              onClick={handleSuccessLogin}>
+              <Button
+                className="btn-login"
+                // onClick={login}
+                onClick={handleSuccessLogin}
+              >
                 Login
               </Button>
 

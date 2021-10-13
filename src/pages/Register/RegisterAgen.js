@@ -6,7 +6,7 @@ import DataAlamat from "../Transaksi/DataAlamat"
 import "./Register.css"
 
 const { Option } = Select
-const { Title} = Typography
+const { Title } = Typography
 
 const RegisterAgen = () => {
   const history = useHistory()
@@ -41,12 +41,12 @@ const RegisterAgen = () => {
 
   const handleRegisterAgenBtn = useCallback(() => {
     history.push("/")
-  }, [])
+  }, [history])
 
   return (
     <div className="outer-register">
       <div className="inner-register">
-        <div className="logo" style={{ marginTop: '0', marginBottom: "45px" }}>
+        <div className="logo" style={{ marginTop: "0", marginBottom: "45px" }}>
           <Title style={{ textAlign: "center" }}>Sign Up</Title>
         </div>
         <Form
@@ -204,7 +204,12 @@ const RegisterAgen = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-registerAgenCustomer" onClick={handleRegisterAgenBtn}>Register Agen</Button>
+              <Button
+                className="btn-registerAgenCustomer"
+                onClick={handleRegisterAgenBtn}
+              >
+                Register Agen
+              </Button>
             </Col>
           </Form.Item>
         </Form>
