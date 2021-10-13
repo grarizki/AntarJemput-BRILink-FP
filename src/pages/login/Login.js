@@ -235,7 +235,7 @@ const Login = () => {
           className="my-modal-window"
           visible={visible}
           onOk={handleOk}
-          onCustomer={handleCancel}
+          onCancel={handleCancel}
           footer={[
             <Button key="Agen" type="primary" onClick={handleRegisterAgen}>
               Agen
