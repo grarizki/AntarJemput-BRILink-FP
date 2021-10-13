@@ -8,17 +8,19 @@ const cookies = new Cookies()
 
 const RestrictedWrapper = (props) => {
   const { isLoggedIn, setAuthorizedValue } = useAuthorizedContext()
-  const [userLevel, setUserLevel] = React.useState("");
+  const [userLevel, setUserLevel] = React.useState("")
   const history = useHistory()
 
   const accessToken = cookies.get("accessToken")
 
   React.useEffect(() => {
-    if (isLoggedIn  ) {
+    if (isLoggedIn) {
       history.push("/home")
+    } else {
+      history.push("/")
     }
   }, [isLoggedIn, history])
-
+  console.log("isLoggedIn", isLoggedIn)
   React.useEffect(() => {
     if (accessToken) {
       setAuthorizedValue(true)
