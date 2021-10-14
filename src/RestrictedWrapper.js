@@ -15,7 +15,7 @@ const RestrictedWrapper = (props) => {
 
   React.useEffect(() => {
     if (isLoggedIn) {
-      if (localStorage.getItem("userLevel") == "1" ) {
+      if (localStorage.getItem("userLevel") == 1 ) {
         history.push("/home-agent")
       } else {
         history.push("/home")

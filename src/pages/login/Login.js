@@ -22,13 +22,13 @@ const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [data, setData] = useState({})
-  const [selectedUserLevel, setSelectedUserLevel] = useState("")
+  const [selectedUserLevel, setSelectedUserLevel] = useState()
   const { setAuthorizedValue } = useAuthorizedContext()
   const [visible, setVisible] = React.useState(false)
   const [confirmLoading, setConfirmLoading] = React.useState(false)
 
   const handleSuccessLogin = useCallback(() => {
-    if (selectedUserLevel == "2") {
+    if (selectedUserLevel == 2) {
       setAuthorizedValue(true, selectedUserLevel)
       Swal.fire({
         icon: "success",
@@ -79,13 +79,13 @@ const Login = () => {
 
   const UserType = [
     {
-      key: "2",
-      value: "2",
+      key: 2,
+      value: 2,
       label: "Customer",
     },
     {
-      key: "1",
-      value: "1",
+      key: 1,
+      value: 1,
       label: "Agent",
     },
   ]
@@ -197,10 +197,10 @@ const Login = () => {
               }
             />
           </Form.Item>
-          <Form.Item labelCol={{ span: 6 }} name="login_as">
+          <Form.Item labelCol={{ span: 6 }} name="role">
             <Select
               // defaultValue={selectedUserLevel}
-              name="login_as"
+              name="role"
               placeholder="Select a Role"
               onChange={handleSelectedUserLevel}
               value={selectedUserLevel}
