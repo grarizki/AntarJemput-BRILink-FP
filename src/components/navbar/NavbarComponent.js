@@ -9,8 +9,8 @@ import * as AiIcons from "react-icons/ai"
 import * as IoIcons from "react-icons/io"
 // import * as FaIcons from "react-icons/fa"
 
-// import { SidebarData } from "../sidebar/SidebarData"
-import "../navbar/navbar.css"
+// import { SidebarData } from "../sidebar/SidebarData
+import "../navbar/navbar.sass"
 import { IconContext } from "react-icons"
 import Logo from "../../assets/image/BRI-AJ-v2.png"
 
@@ -99,8 +99,15 @@ function NavbarComponent() {
               }
               return (
                 <li key={index} className={item.cName} onClick={onClick}>
-                  {item.icon}
-                  <span style={{ marginLeft: "16px" }}>{item.title}</span>
+                  <Link
+                    to={item.path}
+                    style={{ backgroundColor: "white", marginLeft: "-15px" }}
+                  >
+                    {item.icon}
+                    <span style={{ marginLeft: "10px", color: "black" }}>
+                      {item.title}
+                    </span>
+                  </Link>
                 </li>
               )
             })}
