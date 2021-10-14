@@ -67,5 +67,21 @@
       "district": "Kudus",
       "id": 1
     }
+  ],
+  "customer": [
+    {
+      "username": "ahmadirfaan",
+      "password": "ganteng",
+      "name": "Ahmad Irfaan",
+      "noHandphone": "085707121623",
+      "id": 1
+    },
+    {
+      "username": "ddd",
+      "password": "ddd",
+      "name": "ww",
+      "noHandphone": "ddd",
+      "id": 2
+    }
   ]
 }
