@@ -3,7 +3,8 @@ import { useMutation } from "react-query"
 const useCreateAgent = (agent, onSuccess, onError) => {
   const { mutate, dataAgent, isLoadingAgent, isErrorAgent } = useMutation(
     async () => {
-      const response = await fetch(`http://localhost:5000/agent`, {
+      console.log("stringify", JSON.stringify(agent))
+      const response = await fetch(`http://wulan-belajar.herokuapp.com/register`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
@@ -18,7 +19,12 @@ const useCreateAgent = (agent, onSuccess, onError) => {
       }
       return response.json()
     },
-    { onError, onSuccess }
+    {
+      onError: (error, variables, context) => {
+        console.log("error", error)
+      },
+      onSuccess,
+    }
   )
 
   return { mutate, dataAgent, isLoadingAgent, isErrorAgent }
