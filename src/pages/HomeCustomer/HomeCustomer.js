@@ -1,3 +1,4 @@
+import React from "react"
 import { Typography, Spin, Space, Alert } from "antd"
 import "./Home.css"
 import NavbarComponent from "../../components/navbar/NavbarComponent"
