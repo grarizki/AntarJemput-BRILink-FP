@@ -3,9 +3,10 @@ import Cookies from "universal-cookie"
 
 const cookies = new Cookies()
 
-const useGetTransactions = (id = "") => {
+const useGetTransactions = () => {
   const fetchData = async () => {
-    const response = await fetch(`https://wulan-belajar.herokuapp.com/transactions/${id}`, {
+    const response = await fetch(`https://wulan-belajar.herokuapp.com/transactions`, {
+      method: 'GET',
       headers: new Headers({
         Authorization: "Bearer " + cookies.get("accessToken"),
       }),
@@ -23,6 +24,7 @@ const useGetTransactions = (id = "") => {
       cacheTime: 0,
     }
   )
+
 
   return { data, isLoading, isError, refetch }
 }

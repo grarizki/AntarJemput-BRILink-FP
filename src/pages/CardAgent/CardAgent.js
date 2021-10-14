@@ -71,38 +71,41 @@ const CardAgent = (props) => {
       }}
     >
       <ul className="alignMe">
-        <li>
-          <b>Waktu Request</b>{" "}
-          {moment(new Date(props.transaction.created_date)).format(
-            "DD MMMM YYYY, hh:mm A"
-          )}
+       <li>
+          <b>Waktu Request</b>  {moment(new Date(props.transaction.createdAt)).format(
+                  "DD MMMM YYYY, hh:mm A")}
         </li>
         <li>
-          <b>Jenis Transaksi</b> {props.transaction.jenis_transaksi}
+          <b>Jenis Transaksi</b> {props.transaction.transactionType.serviceTypeTransaction.nameServiceTransaction} 
+          - {props.transaction.transactionType.nameTransactionType} 
+          </li>
+        <li>
+          <b>Nominal Transaksi</b>Rp. {props.transaction.amount} 
         </li>
         <li>
-          <b>Nominal Transaksi</b>Rp. {props.transaction.nominal_transaksi}
+          <b>Alamat Anda</b>{props.transaction.address} 
         </li>
         <li>
-          <b>Alamat Customer</b>
-          {props.transaction.alamat_lengkap}
+        <b>Agen BRILink</b>  {props.transaction.userAgent.agent.agentName}
         </li>
         <li>
-          <b>Status</b>{" "}
-          {props.transaction.status === "0"
-            ? "Menunggu konfirmasi agent"
-            : props.transaction.status === "1"
-            ? "Agen dalam perjalanan"
-            : props.transaction.status === "2"
-            ? "Dibatalkan Customer"
-            : props.transaction.status === "3"
-            ? "Selesai"
-            : "Error"}
+        <b>Alamat Agen</b> {props.transaction.userAgent.agent.address}
+        </li>
+        <li>
+          <b>Status</b>  {props.transaction.statusTransaction === 0
+                  ? "Menunggu konfirmasi agent"
+                  : props.transaction.statusTransaction === 1
+                  ? "Agen dalam perjalanan"
+                  : props.transaction.statusTransaction === 2
+                  ? "Dibatalkan Customer"
+                  : props.transaction.statusTransaction === 3
+                  ? "Selesai"
+                  : "Error"}
         </li>
       </ul>
 
       <div className="float-right">
-        {props.transaction.status === "0" ?(
+        {props.transaction.statusTransaction === 0 ?(
           <>
             <Button
               type="primary"
@@ -136,7 +139,7 @@ const CardAgent = (props) => {
               Tolak
             </Button>
           </>
-        ) : props.transaction.status === "1" ? (
+        ) : props.transaction.statusTransaction === 1 ? (
           <>
             <Button
               style={{
@@ -150,7 +153,7 @@ const CardAgent = (props) => {
               }}
             >
               <FontAwesomeIcon icon={faTimesCircle} style={{ marginRight: "5px" }} />{" "}
-              Batakan
+              Batalkan
             </Button>
 
             <Button className="btn btn-primary">
@@ -162,7 +165,7 @@ const CardAgent = (props) => {
               Transaksi Selesai{" "}
             </Button>
           </>
-        ) : props.transaction.status === "2" ? (
+        ) : props.transaction.statusTransaction === 2 ? (
           <Button
             style={{
               backgroundColor: "red",

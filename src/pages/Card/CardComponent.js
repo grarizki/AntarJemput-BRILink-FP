@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom"
 import { faBan, faSmile, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Swal from "sweetalert2"
-import useUpdateTransaction from "../../Mutations/useUpdateTransaction"
+import "../CardAgent/CardAgent.css"
 
 
 
@@ -56,31 +56,33 @@ const CardComponent = (props) => {
       }}>
               <ul className="alignMe">
         <li>
-          <b>Waktu Request</b>  {moment(new Date(props.transaction.created_date)).format(
+          <b>Waktu Request</b>  {moment(new Date(props.transaction.createdAt)).format(
                   "DD MMMM YYYY, hh:mm A")}
         </li>
         <li>
-          <b>Jenis Transaksi</b> {props.transaction.jenis_transaksi}</li>
+          <b>Jenis Transaksi</b> {props.transaction.transactionType.serviceTypeTransaction.nameServiceTransaction} 
+          - {props.transaction.transactionType.nameTransactionType} 
+          </li>
         <li>
-          <b>Nominal Transaksi</b>Rp. {props.transaction.nominal_transaksi} 
+          <b>Nominal Transaksi</b>Rp. {props.transaction.amount} 
         </li>
         <li>
-          <b>Alamat Anda</b>{props.transaction.alamat_lengkap} 
+          <b>Alamat Anda</b>{props.transaction.address} 
         </li>
         <li>
-        <b>Agen BRILink</b> 
+        <b>Agen BRILink</b>  {props.transaction.userAgent.agent.agentName}
         </li>
         <li>
-        <b>Alamat Agen</b> 
+        <b>Alamat Agen</b> {props.transaction.userAgent.agent.address}
         </li>
         <li>
-          <b>Status</b>  {props.transaction.status === "0"
+          <b>Status</b>  {props.transaction.statusTransaction === 0
                   ? "Menunggu konfirmasi agent"
-                  : props.transaction.status === "1"
+                  : props.transaction.statusTransaction === 1
                   ? "Agen dalam perjalanan"
-                  : props.transaction.status === "2"
+                  : props.transaction.statusTransaction === 2
                   ? "Dibatalkan Customer"
-                  : props.transaction.status === "3"
+                  : props.transaction.statusTransaction === 3
                   ? "Selesai"
                   : "Error"}
         </li>
@@ -89,7 +91,7 @@ const CardComponent = (props) => {
   
           <div className="float-right">
           {
-             props.transaction.status === "0" || props.transaction.status === "1" ?
+             props.transaction.statusTransaction === 0  ?
               <Button
               type="primary"
               style={{
@@ -105,7 +107,7 @@ const CardComponent = (props) => {
               <FontAwesomeIcon icon={faBan} style={{marginRight:"5px"}}/>
               Batalkan
             </Button>
-            : props.transaction.status === "3"  ?
+            : props.transaction.statusTransaction === 3  ?
             <Button   style={{
               margin: "0px",
               color:"white",
@@ -117,7 +119,8 @@ const CardComponent = (props) => {
             }} onClick={handleRate}> 
             
             <FontAwesomeIcon icon={faSmile} style={{marginRight:"5px"}}/>Beri Rating  </Button>
-            : <Button  style={{
+            : props.transaction.statusTransaction === 2 ?
+            <Button  style={{
               backgroundColor: "red",
               color: "white",
               fontWeight: "bold",
@@ -126,9 +129,9 @@ const CardComponent = (props) => {
               margin: "0px",
               marginLeft:"50px"
             }}
-            onClick={handleDelete}
-            > <FontAwesomeIcon icon={faTrashAlt} style={{marginRight:"5px"}}/> Hapus </Button>
-            } 
+            onClick={handleDelete}> <FontAwesomeIcon icon={faTrashAlt} style={{marginRight:"5px"}}/> Hapus </Button>
+            : <p> </p>
+            }
            
           </div>
       </Card>

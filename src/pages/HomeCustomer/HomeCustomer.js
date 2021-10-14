@@ -12,6 +12,7 @@ const { Title } = Typography
 function HomeCustomer() {
   const { isLoggedIn, userLevel } = useAuthorizedContext()
   console.log("value >> ", isLoggedIn, userLevel)
+ 
   const {
     data,
     isError,
@@ -19,7 +20,7 @@ function HomeCustomer() {
     refetch: refetchTransactions,
   } = useGetTransaction()
 
-  console.log("data >> ", isLoading, data)
+  console.log("data ", data)
 
   return (
     <div className="outer-home">
