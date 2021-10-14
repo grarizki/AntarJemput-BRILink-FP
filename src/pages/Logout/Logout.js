@@ -1,3 +1,4 @@
+import React from "react"
 import { useHistory } from "react-router-dom"
 import Cookies from "universal-cookie"
 import Swal from "sweetalert2"
@@ -7,7 +8,7 @@ import { useAuthorizedContext } from "../../AuthorizedContext"
 const cookies = new Cookies()
 
 function Logout() {
-  const { isLoggedIn, setAuthorizedValue } = useAuthorizedContext()
+  const { setAuthorizedValue } = useAuthorizedContext()
 
   const history = useHistory()
 
@@ -26,12 +27,11 @@ function Logout() {
         icon: "success",
         title: "Logout Sukses",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 2000,
       })
       setAuthorizedValue(false, null)
       cookies.remove("accessToken")
       history.replace("/")
-    } else {
     }
   })
   return <div></div>

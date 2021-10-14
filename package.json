@@ -32,13 +32,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "json-server --watch db.json --port 5000",
-    "server-with-auth": "json-server --watch db.json --port 5000 m ./node_modules/json-server-auth -r routes.json"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "server-with-auth": "json-server --watch db.json --port 5000 m ./node_modules/json-server-auth -r routes.json",
+    "lint": "eslint -c .eslintrc.js --ext .js,.jsx,.ts,.tsx ."
   },
   "browserslist": {
     "production": [
@@ -56,10 +51,13 @@
     "@testing-library/react-hooks": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
+    "eslint-plugin-sonarjs": "^0.10.0",
     "jest-enzyme": "^7.1.2",
     "json-server": "^0.16.3",
     "json-server-auth": "^2.1.0",
     "prettier": "^2.4.1",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "chai": "*",
+    "mocha": "*"
   }
 }

@@ -19,7 +19,7 @@ const cookies = new Cookies()
 function NavbarComponent() {
   const [sidebar, setSidebar] = useState(false)
   const history = useHistory()
-  const { isLoggedIn, setAuthorizedValue } = useAuthorizedContext()
+  const { setAuthorizedValue } = useAuthorizedContext()
   const showSidebar = () => setSidebar(!sidebar)
 
   const SidebarData = [
@@ -61,8 +61,10 @@ function NavbarComponent() {
             setAuthorizedValue(false, null)
             cookies.remove("accessToken")
             history.replace("/")
-            window.location.reload()
-          } else {
+            // window.location.reload()
+            setTimeout(function () {
+              window.location.reload(0.5)
+            }, 2000)
           }
         })
       },
@@ -78,7 +80,11 @@ function NavbarComponent() {
           </Link>
         </div>
         <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
-          <ul className="nav-menu-items" onClick={showSidebar}>
+          <ul
+            className="nav-menu-items"
+            onClick={showSidebar}
+            onKeyDown={showSidebar}
+          >
             <li className="navbar-toggle">
               <img src={Logo} alt="Logo" />
               <Link to="#" className="menu-bars"></Link>

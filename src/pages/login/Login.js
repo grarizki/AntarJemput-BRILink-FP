@@ -13,7 +13,7 @@ import "./login.css"
 import BRI from "../../assets/image/BRI2.png"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 import useLogin from "../../Mutations/useLogin"
-import Background from "../../assets/image/bg.jpg"
+import Background from "../../assets/image/Waves-Login.svg"
 
 const { Option } = Select
 

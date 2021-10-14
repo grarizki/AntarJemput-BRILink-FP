@@ -1,8 +1,7 @@
-import React, { useState, useCallback } from "react"
-import { Typography, Button, Card } from "antd"
+import React from "react"
+import { Button, Card } from "antd"
 import moment from "moment"
-import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
-import { useHistory } from "react-router-dom"
+// import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import Swal from "sweetalert2"
 import "./CardAgent.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -14,19 +13,16 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons"
 
-const { Title, Text } = Typography
 
 const CardAgent = (props) => {
-  const history = useHistory()
-
-  const { mutate: deleteTransaction } = useDeleteTransaction(
-    props.transaction.id,
-    props.refetchTransactions
-  )
-  const handleCancelTransaction = useCallback(() => {
-    // console.log("id transaction >> ", props.transaction.id);
-    deleteTransaction()
-  }, [deleteTransaction])
+  // const { mutate: deleteTransaction } = useDeleteTransaction(
+  //   props.transaction.id,
+  //   props.refetchTransactions
+  // )
+  // const handleCancelTransaction = useCallback(() => {
+  //   // console.log("id transaction >> ", props.transaction.id);
+  //   deleteTransaction()
+  // }, [deleteTransaction])
 
   const handleAcceptTransactions = () => {
     Swal.fire({
@@ -47,7 +43,6 @@ const CardAgent = (props) => {
           timer: 1500,
         })
         
-      } else {
       }
     })
   }

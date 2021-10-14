@@ -1,20 +1,20 @@
 import { useMutation } from "react-query"
+
 import Cookies from "universal-cookie"
 
 const cookies = new Cookies()
 
-const useLogin = (loginData, onSuccess, onError) => {
-  console.log("ini login", loginData)
+const useCreateCustomer = (registerCusData, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
       try {
-        const response = await fetch(`https://wulan-belajar.herokuapp.com/login`, {
+        const response = await fetch(`http://localhost:5000/customer`, {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",
             // 'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: JSON.stringify(loginData), // body data type must match "Content-Type" header
+          body: JSON.stringify(registerCusData), // body data type must match "Content-Type" header
         })
 
         if (response.ok) {
@@ -38,4 +38,4 @@ const useLogin = (loginData, onSuccess, onError) => {
   return { mutate, data, isLoading, isError }
 }
 
-export default useLogin
+export default useCreateCustomer

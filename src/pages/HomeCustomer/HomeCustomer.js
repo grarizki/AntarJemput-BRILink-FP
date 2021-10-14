@@ -1,3 +1,4 @@
+import React from "react"
 import { Typography, Spin, Space, Alert } from "antd"
 import "./Home.css"
 import NavbarComponent from "../../components/navbar/NavbarComponent"
@@ -6,7 +7,7 @@ import useGetTransaction from "../../Query/useGetTransaction"
 import CardComponent from "../Card/CardComponent"
 import Background from "../../assets/image/white-wave-background-vector.jpg"
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 function HomeCustomer() {
   const { isLoggedIn, userLevel } = useAuthorizedContext()

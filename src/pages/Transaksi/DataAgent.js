@@ -22,4 +22,6 @@ const DataAgent = [
   },
 ]
 
+// ! bisa di delete
+
 export default DataAgent

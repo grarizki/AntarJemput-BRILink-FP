@@ -5,7 +5,7 @@ import {useHistory} from "react-router-dom";
 
 const desc = ["terrible", "bad", "normal", "good", "wonderful"]
 
-const { Title, Text } = Typography
+const { Text } = Typography
 
 function RateComponent() {
   const [currentValue, setCurrentValue] = useState(0)
