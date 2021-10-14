@@ -41,6 +41,7 @@ const Login = () => {
       setAuthorizedValue(true, selectedUserLevel)
       history.push("/home-agent")
     }
+    localStorage.setItem("userLevel", selectedUserLevel)
   }, [setAuthorizedValue, history, selectedUserLevel])
 
   const handleErrorLogin = useCallback((error) => {

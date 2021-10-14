@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom"
 import { faBan, faSmile, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Swal from "sweetalert2"
+import useUpdateTransaction from "../../Mutations/useUpdateTransaction"
 
 
 const { Title, Text } = Typography
@@ -16,7 +17,7 @@ const CardComponent = (props) => {
     const { mutate: deleteTransaction } = useDeleteTransaction(
       props.transaction.id,
       props.refetchTransactions
-    )
+      )
   
     const handleRate = useCallback(() => {
       history.push("/rate");
