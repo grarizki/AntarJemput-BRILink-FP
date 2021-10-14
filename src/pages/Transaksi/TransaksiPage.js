@@ -28,7 +28,7 @@ const { Text } = Typography
 const TransaksiPage = () => {
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
-  const [setSelectedKecamatan] = useState(null)
+  const [selectedKecamatan, setSelectedKecamatan] = useState(null)
   const [showTableAgen, setShowTableAgen] = useState(false)
   const history = useHistory()
   const [formState, setFormState] = useState({

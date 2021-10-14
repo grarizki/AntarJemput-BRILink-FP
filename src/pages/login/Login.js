@@ -25,7 +25,7 @@ const Login = () => {
   const [selectedUserLevel, setSelectedUserLevel] = useState("")
   const { setAuthorizedValue } = useAuthorizedContext()
   const [visible, setVisible] = React.useState(false)
-  const [setConfirmLoading] = React.useState(false)
+  const [confirmLoading, setConfirmLoading] = React.useState(false)
 
   const handleSuccessLogin = useCallback(() => {
     if (selectedUserLevel == "2") {

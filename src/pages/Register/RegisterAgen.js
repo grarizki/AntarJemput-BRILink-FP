@@ -13,7 +13,7 @@ const RegisterAgen = () => {
   const history = useHistory()
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
-  const [setSelectedKecamatan] = useState(null)
+  const [selectedKecamatan,setSelectedKecamatan] = useState(null)
   const [agentState, setAgentState] = useState({
     username: "",
     password: "",
@@ -282,7 +282,13 @@ const RegisterAgen = () => {
             placeholder="Masukan Password" 
             name="password"
             value= {password} 
-            onChange= {changePassword} />
+            onChange= {changePassword, (event) => {
+              console.log("value >> ", agentState)
+              setAgentState({
+                ...agentState,
+                password: event.target.value,
+              })
+            }}/>
             {
               errorPassword && (
                 <p className="text-danger">{errorPassword}</p>

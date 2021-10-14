@@ -32,6 +32,7 @@ module.exports = {
     "sonarjs/no-duplicate-string": "warn",
     "jsx-a11y/click-events-have-key-events": 0,
     'jsx-a11y/no-noninteractive-element-interactions': 'warn',
+    "no-unused-vars": "warn"
   },
   settings: {
     react: {
