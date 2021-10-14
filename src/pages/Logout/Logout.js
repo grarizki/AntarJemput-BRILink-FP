@@ -8,7 +8,7 @@ import { useAuthorizedContext } from "../../AuthorizedContext"
 const cookies = new Cookies()
 
 function Logout() {
-  const { isLoggedIn, setAuthorizedValue } = useAuthorizedContext()
+  const { setAuthorizedValue } = useAuthorizedContext()
 
   const history = useHistory()
 
@@ -32,7 +32,6 @@ function Logout() {
       setAuthorizedValue(false, null)
       cookies.remove("accessToken")
       history.replace("/")
-    } else {
     }
   })
   return <div></div>

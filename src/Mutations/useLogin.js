@@ -1,6 +1,5 @@
 import { useMutation } from "react-query"
 import Cookies from "universal-cookie"
-import Swal from "sweetalert2"
 
 const cookies = new Cookies()
 

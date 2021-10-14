@@ -22,7 +22,6 @@ function HomeAgent() {
   console.log("value >> ", isLoggedIn, userLevel)
   const {
     data,
-    isError,
     isLoading,
     refetch: refetchTransactions,
   } = useGetTransaction()

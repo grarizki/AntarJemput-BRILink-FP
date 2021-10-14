@@ -50,7 +50,7 @@ const TransaksiPage = () => {
     }
   )
 
-  const { dataAgent, isErrorAgent, isLoadingAgent } = useGetAgen()
+  const { dataAgent, isLoadingAgent } = useGetAgen()
   console.log("data >> ", isLoadingAgent, dataAgent)
 
   const currencyParser = (val) => {

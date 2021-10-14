@@ -19,7 +19,7 @@ const cookies = new Cookies()
 function NavbarComponent() {
   const [sidebar, setSidebar] = useState(false)
   const history = useHistory()
-  const { isLoggedIn, setAuthorizedValue } = useAuthorizedContext()
+  const {setAuthorizedValue } = useAuthorizedContext()
   const showSidebar = () => setSidebar(!sidebar)
 
   const SidebarData = [
@@ -62,8 +62,7 @@ function NavbarComponent() {
             cookies.remove("accessToken")
             history.replace("/")
             window.location.reload()
-          } else {
-          }
+          } 
         })
       },
     },

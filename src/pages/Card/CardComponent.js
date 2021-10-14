@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { Typography, Row, Col, Form, Button, Card } from "antd"
+import { Button, Card } from "antd"
 import moment from "moment"
 import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import { useHistory } from "react-router-dom"
@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Swal from "sweetalert2"
 
 
-const { Title, Text } = Typography
+
 
 const CardComponent = (props) => {
     

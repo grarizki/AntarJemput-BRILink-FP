@@ -1,11 +1,10 @@
-import React, { useState, useMemo, useCallback } from "react"
+import React, { useState, useMemo } from "react"
 import { Row, Form, Input, Button, Select, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
 
 import DataAlamat from "../Transaksi/DataAlamat"
 import useCreateAgen from "../../Mutations/useCreateAgen"
 import "./Register.css"
-import { changeConfirmLocale } from "antd/lib/modal/locale"
 
 const { Option } = Select
 const { Title } = Typography
@@ -14,7 +13,7 @@ const RegisterAgen = () => {
   const history = useHistory()
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
-  const [selectedKecamatan, setSelectedKecamatan] = useState(null)
+  const [setSelectedKecamatan] = useState(null)
   const [agentState, setAgentState] = useState({
     username: "",
     password: "",
@@ -24,7 +23,7 @@ const RegisterAgen = () => {
     address: "",
   })
 
-  const { mutate, isLoadingAgent, isErrorAgent } = useCreateAgen(
+  const { mutate} = useCreateAgen(
     agentState,
     (result) => {
       console.log("success mutation >> ", result)
@@ -68,10 +67,6 @@ const RegisterAgen = () => {
     )
   }, [selectedKabupaten, dataKabupaten])
 
-  
-  const handleRegisterAgenBtn = useCallback(() => {
-    history.push("/")
-  }, [])
 
   const [password, setPassword]                 = useState('');
   const [errorPassword, setErrorPassword]       = useState('');
