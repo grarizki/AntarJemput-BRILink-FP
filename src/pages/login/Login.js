@@ -58,7 +58,7 @@ const Login = () => {
   }, [])
 
   const { mutate: login } = useLogin(
-    { email: username, password: password, role: selectedUserLevel },
+    { username: username, password: password, role: selectedUserLevel },
     handleSuccessLogin,
     handleErrorLogin
   )
@@ -72,7 +72,7 @@ const Login = () => {
   }
 
   const handleSelectedUserLevel = useCallback((value) => {
-    setSelectedUserLevel(`${value}`)
+    setSelectedUserLevel(parseInt(`${value}`))
   }, [])
 
   console.log("ini login ", login)
