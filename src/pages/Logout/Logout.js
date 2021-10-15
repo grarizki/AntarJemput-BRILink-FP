@@ -31,6 +31,7 @@ function Logout() {
       })
       setAuthorizedValue(false, null)
       cookies.remove("accessToken")
+      // localStorage.clear()
       history.replace("/")
     }
   })

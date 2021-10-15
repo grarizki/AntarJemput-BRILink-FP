@@ -12,9 +12,11 @@ import {
   faTimesCircle,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons"
+import { useHistory } from "react-router-dom"
 
 
 const CardAgent = (props) => {
+  const history = useHistory()
   // const { mutate: deleteTransaction } = useDeleteTransaction(
   //   props.transaction.id,
   //   props.refetchTransactions
@@ -23,6 +25,10 @@ const CardAgent = (props) => {
   //   // console.log("id transaction >> ", props.transaction.id);
   //   deleteTransaction()
   // }, [deleteTransaction])
+
+  const handleRating = () => {
+      history.push("/rating-agent")
+  }
 
   const handleAcceptTransactions = () => {
     Swal.fire({
@@ -190,8 +196,9 @@ const CardAgent = (props) => {
               borderRadius: "10px",
               paddingRight: "15px",
               margin: "0px",
-              marginLeft: "50px",
+              marginLeft: "50px"
             }}
+            onClick={handleRating}
           >
             {" "}
             <FontAwesomeIcon icon={faEye} style={{ marginRight: "5px" }} /> Lihat

@@ -1,4 +1,4 @@
-import { Form, Input,  Button, Rate, Typography } from 'antd';
+import { Button, Rate, Typography } from 'antd';
 import React, { useState } from "react"
 import "./Rate.css"
 import {useHistory} from "react-router-dom";
@@ -37,9 +37,8 @@ function RateComponent() {
           )}
         </span>{" "}
         <br /> <br />
-        <Form.Item  name="rating">
-          <Input.TextArea  placeholder="Ketik Ulasanmu disini!"/>
-        </Form.Item>
+
+        <Button style={{marginBottom:"30px"}}> Kirim </Button> <br />
         <Button  style={{ backgroundColor: "#292961 " , borderRadius:"10px", color:"white"}}
        onClick = {handleBack}
        >
