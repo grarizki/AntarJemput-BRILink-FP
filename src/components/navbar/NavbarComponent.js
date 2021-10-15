@@ -99,15 +99,10 @@ function NavbarComponent() {
               }
               return (
                 <li key={index} className={item.cName} onClick={onClick}>
-                  <Link
-                    to={item.path}
-                    style={{ backgroundColor: "white", marginLeft: "-15px" }}
-                  >
-                    {item.icon}
-                    <span style={{ marginLeft: "10px", color: "black" }}>
-                      {item.title}
-                    </span>
-                  </Link>
+                  {item.icon}
+                  <span style={{ marginLeft: "10px", color: "black" }}>
+                    {item.title}
+                  </span>
                 </li>
               )
             })}
