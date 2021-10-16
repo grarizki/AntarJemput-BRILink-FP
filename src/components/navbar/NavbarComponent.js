@@ -1,17 +1,14 @@
 import React, { useState } from "react"
+import { IconContext } from "react-icons"
 import { Link, useHistory } from "react-router-dom"
-import Swal from "sweetalert2"
-import Cookies from "universal-cookie"
-import { useAuthorizedContext } from "../../AuthorizedContext"
-
 import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import * as IoIcons from "react-icons/io"
-// import * as FaIcons from "react-icons/fa"
+import Swal from "sweetalert2"
+import Cookies from "universal-cookie"
 
-// import { SidebarData } from "../sidebar/SidebarData
+import { useAuthorizedContext } from "../../AuthorizedContext"
 import "../navbar/navbar.sass"
-import { IconContext } from "react-icons"
 import Logo from "../../assets/image/BRI-AJ-v2.png"
 
 const cookies = new Cookies()
