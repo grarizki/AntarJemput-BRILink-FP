@@ -3,9 +3,9 @@ import Cookies from "universal-cookie"
 
 const cookies = new Cookies()
 
-const useGetAgen = () => {
+const useGetProvinces = () => {
   const fetchData = async () => {
-    const response = await fetch(`http://localhost:5000/agent/`, {
+    const response = await fetch(`http://35.229.233.212/locations/provinces`, {
       headers: new Headers({
         Authorization: "Bearer " + cookies.get("accessToken"),
       }),
@@ -17,15 +17,15 @@ const useGetAgen = () => {
     return response.json()
   }
 
-  const { data, isLoadingAgent, isErrorAgent, refetch } = useQuery(
-    `agent:`,
+  const { dataProvinces, isLoadingProvinces, isErrorProvinces } = useQuery(
+    `provinces:`,
     fetchData,
     {
       cacheTime: 0,
     }
   )
 
-  return { data, isLoadingAgent, isErrorAgent, refetch }
+  return { dataProvinces, isLoadingProvinces, isErrorProvinces }
 }
 
-export default useGetAgen
+export default useGetProvinces

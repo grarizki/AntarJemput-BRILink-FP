@@ -3,7 +3,7 @@ import { useMutation } from "react-query"
 const useCreateAgent = (agent, onSuccess, onError) => {
   const { mutate, dataAgent, isLoadingAgent, isErrorAgent } = useMutation(
     async () => {
-      const response = await fetch(`http://localhost:5000/agent`, {
+      const response = await fetch(`http://localhost:5000/agents`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",

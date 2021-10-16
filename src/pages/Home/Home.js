@@ -133,7 +133,7 @@ function Home() {
             ) : isError ? (
               <Alert message="Gagal Memuat Data" type="error" />
             ) : (
-              data.map((transaction) => (
+              data?.map((transaction) => (
                 <CardTransactionComponent
                   key={transaction.id}
                   transaction={transaction}

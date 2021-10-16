@@ -297,18 +297,7 @@ const RegisterAgen = () => {
               },
             ]}
           >
-            <Input
-              type="password"
-              placeholder="Ulangi Password"
-              name="password"
-              onChange={(event) => {
-                console.log("value >> ", agentState)
-                setAgentState({
-                  ...agentState,
-                  password: event.target.value,
-                })
-              }}
-            />
+            <Input type="password" placeholder="Ulangi Password" name="password" />
           </Form.Item>
           <Form.Item>
             <Col

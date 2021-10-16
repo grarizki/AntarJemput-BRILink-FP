@@ -46,6 +46,17 @@
       "nominal_transaksi": 10000000,
       "status": "0",
       "id": 2
+    },
+    {
+      "created_date": "Fri Oct 15 2021 22:33:24 GMT+0700 (Western Indonesia Time)",
+      "jenis_transaksi": "Report",
+      "provinsi_customer": "Jawa Barat",
+      "kabupaten_customer": "Kota Bandung",
+      "kecamatan_customer": "Coblong",
+      "alamat_lengkap": "Jalan Godean",
+      "nominal_transaksi": 45000,
+      "status": "0",
+      "id": 3
     }
   ],
   "agent": [
@@ -60,6 +71,30 @@
       "city": "Kudus",
       "district": "Kudus",
       "id": 1
+    },
+    {
+      "username": "bayu",
+      "password": "bayu123",
+      "agentName": "Bayu",
+      "noHandphone": "0899112233445",
+      "districtId": "",
+      "address": "Jalan Kenagan no. 3",
+      "province": "Jawa Tengah",
+      "city": "Kudus",
+      "district": "Kudus",
+      "id": 2
+    },
+    {
+      "username": "sadewo",
+      "password": "dewo123",
+      "agentName": "Dewo",
+      "noHandphone": "0884567846535",
+      "districtId": "",
+      "address": "Jalan jalan dulu",
+      "province": "Jawa Timur",
+      "city": "Kota Malang",
+      "district": "Lowokwaru",
+      "id": 3
     }
   ]
 }

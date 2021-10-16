@@ -20,7 +20,7 @@ const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [data, setData] = useState({})
-  const [selectedUserLevel, setSelectedUserLevel] = useState("customer")
+  const [selectedUserLevel, setSelectedUserLevel] = useState()
   const { setAuthorizedValue } = useAuthorizedContext()
   const [visible, setVisible] = React.useState(false)
   const [confirmLoading, setConfirmLoading] = React.useState(false)
@@ -31,7 +31,7 @@ const Login = () => {
   }, [setAuthorizedValue, history, selectedUserLevel])
 
   const { mutate: login } = useLogin(
-    { email: username, password, selectedUserLevel },
+    { username, password, selectedUserLevel },
     handleSuccessLogin,
     (error) => console.log("error >>", error)
   )
@@ -46,13 +46,13 @@ const Login = () => {
 
   const UserType = [
     {
-      key: "1",
-      value: "customer",
+      key: 2,
+      value: 2,
       label: "Customer",
     },
     {
-      key: "2",
-      value: "agent",
+      key: 1,
+      value: 1,
       label: "Agent",
     },
   ]
@@ -97,13 +97,12 @@ const Login = () => {
   }
 
   const handleRegisterAgen = useCallback(() => {
-    history.push("/RegisterAgen");
-  }, []);
+    history.push("/RegisterAgen")
+  }, [])
 
   const handleRegisterCustomer = useCallback(() => {
-    history.push("/RegisterCustomer");
-  }, []);
-
+    history.push("/RegisterCustomer")
+  }, [])
 
   return (
     <div className="outer-login">
@@ -166,8 +165,8 @@ const Login = () => {
           </Form.Item>
           <Form.Item
             labelCol={{ span: 6 }}
-            name="login_as"
-            label="Login As"
+            name="role"
+            label="role"
             rules={[
               {
                 required: true,
@@ -176,8 +175,8 @@ const Login = () => {
             ]}
           >
             <Select
-              defaultValue={selectedUserLevel}
-              name="login_as"
+              value={selectedUserLevel}
+              name="role"
               onChange={handleSelectedUserLevel}
             >
               {UserType.map((option) => (
@@ -197,9 +196,11 @@ const Login = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-login" 
-              // onClick={login} 
-              onClick={handleSuccessLogin}>
+              <Button
+                className="btn-login"
+                // onClick={login}
+                onClick={handleSuccessLogin}
+              >
                 Login
               </Button>
 

@@ -18,6 +18,9 @@ import { useHistory } from "react-router-dom"
 import DataAlamat from "./DataAlamat"
 import JenisTransaksi from "./DataJenisTransaksi"
 import useGetAgen from "../../Query/useGetAgen"
+import useGetProvinces from "../../Query/useGetProvinces"
+import useGetCity from "../../Query/useGetCity"
+import useGetDistrictID from "../../Query/useGetDistrictID"
 import useCreateTransaction from "../../Mutations/useCreateTransaction"
 import NavbarComponent from "../../components/navbar/NavbarComponent"
 import "./TransaksiPage.css"
@@ -37,6 +40,7 @@ const TransaksiPage = () => {
     provinsi_customer: " ",
     kabupaten_customer: " ",
     kecamatan_customer: " ",
+    districtId: "",
     alamat_lengkap: " ",
     nominal_transaksi: "",
     status: "0",
@@ -50,8 +54,10 @@ const TransaksiPage = () => {
     }
   )
 
-  const { dataAgent, isErrorAgent, isLoadingAgent } = useGetAgen()
-  console.log("data >> ", isLoadingAgent, dataAgent)
+  const { data, isErrorAgent, isLoadingAgent } = useGetAgen()
+  const { dataProvinces, isLoadingProvinces, isErrorProvinces } = useGetProvinces()
+  const { dataCity, isLoadingCity, isErrorCity } = useGetCity()
+  const { dataDistrictID, isLoadingDistrictID, isErrorDistrictID } = useGetCity()
 
   const currencyParser = (val) => {
     try {
@@ -105,6 +111,10 @@ const TransaksiPage = () => {
     setFormState({ ...formState, kecamatan_customer: value })
   }
 
+  // const handleDistrictID = (value) => {
+  //   setFormState({ ...formState, districtId: value })
+  // }
+
   const dataKabupaten = useMemo(() => {
     return (
       DataAlamat?.find((provinsi) => provinsi.name === selectedProvinsi)
@@ -124,13 +134,13 @@ const TransaksiPage = () => {
   const ColumnsAgen = [
     {
       title: "Nama Agen",
-      dataIndex: "agent_name",
-      key: "agent_name",
+      dataIndex: "agentName",
+      key: "agentName",
     },
     {
       title: "Nomer Whatsapp",
-      dataIndex: "no_hp",
-      key: "no_hp",
+      dataIndex: "noHandphone",
+      key: "noHandphone",
       render: (text) => (
         <Button type="link" href={"https://wa.me/62" + text}>
           {text}
@@ -139,16 +149,16 @@ const TransaksiPage = () => {
     },
     {
       title: "Alamat Agen",
-      dataIndex: "agent_address",
-      key: "agent_address",
+      dataIndex: "address",
+      key: "address",
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text) => (
+      render: () => (
         <Button type="link" onClick={mutate}>
-          {text}
+          Pilih Agen
         </Button>
       ),
     },
@@ -248,6 +258,11 @@ const TransaksiPage = () => {
                           handleFormProvinsi(e)
                         }}
                       >
+                        {/* {dataProvinces?.map((provinces, id) => (
+                          <Option key={id.toString()} value={provinces.id}>
+                            {provinces.name}
+                          </Option>
+                        ))} */}
                         {DataAlamat.map((provinsi, index) => (
                           <Option key={index.toString()} value={provinsi.name}>
                             {provinsi.name}
@@ -263,6 +278,11 @@ const TransaksiPage = () => {
                           handleFormKabupaten(e)
                         }}
                       >
+                        {/* {dataCity?.map((city, id) => (
+                          <Option key={id.toString()} value={city.id}>
+                            {city.name}
+                          </Option>
+                        ))} */}
                         {dataKabupaten.map((kabupaten, index) => (
                           <Option key={index.toString()} value={kabupaten.name}>
                             {kabupaten.name}
@@ -278,6 +298,11 @@ const TransaksiPage = () => {
                           handleFormKecamatan(e)
                         }}
                       >
+                        {/* {dataDistrictID?.map((district, id) => (
+                          <Option key={id.toString()} value={district.id}>
+                            {district.name}
+                          </Option>
+                        ))} */}
                         {dataKecamatan.map((kecamatan, index) => (
                           <Option key={index.toString()} value={kecamatan}>
                             {kecamatan}
@@ -320,19 +345,11 @@ const TransaksiPage = () => {
             ) : isError ? (
               <Space align="center" direction="vertical" size="large">
                 <Text style={{ color: "red" }}> Gagal memilih Agen</Text>
-                <Table
-                  columns={ColumnsAgen}
-                  dataSource={dataAgent}
-                  pagination={false}
-                />
+                <Table columns={ColumnsAgen} dataSource={data} pagination={false} />
               </Space>
             ) : (
               showTableAgen && (
-                <Table
-                  columns={ColumnsAgen}
-                  dataSource={dataAgent}
-                  pagination={false}
-                />
+                <Table columns={ColumnsAgen} dataSource={data} pagination={false} />
               )
             )}
           </Row>
