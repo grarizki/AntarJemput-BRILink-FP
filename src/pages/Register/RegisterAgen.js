@@ -22,7 +22,7 @@ const RegisterAgen = () => {
     noHandphone: "",
     districtId: "",
     address: "",
-    role: ""
+    role: 1
   })
 
   const { mutate } = useCreateAgen(agentState, (result) => {

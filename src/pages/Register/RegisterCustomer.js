@@ -14,6 +14,7 @@ const RegisterCustomer = () => {
     password: " ",
     name: " ",
     noHandphone: " ",
+    role: 2
   })
 
   const { mutate} = useCreateCustomer(
