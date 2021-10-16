@@ -22,18 +22,18 @@ const RegisterAgen = () => {
     noHandphone: "",
     districtId: "",
     address: "",
-    role: 1
+    role: 1,
   })
 
   const { mutate } = useCreateAgen(agentState, (result) => {
     console.log("success mutation >> ", result)
     history.push("/")
   })
-
+  //TODO: ditambah isi fetching data kabupaten kota, trus isi ke dropdownnya kabko
   const handleSelectedProvinsi = (value) => {
     setSelectedProvinsi(value)
   }
-
+  //TODO: ditambah isi fetching data dari district lalu isi ke dropdown district
   const handleSelectedKabupaten = (value) => {
     setSelectedKabupaten(value)
   }
@@ -48,8 +48,9 @@ const RegisterAgen = () => {
   const handleFormKabupaten = (value) => {
     setAgentState({ ...agentState, city: value })
   }
+
   const handleFormKecamatan = (value) => {
-    setAgentState({ ...agentState, district: value })
+    setAgentState({ ...agentState, districtId: value })
   }
 
   const dataKabupaten = useMemo(() => {
@@ -73,6 +74,7 @@ const RegisterAgen = () => {
 
   const changePassword = (e) => {
     const value = e.target.value
+    console.log("value >>", value)
     setPassword(value)
     if (!value) {
       setErrorPassword("Password tidak boleh kosong")
@@ -81,17 +83,23 @@ const RegisterAgen = () => {
     } else {
       setErrorPassword("")
     }
+    setAgentState({
+      ...agentState,
+      password: e.target.value,
+    })
   }
 
   const changeConfirmPassword = (e) => {
     const value = e.target.value
     setConfirmPassword(value)
+    console.log("value >>", value)
+    console.log("password >>", password)
     if (!value) {
       setErrorConfirmPassword("Konfirmasi Password tidak boleh kosong")
-    } else if (password !== value) {
+    } else if (password != value) {
       setErrorConfirmPassword("password tidak cocok")
     } else {
-      setErrorPassword("")
+      setErrorConfirmPassword("")
     }
   }
 
@@ -153,11 +161,18 @@ const RegisterAgen = () => {
                     handleFormProvinsi(e)
                   }}
                 >
-                  {DataAlamat.map((provinsi, index) => (
-                    <Option key={index.toString()} value={provinsi.name}>
-                      {provinsi.name}
-                    </Option>
-                  ))}
+                  {
+                    //TODO: diganti pake fetching dari backend
+                    //TODO: fetching berurutan (provinsi -> kabko + kecamatan)
+                    //TODO: fetching dropdown bawaan kabupaten kota
+                    //TODO: fokus connect ke backend
+
+                    DataAlamat.map((provinsi, index) => (
+                      <Option key={index.toString()} value={provinsi.name}>
+                        {provinsi.name}
+                      </Option>
+                    ))
+                  }
                 </Select>
               </Col>
               <Col span={7}>
@@ -185,6 +200,7 @@ const RegisterAgen = () => {
                   }}
                 >
                   {dataKecamatan.map((kecamatan, index) => (
+                    //TODO: Keynya ID valuenya String dari backend
                     <Option key={index.toString()} value={kecamatan}>
                       {kecamatan}
                     </Option>
@@ -278,16 +294,7 @@ const RegisterAgen = () => {
               type="password"
               placeholder="Masukan Password"
               name="password"
-              onChange={
-                (changePassword,
-                (event) => {
-                  console.log("value >> ", agentState)
-                  setAgentState({
-                    ...agentState,
-                    password: event.target.value,
-                  })
-                })
-              }
+              onChange={changePassword}
             />
             {errorPassword && <p className="text-danger">{errorPassword}</p>}
           </Form.Item>
