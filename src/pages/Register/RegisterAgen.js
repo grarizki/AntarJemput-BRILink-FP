@@ -167,6 +167,10 @@ const RegisterAgen = () => {
                     //TODO: fetching dropdown bawaan kabupaten kota
                     //TODO: fokus connect ke backend
 
+                    //TODO: register agen langsung masuk ke dalem home (dipersiapkan proses verifikasi admin)
+                    
+                
+
                     DataAlamat.map((provinsi, index) => (
                       <Option key={index.toString()} value={provinsi.name}>
                         {provinsi.name}
