@@ -38,10 +38,6 @@ const RegisterCustomer = () => {
     } else {
       setErrorPassword("")
     }
-    setCustomerState({
-      ...customerState,
-      password: e.target.value,
-    })
   }
 
   const changeConfirmPassword = (e) => {
@@ -140,6 +136,7 @@ const RegisterCustomer = () => {
                   username: event.target.value,
                 })
               }}
+              
             />
           </Form.Item>
           <Form.Item
@@ -158,7 +155,17 @@ const RegisterCustomer = () => {
               type="password"
               placeholder="Masukan Password"
               name="password"
-              onChange={changePassword}
+              onChange={(event) => {
+                console.log("value >> ", customerState)
+                setCustomerState({
+                  ...customerState,
+                  password: event.target.value,
+                })
+                //FIXME: Bug failed to fetch register
+                //FIXME: Bug password error message
+                
+              }}
+              
             />
             {errorPassword && <p className="text-danger">{errorPassword}</p>}
           </Form.Item>
