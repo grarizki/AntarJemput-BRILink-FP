@@ -7,12 +7,10 @@ import { faBan, faSmile, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Swal from "sweetalert2"
 import "../CardAgent/CardAgent.css"
-
-
-
+import useLogin from "../../Mutations/useLogin";
+import useUpdateTransaction from "../../Mutations/useUpdateTransaction";
 
 const CardComponent = (props) => {
-    
     const history = useHistory()
     const { mutate: deleteTransaction } = useDeleteTransaction(
       props.transaction.id,
@@ -23,11 +21,47 @@ const CardComponent = (props) => {
       history.push("/rate");
     }, [])
   
-    const handleCancelTransaction = useCallback(() => {
-      // console.log("id transaction >> ", props.transaction.id);
-      deleteTransaction()
+    const handleDeleteTransactions = useCallback(() => {
+        console.log("id transaction >> ", props.transaction.id);
+        console.log("transaction ", props.transaction)
+        Swal.fire({
+            title: 'Anda yakin ingin menghapus transaksi ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus !'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteTransaction()
+                Swal.fire(
+                    'Berhasil',
+                    'Transaksi telah dihapus.',
+                    'success'
+                )
+            }
+        })
+
+
     }, [deleteTransaction])
 
+    const { mutate: updateTransaction } = useUpdateTransaction(
+        props.transaction.id,
+        props.transaction.statusTransaction,
+        props.refetchTransactions,
+    )
+
+    const handleUpdateTransaction = useCallback( () => {
+        if(updateTransaction()) {
+            Swal.fire({
+                icon: "success",
+                title: "Transaksi Dibatalkan",
+                showConfirmButton: false,
+                timer: 2000,
+            })
+            history.push("/home")
+        }
+    },[updateTransaction])
 
     const handleDelete = () => {
       Swal.fire({
@@ -47,7 +81,7 @@ const CardComponent = (props) => {
         }
       })
     }
-  
+
     return (
       <Card style={{
         width: 450,
@@ -77,7 +111,7 @@ const CardComponent = (props) => {
         </li>
         <li>
           <b>Status</b>  {props.transaction.statusTransaction === 0
-                  ? "Menunggu konfirmasi agent"
+                  ? "Menunggu konfirmasi agen"
                   : props.transaction.statusTransaction === 1
                   ? "Agen dalam perjalanan"
                   : props.transaction.statusTransaction === 2
@@ -102,7 +136,7 @@ const CardComponent = (props) => {
                 borderRadius: "10px",
                 marginLeft:"50px"
               }}
-              onClick={handleCancelTransaction}
+              onClick={updateTransaction}
             >
               <FontAwesomeIcon icon={faBan} style={{marginRight:"5px"}}/>
               Batalkan
@@ -129,7 +163,7 @@ const CardComponent = (props) => {
               margin: "0px",
               marginLeft:"50px"
             }}
-            onClick={handleDelete}> <FontAwesomeIcon icon={faTrashAlt} style={{marginRight:"5px"}}/> Hapus </Button>
+            onClick={handleDeleteTransactions}> <FontAwesomeIcon icon={faTrashAlt} style={{marginRight:"5px"}}/> Hapus </Button>
             : <p> </p>
             }
            

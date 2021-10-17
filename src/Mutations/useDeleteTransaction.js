@@ -6,7 +6,7 @@ const useDeleteTransaction = (deleteId, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
       const response = await fetch(
-        `https://wulan-belajar.herokuapp.com/transactions${deleteId}`,
+        `https://wulan-belajar.herokuapp.com/transactions/${deleteId}`,
         {
           method: "DELETE", // *GET, POST, PUT, DELETE, etc.
           headers: {

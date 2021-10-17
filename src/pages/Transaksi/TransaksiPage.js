@@ -156,7 +156,7 @@ const TransaksiPage = () => {
 
   return (
     <div>
-      <NavbarComponent />
+      {/*<NavbarComponent />*/}
       <div className="formTransaksi" style={{ width: "100%" }}>
         <div style={{ width: "50%" }}>
           <Row style={{ width: "100%" }}>

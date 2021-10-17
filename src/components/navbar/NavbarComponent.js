@@ -5,14 +5,10 @@ import Cookies from "universal-cookie"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 
 import * as FaIcons from "react-icons/fa"
-import * as AiIcons from "react-icons/ai"
-import * as IoIcons from "react-icons/io"
-// import * as FaIcons from "react-icons/fa"
-
-// import { SidebarData } from "../sidebar/SidebarData
 import "../navbar/navbar.sass"
 import { IconContext } from "react-icons"
 import Logo from "../../assets/image/BRI-AJ-v2.png"
+import {FormOutlined, HomeOutlined, LogoutOutlined} from "@ant-design/icons";
 
 const cookies = new Cookies()
 
@@ -26,19 +22,19 @@ function NavbarComponent() {
     {
       title: "Beranda",
       path: "/home",
-      icon: <AiIcons.AiFillHome />,
+      icon: <HomeOutlined />,
       cName: "nav-text",
     },
     {
       title: "Transaksi",
       path: "/transaksi",
-      icon: <IoIcons.IoIosPaper />,
+      icon: <FormOutlined />,
       cName: "nav-text",
     },
     {
       title: "Keluar",
       // path: "/signout",
-      icon: <FaIcons.FaSignOutAlt />,
+      icon: <LogoutOutlined/>,
       cName: "nav-text",
       onClick: () => {
         Swal.fire({
@@ -85,7 +81,7 @@ function NavbarComponent() {
             onClick={showSidebar}
             onKeyDown={showSidebar}
           >
-            <li className="navbar-toggle">
+            <li className="navbar-toggle" style={{color:"white"}}>
               <img src={Logo} alt="Logo" />
               <Link to="#" className="menu-bars"></Link>
             </li>
@@ -98,9 +94,9 @@ function NavbarComponent() {
                 }
               }
               return (
-                <li key={index} className={item.cName} onClick={onClick}>
+                <li key={index} className={item.cName} onClick={onClick} style={{color:"white"}}>
                   {item.icon}
-                  <span style={{ marginLeft: "10px", color: "black" }}>
+                  <span style={{ marginLeft: "10px", color: "white", fontWeight:"bold"}} >
                     {item.title}
                   </span>
                 </li>
