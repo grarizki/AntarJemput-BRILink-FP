@@ -2,15 +2,10 @@ import React, { useState } from "react"
 import { IconContext } from "react-icons"
 import { Link, useHistory } from "react-router-dom"
 import * as FaIcons from "react-icons/fa"
-<<<<<<< HEAD
-=======
-import * as AiIcons from "react-icons/ai"
-import * as IoIcons from "react-icons/io"
 import Swal from "sweetalert2"
 import Cookies from "universal-cookie"
 
 import { useAuthorizedContext } from "../../AuthorizedContext"
->>>>>>> 382ee64c3953769d7e6fc6136a4e18e5ee2f83f9
 import "../navbar/navbar.sass"
 import Logo from "../../assets/image/BRI-AJ-v2.png"
 import {FormOutlined, HomeOutlined, LogoutOutlined} from "@ant-design/icons";
