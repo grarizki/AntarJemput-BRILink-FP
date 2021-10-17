@@ -8,7 +8,7 @@ const useLogin = (loginData, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
       try {
-        const response = await fetch( `https://wulan-belajar.herokuapp.com/login`, {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_LOGIN}`, {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",

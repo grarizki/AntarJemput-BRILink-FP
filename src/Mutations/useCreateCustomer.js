@@ -1,14 +1,13 @@
 import { useMutation } from "react-query"
 
 import Cookies from "universal-cookie"
-
 const cookies = new Cookies()
 
 const useCreateCustomer = (registerCusData, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
       try {
-        const response = await fetch(`http://localhost:5000/customer`, {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_REGISTER}`, {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",

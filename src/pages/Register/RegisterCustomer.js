@@ -14,16 +14,48 @@ const RegisterCustomer = () => {
     password: " ",
     name: " ",
     noHandphone: " ",
+    role: 2,
   })
 
-  const { mutate} = useCreateCustomer(
-    customerState,
-    (result) => {
-      console.log("success mutation >> ", result)
-      history.push("/")
-    }
-  )
+  const { mutate } = useCreateCustomer(customerState, (result) => {
+    console.log("success mutation >> ", result)
+    history.push("/")
+  })
+  const [password, setPassword] = useState("")
+  const [errorPassword, setErrorPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState("")
 
+  const changePassword = (e) => {
+    const value = e.target.value
+    console.log("value >>", value)
+    setPassword(value)
+    if (!value) {
+      setErrorPassword("Password tidak boleh kosong")
+    } else if (value.length < 8) {
+      setErrorPassword("Password min harus 8 Karakter")
+    } else {
+      setErrorPassword("")
+    }
+    setCustomerState({
+      ...customerState,
+      password: e.target.value,
+    })
+  }
+
+  const changeConfirmPassword = (e) => {
+    const value = e.target.value
+    setConfirmPassword(value)
+    console.log("value >>", value)
+    console.log("password >>", password)
+    if (!value) {
+      setErrorConfirmPassword("Konfirmasi Password tidak boleh kosong")
+    } else if (password != value) {
+      setErrorConfirmPassword("password tidak cocok")
+    } else {
+      setErrorConfirmPassword("")
+    }
+  }
   // const handleRegisterCustomerBtn = useCallback(() => {
   //   history.push("/")
   // }, [history])
@@ -76,7 +108,7 @@ const RegisterCustomer = () => {
             ]}
           >
             <Input
-              placeholder="Masukkan Nama"
+              placeholder="Masukkan Nomor Handphone"
               name="nomor-handphone"
               onChange={(event) => {
                 console.log("value >> ", customerState)
@@ -110,29 +142,24 @@ const RegisterCustomer = () => {
             />
           </Form.Item>
           <Form.Item
-            labelCol={{ span: 6 }}
-            labelAlign="left"
+            style={{ marginBottom: " 8px", padding: "0px" }}
             name="password"
             label="Password"
             rules={[
               {
                 required: true,
-                message: "Please input your Password!",
+                // message: "Please input your Password!",
               },
             ]}
           >
             <Input
+              minLength="8"
               type="password"
-              placeholder="Password"
+              placeholder="Masukan Password"
               name="password"
-              onChange={(event) => {
-                console.log("value >> ", customerState)
-                setCustomerState({
-                  ...customerState,
-                  password: event.target.value,
-                })
-              }}
+              onChange={changePassword}
             />
+            {errorPassword && <p className="text-danger">{errorPassword}</p>}
           </Form.Item>
           <Form.Item
             name="konfirmasi-password"
@@ -140,11 +167,21 @@ const RegisterCustomer = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your Password!",
+                // message: "Please input your Password!",
               },
             ]}
           >
-            <Input type="password" placeholder="Ulangi Password" name="password" />
+            <Input
+              minLength="8"
+              type="password"
+              placeholder="Ulangi Password"
+              name="password"
+              onChange={changeConfirmPassword}
+            />
+
+            {errorConfirmPassword && (
+              <p className="text-danger">{errorConfirmPassword}</p>
+            )}
           </Form.Item>
           <Form.Item>
             <Col
@@ -155,10 +192,7 @@ const RegisterCustomer = () => {
                 justifyContent: "center",
               }}
             >
-              <Button
-                className="btn-registerAgenCustomer"
-                onClick={ mutate}
-              >
+              <Button className="btn-registerAgenCustomer" onClick={mutate}>
                 Register Customer
               </Button>
             </Col>
