@@ -5,7 +5,7 @@ import { useMutation } from "react-query"
 const useDeleteTransaction = (deleteId, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_TRANSACTIONS}+'${deleteId}'`,
+      const response = await fetch(`http://34.81.92.192/transactions/${deleteId}`,
         {
           method: "DELETE", // *GET, POST, PUT, DELETE, etc.
           headers: {

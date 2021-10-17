@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react"
-import {Button, Card, Modal, Rate} from "antd"
+import {Button, Card, Modal, Typography} from "antd"
 import moment from "moment"
 import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import {useHistory} from "react-router-dom"
@@ -10,6 +10,8 @@ import "../CardAgent/CardAgent.css"
 import useUpdateTransaction from "../../Mutations/useUpdateTransaction";
 import RateComponent from "../Rating/RateComponent";
 
+const {Text } = Typography
+
 const CardComponent = (props) => {
     const history = useHistory()
     const [currentValue, setCurrentValue] = useState()
@@ -18,27 +20,17 @@ const CardComponent = (props) => {
     const showModal = () => {
         setIsModalVisible(true);
     };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
     const handleCancel = () => {
         setIsModalVisible(false);
     };
 
     const {mutate: deleteTransaction} = useDeleteTransaction(
+        console.log(props.transaction.id),
         props.transaction.id,
         props.refetchTransactions
     )
 
-    const handleRate = useCallback(() => {
-        history.push("/rate");
-    }, [])
-
     const handleDeleteTransactions = useCallback(() => {
-        console.log("id transaction >> ", props.transaction.id);
-        console.log("transaction ", props.transaction)
         Swal.fire({
             title: 'Anda yakin ingin menghapus transaksi ini?',
             icon: 'warning',
@@ -56,8 +48,6 @@ const CardComponent = (props) => {
                 )
             }
         })
-
-
     }, [deleteTransaction])
 
 
@@ -68,36 +58,6 @@ const CardComponent = (props) => {
     )
 
 
-    const handleUpdateTransaction = useCallback(() => {
-        if (updateTransaction()) {
-            Swal.fire({
-                icon: "success",
-                title: "Transaksi Dibatalkan",
-                showConfirmButton: false,
-                timer: 2000,
-            })
-            history.push("/home")
-        }
-    }, [updateTransaction])
-
-    const handleDelete = () => {
-        Swal.fire({
-            title: 'Anda yakin ingin menghapus transaksi ini?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus !'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Berhasil',
-                    'Transaksi telah dihapus.',
-                    'success'
-                )
-            }
-        })
-    }
 
     return (
         <Card style={{
@@ -105,6 +65,9 @@ const CardComponent = (props) => {
             border: "2px solid black",
             marginBottom: "20px"
         }}>
+                <Text style={{color:"#4B0082", fontWeight:"bold"}}> Nama Agent : {props.transaction.userAgent.agent.agentName}</Text>
+            <br/> <br/>
+            <hr />
             <ul className="alignMe">
                 <li>
                     <b>Waktu Request</b> {moment(new Date(props.transaction.createdAt)).format(
@@ -133,7 +96,7 @@ const CardComponent = (props) => {
                     : props.transaction.statusTransaction === 1
                         ? "Agen dalam perjalanan"
                         : props.transaction.statusTransaction === 2
-                            ? "Dibatalkan Customer"
+                            ? "Dibatalkan"
                             : props.transaction.statusTransaction === 3
                                 ? "Selesai"
                                 : "Error"}
@@ -151,7 +114,7 @@ const CardComponent = (props) => {
                                 paddingRight: "15px",
                                 backgroundColor: "brown",
                                 fontWeight: "bold",
-                                borderRadius: "10px",
+                                borderRadius: "5px",
                                 marginLeft: "50px"
                             }}
 
@@ -168,22 +131,24 @@ const CardComponent = (props) => {
                                         margin: "0px",
                                         color: "white",
                                         paddingRight: "15px",
-                                        backgroundColor: "blue",
+                                        backgroundColor: "#000080",
                                         fontWeight: "bold",
-                                        borderRadius: "10px",
+                                        borderRadius: "5px",
                                         marginLeft: "50px"
                                     }} onClick={showModal}>
 
-                                        <FontAwesomeIcon icon={faSmile} style={{marginRight: "5px"}}/>Beri Rating </Button>
-                                    <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk}
-                                           onCancel={handleCancel}>
-                                        <RateComponent transaction={props.transaction}/>
+                                      Beri Penilaian </Button>
+                                    <Modal title="Transaksi Anda Telah Selesai" visible={isModalVisible}
+                                           onCancel={handleCancel} width={350} footer={null}
+                                           maskStyle={{backgroundColor:"#FFFAF0"}}
+                                    >
+                                        <RateComponent transaction={props.transaction} modal={showModal}/>
                                     </Modal>
                                 </>
                                 : (
                                     <>
                        <Button disabled={true} style={{marginLeft:"30px", border:"2px solid #292961", fontWeight:"bold",
-                           color:"black", borderRadius:"10px"}}>
+                           color:"black", borderRadius:"5px"}}>
                            Anda telah memberikan Penilaian</Button>
      </>
        )
@@ -192,8 +157,9 @@ const CardComponent = (props) => {
            backgroundColor: "red",
           color: "white",
           fontWeight: "bold", borderRadius: "10px", paddingRight: "15px", margin: "0px", marginLeft: "50px"}}
-          onClick={handleDeleteTransactions}> <FontAwesomeIcon icon={faTrashAlt} style={{marginRight: "5px"}}/> Hapus
-      </Button> :
+          onClick={deleteTransaction}> <FontAwesomeIcon icon={faTrashAlt} style={{marginRight: "5px"}}/> Hapus
+      </Button>
+       :
             <p></p>
                 }
 

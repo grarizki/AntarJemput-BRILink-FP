@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
 import Cookies from "universal-cookie";
+import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
@@ -19,9 +20,32 @@ const useUpdateTransaction = (transactionId, rating, onSuccess, onError) => {
                 body: JSON.stringify(rating), // body data type must match "Content-Type" header
             });
             if (response.ok) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Rating Sukses Dikirim",
+                    showConfirmButton: false,
+                    timer: 2000,
+                })
                 return await response.json()
             } else {
-                throw new Error("Network response was not ok");
+                const errorResult = await response.json()
+                let errorMessage =''
+                console.log(errorResult.message)
+                if(errorResult.message == 'Error in field: Rating') {
+                    errorMessage = "Silahkan Isi Rating"
+                    Swal.fire({
+                        icon: "error",
+                        text: errorMessage,
+                        title: "Gagal!",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    })
+                    throw new Error(errorMessage)
+                }
+                else {
+                    throw new Error("Network response was not ok");
+                }
+                // eslint-disable-next-line no-unreachable
             }
         },
         { onError, onSuccess }

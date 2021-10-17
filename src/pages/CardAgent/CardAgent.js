@@ -13,6 +13,7 @@ import {
     faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons"
 import {useHistory} from "react-router-dom"
+import useUpdateTransaction from "../../Mutations/useUpdateTransaction";
 
 
 
@@ -42,32 +43,24 @@ const CardAgent = (props) => {
         setIsModalVisible(false);
     };
 
-    const handleRating = () => {
-        history.push("/rating-agent")
-    }
+    const {mutate: acceptedTransaction} = useUpdateTransaction(
+        props.transaction.id,
+        {statusTransaction: 1},
+        props.refetchTransactions,
+    )
 
-    const handleAcceptTransactions = () => {
-        Swal.fire({
-            title: "Konfirmasi",
-            text: "Anda yakin ingin menerima request?",
-            icon: "info",
-            showCancelButton: true,
-            confirmButtonText: "Ya",
-            confirmButtonColor: "#292961",
-            cancelButtonColor: "#292961",
-            cancelButtonText: "Tidak",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    icon: "success",
-                    title: "transaksi diterima",
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
+    const {mutate: doneTransaction} = useUpdateTransaction(
+        props.transaction.id,
+        {statusTransaction: 3},
+        props.refetchTransactions,
+    )
 
-            }
-        })
-    }
+    const {mutate: rejectedTransaction} = useUpdateTransaction(
+        props.transaction.id,
+        {statusTransaction: 2},
+        props.refetchTransactions,
+    )
+
     const handleDelete = () => {
         Swal.fire({
             title: "Anda yakin ingin menghapus transaksi ini?",
@@ -84,6 +77,8 @@ const CardAgent = (props) => {
         )
     }
 
+
+
     return (
         <Card
             style={{
@@ -92,6 +87,9 @@ const CardAgent = (props) => {
                 marginBottom: "20px",
             }}
         >
+            <Text style={{color:"#4B0082", fontWeight:"bold"}}> Nama Customer : {props.transaction.userCustomer.customer.Name}</Text>
+            <br/> <br/>
+            <hr />
             <ul className="alignMe">
                 <li>
                     <b>Waktu Request</b> {moment(new Date(props.transaction.createdAt)).format(
@@ -120,7 +118,7 @@ const CardAgent = (props) => {
                     : props.transaction.statusTransaction === 1
                         ? "Agen dalam perjalanan"
                         : props.transaction.statusTransaction === 2
-                            ? "Dibatalkan Customer"
+                            ? "Dibatalkan"
                             : props.transaction.statusTransaction === 3
                                 ? "Selesai"
                                 : "Error"}
@@ -141,7 +139,7 @@ const CardAgent = (props) => {
                                 marginRight: "80px",
                                 marginLeft: "50px",
                             }}
-                            onClick={handleAcceptTransactions}
+                            onClick={acceptedTransaction}
                         >
                             <FontAwesomeIcon icon={faCheck} style={{marginRight: "5px"}}/>{" "}
                             Terima
@@ -156,7 +154,9 @@ const CardAgent = (props) => {
                                 paddingRight: "15px",
                                 margin: "0px",
                                 marginLeft: "50px",
+
                             }}
+                            onClick ={rejectedTransaction}
                         >
                             <FontAwesomeIcon icon={faTimesCircle} style={{marginRight: "5px"}}/>{" "}
                             Tolak
@@ -179,13 +179,12 @@ const CardAgent = (props) => {
                             Batalkan
                         </Button>
 
-                        <Button className="btn btn-primary">
-                            {" "}
+                        <Button className="btn btn-primary" style={{marginLeft:"50px"}} onClick={doneTransaction}>
                             <FontAwesomeIcon
                                 icon={faClipboardCheck}
                                 style={{marginRight: "8px"}}
                             />
-                            Transaksi Selesai{" "}
+                            Transaksi Selesai
                         </Button>
                     </>
                 ) : props.transaction.statusTransaction === 2 ? (
