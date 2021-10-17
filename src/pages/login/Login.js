@@ -48,12 +48,12 @@ const Login = () => {
     if (error) {
       Swal.fire({
         icon: "error",
-        text: error,
+        text: error.message,
         title: "Login gagal",
         showConfirmButton: false,
         timer: 2000,
       })
-      history.push("/home-agent")
+      history.push("/")
     }
   }, [])
 
@@ -76,6 +76,7 @@ const Login = () => {
   }, [])
 
   console.log("ini login ", login)
+
 
   const UserType = [
     {
@@ -111,6 +112,7 @@ const Login = () => {
 
   console.log("Ini data", data)
   console.log("INI ROLE", selectedUserLevel)
+
 
   const showModal = () => {
     setVisible(true)
@@ -162,7 +164,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your username  !",
+                message: "Isi Username Anda !",
               },
             ]}
           >
@@ -181,7 +183,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Isi Password Anda!",
               },
             ]}
           >
@@ -201,7 +203,7 @@ const Login = () => {
             <Select
               // defaultValue={selectedUserLevel}
               name="role"
-              placeholder="Select a Role"
+              placeholder="Login Sebagai"
               onChange={handleSelectedUserLevel}
               value={selectedUserLevel}
             >

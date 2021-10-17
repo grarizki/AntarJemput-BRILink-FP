@@ -7,8 +7,8 @@ const desc = ["terrible", "bad", "normal", "good", "wonderful"]
 
 const { Text } = Typography
 
-function RatingAgent() {
-  const [currentValue, setCurrentValue] = useState(4.5)
+function RatingAgent(props) {
+  const [currentValue, setCurrentValue] = useState()
   const history = useHistory()
 
   const handleBack = () => {
@@ -31,38 +31,43 @@ function RatingAgent() {
           Review Customers
         </Text>{" "}
         <br /> <br />
-        <span>
+          {props.transaction.rating ? (
+              <span>
           <Text
-            style={{ marginLeft: "100px", fontWeight: "bold", fontSize: "30px" }}
+              style={{marginLeft: "100px", fontWeight: "bold", fontSize: "30px"}}
           >
             {" "}
-            {currentValue}
+              {props.transaction.rating}
           </Text>
-          <Text> / 5</Text> <br />
+          <Text> / 5</Text> <br/>
           <Rate
-            value={currentValue}
-            style={{ marginRight: "15px", marginLeft: "70px" }}
+              value={props.transaction.rating}
+              style={{marginRight: "15px", marginLeft: "70px"}}
           />
-        </span> <br /> <br />
-        <Progress percent={30} strokeColor={'#F9E926'}/>
-        <Progress percent={50} strokeColor={'#F9E926'}/>
-        <Progress percent={70}  strokeColor={'#F9E926'}/>
-        <Progress percent={30} strokeColor={'#F9E926'}/>
-        <Progress percent={50} strokeColor={'#F9E926'}/>
-        <br /> <br />
-        <Button
-          style={{
-            backgroundColor: "#292961 ",
-            borderRadius: "10px",
-            color: "white",
-            marginTop: "30px",
-            alignContent: "center",
-          }}
-          onClick={handleBack}
-        >
-          {" "}
-          KEMBALI KE HALAMAN UTAMA
-        </Button>
+        </span>
+          ) :(
+              <> Customer Belum Memberikan Rating </>
+              )
+          } <br />
+        {/*<Progress percent={30} strokeColor={'#F9E926'}/>*/}
+        {/*<Progress percent={50} strokeColor={'#F9E926'}/>*/}
+        {/*<Progress percent={70}  strokeColor={'#F9E926'}/>*/}
+        {/*<Progress percent={30} strokeColor={'#F9E926'}/>*/}
+        {/*<Progress percent={50} strokeColor={'#F9E926'}/>*/}
+        {/*<br /> <br />*/}
+        {/*<Button*/}
+        {/*  style={{*/}
+        {/*    backgroundColor: "#292961 ",*/}
+        {/*    borderRadius: "10px",*/}
+        {/*    color: "white",*/}
+        {/*    marginTop: "30px",*/}
+        {/*    alignContent: "center",*/}
+        {/*  }}*/}
+        {/*  onClick={handleBack}*/}
+        {/*>*/}
+        {/*  {" "}*/}
+        {/*  KEMBALI KE HALAMAN UTAMA*/}
+        {/*</Button>*/}
       </div>
     </div>
   )

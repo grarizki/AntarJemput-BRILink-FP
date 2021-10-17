@@ -5,7 +5,7 @@ const cookies = new Cookies()
 
 const useGetTransactions = () => {
   const fetchData = async () => {
-    const response = await fetch(process.env.REACT_APP_BACKEND_API_URL+'/transaction', {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_TRANSACTIONS}`, {
       method: 'GET',
       headers: new Headers({
         Authorization: "Bearer " + cookies.get("accessToken"),

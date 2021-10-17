@@ -46,7 +46,7 @@ function App() {
               <RateComponent />
             </Route>
             <Route path="/rating-agent" exact>
-              <RatingAgent />
+              <RatingAgent/>
             </Route>
             <AuthorizedRoute
               path="/Transaksi"

@@ -10,6 +10,8 @@ import Background from "../../assets/image/white-wave-background-vector.jpg"
 
 const { Title } = Typography
 
+
+
 function HomeAgent() {
   const { isLoggedIn, userLevel } = useAuthorizedContext()
   console.log("value >> ", isLoggedIn, userLevel)
@@ -24,7 +26,7 @@ function HomeAgent() {
       >
         <div className="title">
           <Title style={{ fontFamily: "Playfair Display", color: "#292961" }}>
-            Request Transaksi Hari Ini
+            Permintaan Transaksi Hari Ini
           </Title>
         </div>
         <div className="resume">
@@ -32,7 +34,7 @@ function HomeAgent() {
             {isLoading ? (
               <Spin tip="Loading..."></Spin>
             ) : data ? (
-              data.map((transaction) => (
+              data?.data?.map((transaction) => (
                 <CardAgent
                   key={transaction.id}
                   transaction={transaction}

@@ -2,12 +2,14 @@ import { Button, Rate, Typography } from 'antd';
 import React, { useState } from "react"
 import "./Rate.css"
 import {useHistory} from "react-router-dom";
+import useCreateRate from "../../Mutations/useCreateRate";
+import useGetTransaction from "../../Query/useGetTransaction";
 
-const desc = ["terrible", "bad", "normal", "good", "wonderful"]
+const desc = ["Sangat Buruk", "Buruk", "OK", "Hampir Sempurna", "Sempurna"]
 
 const { Text } = Typography
 
-function RateComponent() {
+function RateComponent(props) {
   const [currentValue, setCurrentValue] = useState(0)
    const history = useHistory()
 
@@ -19,7 +21,14 @@ function RateComponent() {
     history.push("/home")     
   }
 
-  return (
+  const { mutate: createRate } = useCreateRate(
+        props.transaction.id,
+        {rating: currentValue},
+        props.refetchTransactions
+
+  )
+
+    return (
     <div className="outer-rate">
       <div className="inner-rate">
         {/* <h4> Terima Kasih! </h4> */}
@@ -38,7 +47,7 @@ function RateComponent() {
         </span>{" "}
         <br /> <br />
 
-        <Button style={{marginBottom:"30px"}}> Kirim </Button> <br />
+        <Button style={{marginBottom:"30px"}} onClick={createRate}> Kirim </Button> <br />
         <Button  style={{ backgroundColor: "#292961 " , borderRadius:"10px", color:"white"}}
        onClick = {handleBack}
        >
