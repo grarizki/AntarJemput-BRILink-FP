@@ -3,9 +3,17 @@ name: "CI / CD"
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [main]
+    branches:
+      - main
+      - feature-rate
+      - feature-login
+      - feature-data-agent
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - feature-rate
+      - feature-login
+      - feature-data-agent
 # env:
 #   TEAM_NAME: ${{ secrets.TEAM_NAME }}
 jobs:
