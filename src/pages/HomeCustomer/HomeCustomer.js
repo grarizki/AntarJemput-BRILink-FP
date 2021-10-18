@@ -42,7 +42,7 @@ function HomeCustomer() {
             ) : isError ? (
               <Alert message="Gagal Memuat Data" type="error" />
             ) : (
-              data.map((transaction) => (
+              data.data.map((transaction) => (
                 <CardComponent
                   key={transaction.id}
                   transaction={transaction}

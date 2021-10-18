@@ -25,9 +25,9 @@ const useCreateCustomer = (registerCusData, onSuccess, onError) => {
 
           const result = await response.json()
 
-          cookies.set("accessToken", result.accessToken, { path: "/" })
+          // cookies.set("accessToken", result.accessToken, { path: "/" })
 
-          return result
+          return
         }
         const errorResult = await response.json()
         throw new Error(errorResult)
