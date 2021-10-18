@@ -51,9 +51,9 @@ function RateComponent(props) {
         </span>
         <br /> <br />
 
-        <Button style={{marginBottom:"30px", marginLeft:"30px", borderRadius:"5px", border:"2px solid white", width:"250px",
-            backgroundColor:"#FF6366", color:"white", fontFamily:"sans-serif"}}
-                onClick={createRate} > Kirim </Button> <br />
+        {/*<Button style={{marginBottom:"30px", marginLeft:"30px", borderRadius:"5px", border:"2px solid white", width:"250px",*/}
+        {/*    backgroundColor:"#FF6366", color:"white", fontFamily:"sans-serif"}}*/}
+        {/*        onClick={createRate} > Kirim </Button> <br />*/}
     </div>
   )
 }

@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from "react"
-import {Button, Card, Modal, Typography} from "antd"
+import React, {useCallback, useEffect, useState} from "react"
+import {Button, Card, Col, Modal, Rate, Row, Typography} from "antd"
 import moment from "moment"
 import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import {useHistory} from "react-router-dom"
@@ -9,13 +9,16 @@ import Swal from "sweetalert2"
 import "../CardAgent/CardAgent.css"
 import useUpdateTransaction from "../../Mutations/useUpdateTransaction";
 import RateComponent from "../Rating/RateComponent";
+import useCreateRate from "../../Mutations/useCreateRate";
+import Image from "../../assets/image/profile.svg"
 
-const {Text } = Typography
+const {Text} = Typography
 
 const CardComponent = (props) => {
     const history = useHistory()
     const [currentValue, setCurrentValue] = useState()
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -24,10 +27,17 @@ const CardComponent = (props) => {
         setIsModalVisible(false);
     };
 
+    const handleOk = () => {
+        setIsLoading(true)
+        setTimeout(() => {
+            setIsLoading(false)
+            setIsModalVisible(false)
+        }, 1000);
+    };
+
     const {mutate: deleteTransaction} = useDeleteTransaction(
-        console.log(props.transaction.id),
         props.transaction.id,
-        props.refetchTransactions
+        props.refetchTransactions,
     )
 
     const handleDeleteTransactions = useCallback(() => {
@@ -51,13 +61,23 @@ const CardComponent = (props) => {
     }, [deleteTransaction])
 
 
-    const {mutate: updateTransaction} = useUpdateTransaction(
+    const {mutate: cancelTransaction} = useUpdateTransaction(
         props.transaction.id,
         {statusTransaction: 2},
         props.refetchTransactions,
     )
 
+    const handleChange = (value) => {
+        setCurrentValue(value)
+    }
 
+    const {mutate: createRate} = useCreateRate(
+        props.transaction.id,
+        {rating: currentValue},
+        props.refetchTransactions,
+        console.log("error ", Error),
+        {handleOk}
+    )
 
     return (
         <Card style={{
@@ -65,9 +85,10 @@ const CardComponent = (props) => {
             border: "2px solid black",
             marginBottom: "20px"
         }}>
-                <Text style={{color:"#4B0082", fontWeight:"bold"}}> Nama Agent : {props.transaction.userAgent.agent.agentName}</Text>
+            <Text style={{color: "#4B0082", fontWeight: "bold"}}> Nama Agent
+                : {props.transaction.userAgent.agent.agentName}</Text>
             <br/> <br/>
-            <hr />
+            <hr/>
             <ul className="alignMe">
                 <li>
                     <b>Waktu Request</b> {moment(new Date(props.transaction.createdAt)).format(
@@ -118,7 +139,7 @@ const CardComponent = (props) => {
                                 marginLeft: "50px"
                             }}
 
-                            onClick={updateTransaction}
+                            onClick={cancelTransaction}
                         >
                             <FontAwesomeIcon icon={faBan} style={{marginRight: "5px"}}/>
                             Batalkan
@@ -137,30 +158,64 @@ const CardComponent = (props) => {
                                         marginLeft: "50px"
                                     }} onClick={showModal}>
 
-                                      Beri Penilaian </Button>
+                                        Beri Rating </Button>
                                     <Modal title="Transaksi Anda Telah Selesai" visible={isModalVisible}
-                                           onCancel={handleCancel} width={350} footer={null}
-                                           maskStyle={{backgroundColor:"#FFFAF0"}}
+                                           onCancel={handleCancel} width={350}
+                                           footer={[
+                                               <Button key="back" onClick={handleCancel}>
+                                                   Kembali
+                                               </Button>,
+                                               <Button key="submit" type="dashed" loading={isLoading} onClick={createRate}>
+                                                   Kirim
+                                               </Button>
+                                           ]}
+                                           maskStyle={{backgroundColor: "#FFFAF0"}}
                                     >
-                                        <RateComponent transaction={props.transaction} modal={showModal}/>
+                                        {/*<RateComponent transaction={props.transaction} modal={showModal}/>*/}
+                                        <Row modal={showModal}>
+                                            <Col>
+                                                <img
+                                                    src={Image}
+                                                    alt="user"
+                                                    className="brand-image img-circle elevation-3"
+                                                    style={{opacity: ".8"}}
+                                                />
+                                            </Col>
+                                            <Col style={{marginLeft: "20px"}}>
+                                                {props?.transaction?.userAgent?.agent?.agentName}
+                                            </Col>
+                                        </Row>
+                                        <span>
+
+                                            <Rate onChange={handleChange} value={currentValue}
+                                                  style={{marginLeft: "70px", marginTop: "10px"}}/> <br/> <br/>
+                                             </span>
+                                        <br/> <br/>
+
                                     </Modal>
                                 </>
                                 : (
                                     <>
-                       <Button disabled={true} style={{marginLeft:"30px", border:"2px solid #292961", fontWeight:"bold",
-                           color:"black", borderRadius:"5px"}}>
-                           Anda telah memberikan Penilaian</Button>
-     </>
-       )
-       : props.transaction.statusTransaction === 2 ?
-             <Button style={{
-           backgroundColor: "red",
-          color: "white",
-          fontWeight: "bold", borderRadius: "10px", paddingRight: "15px", margin: "0px", marginLeft: "50px"}}
-          onClick={deleteTransaction}> <FontAwesomeIcon icon={faTrashAlt} style={{marginRight: "5px"}}/> Hapus
-      </Button>
-       :
-            <p></p>
+                                        <Button disabled={true} style={{
+                                            marginLeft: "30px", border: "2px solid #292961", fontWeight: "bold",
+                                            color: "black", borderRadius: "5px"
+                                        }}>
+                                            Anda Telah Memberikan Rating</Button>
+                                    </>
+                                )
+                            : props.transaction.statusTransaction === 2 ?
+                                <Button style={{
+                                    backgroundColor: "red",
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    borderRadius: "10px",
+                                    paddingRight: "15px",
+                                    margin: "0px",
+                                    marginLeft: "50px"
+                                }} onClick={deleteTransaction}> <FontAwesomeIcon icon={faTrashAlt} style={{marginRight: "5px"}}/> Hapus
+                                </Button>
+                                :
+                                <p></p>
                 }
 
             </div>

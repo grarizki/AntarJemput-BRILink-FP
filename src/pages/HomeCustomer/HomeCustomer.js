@@ -22,7 +22,7 @@ function HomeCustomer() {
     refetch: refetchTransactions,
   } = useGetTransaction()
 
-  console.log("data ", data?.data?.length)
+  console.log("data ", data)
 
   return (
     <div className="outer-home">

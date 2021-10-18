@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import React, {useState, useCallback, useEffect} from "react"
 import { Form, Input, Button, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
 
@@ -13,18 +13,18 @@ const RegisterCustomer = () => {
     username: " ",
     password: " ",
     name: " ",
-    noHandphone: " ",
-    role: 2,
+    noHandphone: " "
   })
 
-  const { mutate } = useCreateCustomer(customerState, (result) => {
+  const { mutate : registerCustomer} = useCreateCustomer(customerState, (result) => {
     console.log("success mutation >> ", result)
-    history.push("/")
   })
   const [password, setPassword] = useState("")
   const [errorPassword, setErrorPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [errorConfirmPassword, setErrorConfirmPassword] = useState("")
+
+
 
   const changePassword = (e) => {
     const value = e.target.value
@@ -192,7 +192,7 @@ const RegisterCustomer = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-registerAgenCustomer" onClick={mutate}>
+              <Button className="btn-registerAgenCustomer" onClick={registerCustomer} >
                 Register Customer
               </Button>
             </Col>

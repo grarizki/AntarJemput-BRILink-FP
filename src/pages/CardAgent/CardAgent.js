@@ -1,7 +1,7 @@
-import React, {useState} from "react"
+import React, {useCallback, useState} from "react"
 import {Button, Card, Modal, Rate, Typography} from "antd"
 import moment from "moment"
-// import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
+import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import Swal from "sweetalert2"
 import "./CardAgent.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
@@ -14,22 +14,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import {useHistory} from "react-router-dom"
 import useUpdateTransaction from "../../Mutations/useUpdateTransaction";
+import RatingAgent from "../Rating/RatingAgent";
 
 
 
 const {Text} = Typography
 const CardAgent = (props) => {
-    const history = useHistory()
     const [isModalVisible, setIsModalVisible] = useState(false);
-
-    // const { mutate: deleteTransaction } = useDeleteTransaction(
-    //   props.transaction.id,
-    //   props.refetchTransactions
-    // )
-    // const handleCancelTransaction = useCallback(() => {
-    //   // console.log("id transaction >> ", props.transaction.id);
-    //   deleteTransaction()
-    // }, [deleteTransaction])
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -42,6 +33,16 @@ const CardAgent = (props) => {
     const handleCancel = () => {
         setIsModalVisible(false);
     };
+
+    const { mutate: deleteTransaction } = useDeleteTransaction(
+      props.transaction.id,
+      props.refetchTransactions
+    )
+    const handleCancelTransaction = useCallback(() => {
+      // console.log("id transaction >> ", props.transaction.id);
+      deleteTransaction()
+    }, [deleteTransaction])
+
 
     const {mutate: acceptedTransaction} = useUpdateTransaction(
         props.transaction.id,
@@ -60,24 +61,6 @@ const CardAgent = (props) => {
         {statusTransaction: 2},
         props.refetchTransactions,
     )
-
-    const handleDelete = () => {
-        Swal.fire({
-            title: "Anda yakin ingin menghapus transaksi ini?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Hapus !",
-        }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire("Berhasil", "Transaksi telah dihapus.", "success")
-                }
-            }
-        )
-    }
-
-
 
     return (
         <Card
@@ -198,7 +181,7 @@ const CardAgent = (props) => {
                             margin: "0px",
                             marginLeft: "50px",
                         }}
-                        onClick={handleDelete}
+                        onClick={deleteTransaction}
                     >
                         <FontAwesomeIcon icon={faTrashAlt} style={{marginRight: "5px"}}/>{" "}
                         Hapus
@@ -206,15 +189,22 @@ const CardAgent = (props) => {
                 ) : (
                     <>
         {props.transaction.rating ? (
+         <>
           <span>
           <Rate
               value={props.transaction.rating}
               style={{marginRight: "15px", marginLeft: "40px"}}
           />
         </span>
+             <Button onClick={showModal} style={{marginLeft:"30px", backgroundColor:"yellow", borderRadius:"5px", fontWeight:"bold", color:"black"}}>
+                 Lihat Detail Rating</Button>
+             <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={350}>
+                <RatingAgent  transaction={props.transaction}/>
+             </Modal>
+         </>
      ) : (
        <Button disabled={true} style={{marginLeft:"30px", border:"2px solid #292961", color:"black", fontWeight:"bold", borderRadius:"10px"}}>
-           Belum Ada Penilaian
+           Belum Ada Rating
          </Button>
        )}
 

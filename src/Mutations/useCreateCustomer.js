@@ -1,13 +1,14 @@
 import { useMutation } from "react-query"
 
 import Cookies from "universal-cookie"
+import Swal from "sweetalert2";
 const cookies = new Cookies()
 
 const useCreateCustomer = (registerCusData, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_REGISTER}`, {
+        const response = await fetch(`http://34.81.92.192/customers`, {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",
@@ -17,12 +18,15 @@ const useCreateCustomer = (registerCusData, onSuccess, onError) => {
         })
 
         if (response.ok) {
-          console.log("ini response ", response)
-
           const result = await response.json()
-
           cookies.set("accessToken", result.accessToken, { path: "/" })
-
+          Swal.fire({
+            icon: "success",
+            title: result.message,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+          history.replace("/")
           return result
         }
         const errorResult = await response.json()

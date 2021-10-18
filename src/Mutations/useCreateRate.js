@@ -4,10 +4,10 @@ import Swal from "sweetalert2";
 
 const cookies = new Cookies();
 
-const useUpdateTransaction = (transactionId, rating, onSuccess, onError) => {
+const useCreateRate = (transactionId, rating,onSuccess, onError) => {
     const { mutate, data, isLoading, isError } = useMutation(
         async () => {
-            const response = await fetch(`http://34.81.92.192/transactions/rating/${transactionId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_TRANSACTIONS}/rating/${transactionId}`, {
                 method: "PUT", // *GET, POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "application/json",
@@ -54,4 +54,4 @@ const useUpdateTransaction = (transactionId, rating, onSuccess, onError) => {
     return { mutate, data, isLoading, isError };
 };
 
-export default useUpdateTransaction;
+export default useCreateRate;

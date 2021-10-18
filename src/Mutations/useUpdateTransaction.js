@@ -6,7 +6,7 @@ const cookies = new Cookies();
 const useUpdateTransaction = (transactionId, statusTransaction, onSuccess, onError) => {
     const { mutate, data, isLoading, isError } = useMutation(
     async () => {
-      const response = await fetch(`http://34.81.92.192/transactions/${transactionId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_TRANSACTIONS}/${transactionId}`, {
         method: "PUT", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
