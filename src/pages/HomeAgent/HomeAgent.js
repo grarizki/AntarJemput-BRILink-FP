@@ -42,7 +42,7 @@ function HomeAgent() {
                 data?.data?.length == 0 ? (
                     <>
                         <Image src={NoData} />
-                        <h2>Belum Ada Transaksi Hari ini</h2>
+                        <h2>Belum Ada Permintaan Transaksi Hari ini</h2>
                     </>
 
                 ) : (

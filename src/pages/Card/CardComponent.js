@@ -50,15 +50,16 @@ const CardComponent = (props) => {
             confirmButtonText: 'Ya, Hapus !'
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteTransaction()
                 Swal.fire(
                     'Berhasil',
                     'Transaksi telah dihapus.',
                     'success'
                 )
+                deleteTransaction()
             }
         })
     }, [deleteTransaction])
+
 
 
     const {mutate: cancelTransaction} = useUpdateTransaction(
@@ -66,6 +67,27 @@ const CardComponent = (props) => {
         {statusTransaction: 2},
         props.refetchTransactions,
     )
+
+
+    const handleCancelTransaction = useCallback(() => {
+        Swal.fire({
+            title: 'Anda yakin ingin membatalkan transaksi ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Batalkan !'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Berhasil',
+                    'Transaksi Dibatalkan.',
+                    'success'
+                )
+                cancelTransaction()
+            }
+        })
+    }, [deleteTransaction])
 
     const handleChange = (value) => {
         setCurrentValue(value)
@@ -139,7 +161,7 @@ const CardComponent = (props) => {
                                 marginLeft: "50px"
                             }}
 
-                            onClick={cancelTransaction}
+                            onClick={handleCancelTransaction}
                         >
                             <FontAwesomeIcon icon={faBan} style={{marginRight: "5px"}}/>
                             Batalkan
@@ -212,7 +234,8 @@ const CardComponent = (props) => {
                                     paddingRight: "15px",
                                     margin: "0px",
                                     marginLeft: "50px"
-                                }} onClick={deleteTransaction}> <FontAwesomeIcon icon={faTrashAlt} style={{marginRight: "5px"}}/> Hapus
+                                }} onClick={handleDeleteTransactions}> <FontAwesomeIcon icon={faTrashAlt}
+                style={{marginRight: "5px"}}/> Hapus
                                 </Button>
                                 :
                                 <p></p>
