@@ -21,11 +21,12 @@ const RegisterAgen = () => {
     agentName: "",
     noHandphone: "",
     districtId: "",
-    address: "",
-    role: 1,
+    address: ""
   })
 
   const { mutate } = useCreateAgen(agentState, (result) => {
+    //FIXME: kenapa bisa login kedalem tanpa accesstoken
+    //TODO: bisa dapet accesstoken setelah login  
     console.log("success mutation >> ", result)
     history.push("/")
   })
@@ -162,10 +163,12 @@ const RegisterAgen = () => {
                   }}
                 >
                   {
-                    //TODO: diganti pake fetching dari backend
                     //TODO: fetching berurutan (provinsi -> kabko + kecamatan)
                     //TODO: fetching dropdown bawaan kabupaten kota
-                    //TODO: fokus connect ke backend
+
+                    //TODO: register agen langsung masuk ke dalem home
+                    
+                
 
                     DataAlamat.map((provinsi, index) => (
                       <Option key={index.toString()} value={provinsi.name}>

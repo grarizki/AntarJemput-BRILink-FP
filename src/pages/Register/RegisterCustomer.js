@@ -16,8 +16,10 @@ const RegisterCustomer = () => {
     noHandphone: " "
   })
 
-  const { mutate : registerCustomer} = useCreateCustomer(customerState, () => {
-   history.push("/")
+  const { mutate } = useCreateCustomer(customerState, (result) => {
+    //FIXME: Bug route customer ke home agent
+    console.log("success mutation >> ", result)
+    history.push("/")
   })
   const [password, setPassword] = useState("")
   const [errorPassword, setErrorPassword] = useState("")
@@ -158,6 +160,8 @@ const RegisterCustomer = () => {
               placeholder="Masukan Password"
               name="password"
               onChange={changePassword}
+              //FIXME: Bug password error message
+              //TODO: SWAL ERROR MESSAGE
             />
             {errorPassword && <p className="text-danger">{errorPassword}</p>}
           </Form.Item>

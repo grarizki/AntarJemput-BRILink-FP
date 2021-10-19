@@ -22,7 +22,6 @@ const DataAgent = [
   },
 ]
 //TODO: gunakan sebagai data simulasi sebelum connect backend 
-//TODO:  
 // ! bisa di delete
 
 export default DataAgent
