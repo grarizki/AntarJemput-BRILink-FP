@@ -20,7 +20,9 @@ const useLogin = (loginData, onSuccess, onError) => {
         if (response.ok) {
           const result = await response.json()
 
-          cookies.set("accessToken", result.data.accessToken, { path: "/"})
+          let date = new Date(result.data.expiredAt)
+          console.log("ini date " + date)
+          cookies.set("accessToken", result.data.accessToken, { path: "/" , expires: date})
 
           return result
         }
