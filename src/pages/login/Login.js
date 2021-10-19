@@ -39,6 +39,12 @@ const Login = () => {
       history.push("/home")
     } else {
       setAuthorizedValue(true, selectedUserLevel)
+      Swal.fire({
+        icon: "success",
+        title: "Login Success",
+        showConfirmButton: false,
+        timer: 2000,
+      })
       history.push("/home-agent")
     }
     localStorage.setItem("userLevel", selectedUserLevel)

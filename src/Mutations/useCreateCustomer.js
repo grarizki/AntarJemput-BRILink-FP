@@ -1,15 +1,13 @@
 import { useMutation } from "react-query"
 
-import Cookies from "universal-cookie"
 import Swal from "sweetalert2";
-const cookies = new Cookies()
 
 const useCreateCustomer = (registerCusData, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_CUSTOMERS}`,
+          `http://147.139.193.211:8080/customers`,
           {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             headers: {
