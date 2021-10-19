@@ -1,6 +1,6 @@
 .alignMe b {
     display: inline-block;
-    width: 50%;
+    width: 45%;
     position: relative;
     padding-right: 10px; /* Ensures colon does not overlay the text */
   }

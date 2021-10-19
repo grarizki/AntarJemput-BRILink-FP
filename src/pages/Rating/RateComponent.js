@@ -1,13 +1,16 @@
-import { Form, Input,  Button, Rate, Typography } from 'antd';
-import React, { useState } from "react"
-import "./Rate.css"
+import { Button, Rate, Typography, Row, Col } from 'antd';
+import React, {useCallback, useState} from "react"
 import {useHistory} from "react-router-dom";
+import useCreateRate from "../../Mutations/useCreateRate";
+import Image from "../../assets/image/profile.svg"
+import Swal from "sweetalert2";
 
-const desc = ["terrible", "bad", "normal", "good", "wonderful"]
+
 
 const { Text } = Typography
+const desc = ["Buruk", "Kurang Baik", "OK", "Baik", "Sangat Baik"]
 
-function RateComponent() {
+function RateComponent(props) {
   const [currentValue, setCurrentValue] = useState(0)
    const history = useHistory()
 
@@ -15,38 +18,42 @@ function RateComponent() {
     setCurrentValue(value)
   }
 
-  const handleBack = () => {
-    history.push("/home")     
-  }
+  const { mutate: createRate } = useCreateRate(
+        props.transaction.id,
+        {rating: currentValue},
+      props.refetchTransactions,
+    )
 
-  return (
-    <div className="outer-rate">
-      <div className="inner-rate">
-        {/* <h4> Terima Kasih! </h4> */}
-        <Text style={{textAlign:"center", color:"#292961", fontWeight:"bold", fontSize:"24px", marginBottom:"30px"}}>
-             Transaksi Anda Telah Selesai</Text> <br /> <br />
-        <Text style={{marginTop:"20px", fontSize:"20px"}}> Beri Rating Untuk Agent Kami ?</Text>
-        <hr />
+
+
+    return (
+    <div>
+      <Row>
+          <Col>
+              <img
+                  src={Image}
+                  alt="user"
+                  className="brand-image img-circle elevation-3"
+                  style={{ opacity: ".8" }}
+              />
+          </Col>
+          <Col style ={{marginLeft:"20px"}}>
+              {props?.transaction?.userAgent?.agent?.agentName}
+          </Col>
+      </Row>
         <span>
-          <Rate onChange={handleChange} value={currentValue} /> <br /> <br />
-          Current Rating: {currentValue}
-          {currentValue ? (
-            <span className="ant-rate-text">{desc[currentValue - 1]}</span>
-          ) : (
-            ""
-          )}
-        </span>{" "}
+             {/*{currentValue ? (*/}
+             {/*    <span className="ant-rate-text" style={{marginLeft:"90px", marginTop:"20px"}}>{desc[currentValue - 1]}</span>*/}
+             {/*)  : (*/}
+             {/*    ""*/}
+             {/*)} <br />*/}
+          <Rate onChange={handleChange} value={currentValue} style={{marginLeft:"70px", marginTop:"10px"}}/> <br /> <br />
+        </span>
         <br /> <br />
-        <Form.Item  name="rating">
-          <Input.TextArea  placeholder="Ketik Ulasanmu disini!"/>
-        </Form.Item>
-        <Button  style={{ backgroundColor: "#292961 " , borderRadius:"10px", color:"white"}}
-       onClick = {handleBack}
-       >
-          {" "}
-          KEMBALI KE HALAMAN UTAMA
-        </Button>
-      </div>
+
+        {/*<Button style={{marginBottom:"30px", marginLeft:"30px", borderRadius:"5px", border:"2px solid white", width:"250px",*/}
+        {/*    backgroundColor:"#FF6366", color:"white", fontFamily:"sans-serif"}}*/}
+        {/*        onClick={createRate} > Kirim </Button> <br />*/}
     </div>
   )
 }

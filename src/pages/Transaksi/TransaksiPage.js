@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, {useState, useMemo, useCallback} from "react"
 import {
   Row,
   Col,
@@ -21,6 +21,8 @@ import useGetAgen from "../../Query/useGetAgen"
 import useCreateTransaction from "../../Mutations/useCreateTransaction"
 import NavbarComponent from "../../components/navbar/NavbarComponent"
 import "./TransaksiPage.css"
+import useGetProvinces from "../../Query/useGetProvinces";
+import useGetCity from "../../Query/useGetCity";
 
 const { Option } = Select
 const { Text } = Typography
@@ -31,7 +33,9 @@ const TransaksiPage = () => {
   const [selectedKecamatan, setSelectedKecamatan] = useState(null)
   const [showTableAgen, setShowTableAgen] = useState(false)
   const history = useHistory()
+
   const [formState, setFormState] = useState({
+
     created_date: new Date().toString(),
     jenis_transaksi: "",
     provinsi_customer: " ",
@@ -42,7 +46,25 @@ const TransaksiPage = () => {
     status: "0",
   })
 
-  const { mutate, isLoading, isError } = useCreateTransaction(
+
+ const handleSelectedProvince = useCallback( (value) => {
+        setSelectedProvinsi(value)
+        console.log(value)
+ })
+
+    console.log("ini select "  + selectedProvinsi)
+
+  const {data : provinceData, isError, isLoading, refetch: refetchProvinces} = useGetProvinces()
+
+
+
+  const {data : cities, isError:errorCity,  isLoading :loadingCity, refetch: refetchCity} = useGetCity(
+      selectedProvinsi
+  )
+    console.log("ini city " + cities)
+
+
+  const { mutate, loading, error } = useCreateTransaction(
     formState,
     (result) => {
       console.log("success mutation >> ", result)
@@ -51,7 +73,6 @@ const TransaksiPage = () => {
   )
 
   const { dataAgent, isLoadingAgent } = useGetAgen()
-  console.log("data >> ", isLoadingAgent, dataAgent)
 
   const currencyParser = (val) => {
     try {
@@ -83,9 +104,6 @@ const TransaksiPage = () => {
     }
   }
 
-  const handleSelectedProvinsi = (value) => {
-    setSelectedProvinsi(value)
-  }
 
   const handleSelectedKabupaten = (value) => {
     setSelectedKabupaten(value)
@@ -120,6 +138,7 @@ const TransaksiPage = () => {
   }, [selectedKabupaten, dataKabupaten])
 
   const getTableAgen = () => setShowTableAgen(true)
+
 
   const ColumnsAgen = [
     {
@@ -243,13 +262,11 @@ const TransaksiPage = () => {
                     <Col span={7}>
                       <Select
                         placeholder="Pilih Provinsi"
-                        onChange={(e) => {
-                          handleSelectedProvinsi(e)
-                          handleFormProvinsi(e)
-                        }}
+                        value={selectedProvinsi}
+                        onChange={handleSelectedProvince}
                       >
-                        {DataAlamat.map((provinsi, index) => (
-                          <Option key={index.toString()} value={provinsi.name}>
+                        {provinceData?.data?.map((provinsi, index) => (
+                          <Option key={index.toString()} value={provinsi.id}>
                             {provinsi.name}
                           </Option>
                         ))}
@@ -263,8 +280,8 @@ const TransaksiPage = () => {
                           handleFormKabupaten(e)
                         }}
                       >
-                        {dataKabupaten.map((kabupaten, index) => (
-                          <Option key={index.toString()} value={kabupaten.name}>
+                        {cities?.data?.map((kabupaten, index) => (
+                          <Option key={index.toString()} value={kabupaten.id}>
                             {kabupaten.name}
                           </Option>
                         ))}

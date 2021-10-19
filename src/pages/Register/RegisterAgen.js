@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom"
 
 import DataAlamat from "../Transaksi/DataAlamat"
 import useCreateAgen from "../../Mutations/useCreateAgen"
+import Login from "../login/Login"
 import "./Register.css"
 
 const { Option } = Select
@@ -13,7 +14,7 @@ const RegisterAgen = () => {
   const history = useHistory()
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
-  const [selectedKecamatan,setSelectedKecamatan] = useState(null)
+  const [selectedKecamatan, setSelectedKecamatan] = useState(null)
   const [agentState, setAgentState] = useState({
     username: "",
     password: "",
@@ -21,20 +22,18 @@ const RegisterAgen = () => {
     noHandphone: "",
     districtId: "",
     address: "",
+    role: 1,
   })
 
-  const { mutate} = useCreateAgen(
-    agentState,
-    (result) => {
-      console.log("success mutation >> ", result)
-      history.push("/")
-    }
-  )
-
+  const { mutate } = useCreateAgen(agentState, (result) => {
+    console.log("success mutation >> ", result)
+    history.push("/")
+  })
+  //TODO: ditambah isi fetching data kabupaten kota, trus isi ke dropdownnya kabko
   const handleSelectedProvinsi = (value) => {
     setSelectedProvinsi(value)
   }
-
+  //TODO: ditambah isi fetching data dari district lalu isi ke dropdown district
   const handleSelectedKabupaten = (value) => {
     setSelectedKabupaten(value)
   }
@@ -49,8 +48,9 @@ const RegisterAgen = () => {
   const handleFormKabupaten = (value) => {
     setAgentState({ ...agentState, city: value })
   }
+
   const handleFormKecamatan = (value) => {
-    setAgentState({ ...agentState, district: value })
+    setAgentState({ ...agentState, districtId: value })
   }
 
   const dataKabupaten = useMemo(() => {
@@ -67,34 +67,39 @@ const RegisterAgen = () => {
     )
   }, [selectedKabupaten, dataKabupaten])
 
-
-  const [password, setPassword]                 = useState('');
-  const [errorPassword, setErrorPassword]       = useState('');
-  const [confirmPassword, setConfirmPassword]   = useState('');
-  const [errorConfirmPassword,setErrorConfirmPassword] = useState('');
+  const [password, setPassword] = useState("")
+  const [errorPassword, setErrorPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState("")
 
   const changePassword = (e) => {
     const value = e.target.value
+    console.log("value >>", value)
     setPassword(value)
-    if (!value){
-      setErrorPassword('Password tidak boleh kosong')
-    } else if (value.length < 8 ){
-      setErrorPassword('Password min harus 8 Karakter')
+    if (!value) {
+      setErrorPassword("Password tidak boleh kosong")
+    } else if (value.length < 8) {
+      setErrorPassword("Password min harus 8 Karakter")
     } else {
-      setErrorPassword('')
+      setErrorPassword("")
     }
-    
+    setAgentState({
+      ...agentState,
+      password: e.target.value,
+    })
   }
 
   const changeConfirmPassword = (e) => {
     const value = e.target.value
     setConfirmPassword(value)
-    if (!value){
-      setErrorConfirmPassword('Konfirmasi Password tidak boleh kosong')
-    } else if (password !== value) {    
-      setErrorConfirmPassword('password tidak cocok') 
+    console.log("value >>", value)
+    console.log("password >>", password)
+    if (!value) {
+      setErrorConfirmPassword("Konfirmasi Password tidak boleh kosong")
+    } else if (password != value) {
+      setErrorConfirmPassword("password tidak cocok")
     } else {
-      setErrorPassword('')
+      setErrorConfirmPassword("")
     }
   }
 
@@ -156,11 +161,18 @@ const RegisterAgen = () => {
                     handleFormProvinsi(e)
                   }}
                 >
-                  {DataAlamat.map((provinsi, index) => (
-                    <Option key={index.toString()} value={provinsi.name}>
-                      {provinsi.name}
-                    </Option>
-                  ))}
+                  {
+                    //TODO: diganti pake fetching dari backend
+                    //TODO: fetching berurutan (provinsi -> kabko + kecamatan)
+                    //TODO: fetching dropdown bawaan kabupaten kota
+                    //TODO: fokus connect ke backend
+
+                    DataAlamat.map((provinsi, index) => (
+                      <Option key={index.toString()} value={provinsi.name}>
+                        {provinsi.name}
+                      </Option>
+                    ))
+                  }
                 </Select>
               </Col>
               <Col span={7}>
@@ -188,6 +200,7 @@ const RegisterAgen = () => {
                   }}
                 >
                   {dataKecamatan.map((kecamatan, index) => (
+                    //TODO: Keynya ID valuenya String dari backend
                     <Option key={index.toString()} value={kecamatan}>
                       {kecamatan}
                     </Option>
@@ -276,25 +289,14 @@ const RegisterAgen = () => {
               },
             ]}
           >
-            <Input 
-            minLength='8'
-            type="password" 
-            placeholder="Masukan Password" 
-            name="password"
-            value= {password} 
-            onChange= {changePassword, (event) => {
-              console.log("value >> ", agentState)
-              setAgentState({
-                ...agentState,
-                password: event.target.value,
-              })
-            }}/>
-            {
-              errorPassword && (
-                <p className="text-danger">{errorPassword}</p>
-              )
-            }
-            
+            <Input
+              minLength="8"
+              type="password"
+              placeholder="Masukan Password"
+              name="password"
+              onChange={changePassword}
+            />
+            {errorPassword && <p className="text-danger">{errorPassword}</p>}
           </Form.Item>
           <Form.Item
             name="konfirmasi-password"
@@ -307,19 +309,16 @@ const RegisterAgen = () => {
             ]}
           >
             <Input
-            minLength='8' 
-            type="password" 
-            placeholder="Ulangi Password" 
-            name="password"
-            value= {confirmPassword}
-            onChange= {changeConfirmPassword}/>
+              minLength="8"
+              type="password"
+              placeholder="Ulangi Password"
+              name="password"
+              onChange={changeConfirmPassword}
+            />
 
-            {
-              errorConfirmPassword && (
-               <p className="text-danger">{errorConfirmPassword}</p>
-              )
-            }
-
+            {errorConfirmPassword && (
+              <p className="text-danger">{errorConfirmPassword}</p>
+            )}
           </Form.Item>
           <Form.Item>
             <Col

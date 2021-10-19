@@ -1,17 +1,20 @@
 import React from "react"
-import { Typography, Spin, Space, Alert } from "antd"
+import {Typography, Spin, Space, Alert, PageHeader, Button, Descriptions, Image} from "antd"
 import "./Home.css"
 import NavbarComponent from "../../components/navbar/NavbarComponent"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 import useGetTransaction from "../../Query/useGetTransaction"
 import CardComponent from "../Card/CardComponent"
 import Background from "../../assets/image/white-wave-background-vector.jpg"
+import NoData from "../../assets/image/no data.svg"
+
 
 const { Title } = Typography
 
 function HomeCustomer() {
   const { isLoggedIn, userLevel } = useAuthorizedContext()
   console.log("value >> ", isLoggedIn, userLevel)
+ 
   const {
     data,
     isError,
@@ -19,7 +22,7 @@ function HomeCustomer() {
     refetch: refetchTransactions,
   } = useGetTransaction()
 
-  console.log("data >> ", isLoading, data)
+  console.log("data ", data)
 
   return (
     <div className="outer-home">
@@ -40,13 +43,22 @@ function HomeCustomer() {
             ) : isError ? (
               <Alert message="Gagal Memuat Data" type="error" />
             ) : (
-              data.map((transaction) => (
-                <CardComponent
-                  key={transaction.id}
-                  transaction={transaction}
-                  refetchTransactions={refetchTransactions}
-                />
-              ))
+             data?.data?.length == 0 ? (
+                 <>
+                   <Image src={NoData} />
+                   <h2>Belum Ada Transaksi Hari ini</h2>
+                 </>
+
+             ) : (
+                 data.data?.map((transaction) => (
+                     <CardComponent
+                         key={transaction.id}
+                         transaction={transaction}
+                         refetchTransactions={refetchTransactions}
+                     />
+
+                 ))
+             )
             )}
           </Space>
         </div>

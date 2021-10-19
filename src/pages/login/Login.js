@@ -22,13 +22,13 @@ const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [data, setData] = useState({})
-  const [selectedUserLevel, setSelectedUserLevel] = useState("")
+  const [selectedUserLevel, setSelectedUserLevel] = useState()
   const { setAuthorizedValue } = useAuthorizedContext()
   const [visible, setVisible] = React.useState(false)
   const [confirmLoading, setConfirmLoading] = React.useState(false)
 
   const handleSuccessLogin = useCallback(() => {
-    if (selectedUserLevel == "2") {
+    if (selectedUserLevel == 2) {
       setAuthorizedValue(true, selectedUserLevel)
       Swal.fire({
         icon: "success",
@@ -41,23 +41,24 @@ const Login = () => {
       setAuthorizedValue(true, selectedUserLevel)
       history.push("/home-agent")
     }
+    localStorage.setItem("userLevel", selectedUserLevel)
   }, [setAuthorizedValue, history, selectedUserLevel])
 
   const handleErrorLogin = useCallback((error) => {
     if (error) {
       Swal.fire({
         icon: "error",
-        text: error,
+        text: error.message,
         title: "Login gagal",
         showConfirmButton: false,
         timer: 2000,
       })
-      history.push("/home-agent")
+      history.push("/")
     }
   }, [])
 
   const { mutate: login } = useLogin(
-    { email: username, password: password, role: selectedUserLevel },
+    { username: username, password: password, role: selectedUserLevel },
     handleSuccessLogin,
     handleErrorLogin
   )
@@ -71,21 +72,22 @@ const Login = () => {
   }
 
   const handleSelectedUserLevel = useCallback((value) => {
-    setSelectedUserLevel(`${value}`)
+    setSelectedUserLevel(parseInt(`${value}`))
   }, [])
 
   console.log("ini login ", login)
 
+
   const UserType = [
     {
-      key: "2",
-      value: "2",
+      key: 2,
+      value: 2,
       label: "Customer",
     },
     {
-      key: "1",
-      value: "1",
-      label: "Agent",
+      key: 1,
+      value: 1,
+      label: "Agen",
     },
   ]
 
@@ -110,6 +112,7 @@ const Login = () => {
 
   console.log("Ini data", data)
   console.log("INI ROLE", selectedUserLevel)
+
 
   const showModal = () => {
     setVisible(true)
@@ -161,7 +164,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your username  !",
+                message: "Isi Username Anda !",
               },
             ]}
           >
@@ -180,7 +183,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Isi Password Anda!",
               },
             ]}
           >
@@ -196,11 +199,11 @@ const Login = () => {
               }
             />
           </Form.Item>
-          <Form.Item labelCol={{ span: 6 }} name="login_as">
+          <Form.Item labelCol={{ span: 6 }} name="role">
             <Select
               // defaultValue={selectedUserLevel}
-              name="login_as"
-              placeholder="Select a Role"
+              name="role"
+              placeholder="Login Sebagai"
               onChange={handleSelectedUserLevel}
               value={selectedUserLevel}
             >
