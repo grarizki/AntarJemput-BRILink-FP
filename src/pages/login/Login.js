@@ -87,7 +87,7 @@ const Login = () => {
     {
       key: 1,
       value: 1,
-      label: "Agent",
+      label: "Agen",
     },
   ]
 

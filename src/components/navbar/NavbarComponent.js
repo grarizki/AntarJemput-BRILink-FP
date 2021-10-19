@@ -8,7 +8,7 @@ import Cookies from "universal-cookie"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 import "../navbar/navbar.sass"
 import Logo from "../../assets/image/BRI-AJ-v2.png"
-import {FormOutlined, HomeOutlined, LogoutOutlined} from "@ant-design/icons";
+import {FormOutlined, HistoryOutlined, HomeOutlined, LogoutOutlined} from "@ant-design/icons";
 
 const cookies = new Cookies()
 
@@ -30,6 +30,12 @@ function NavbarComponent() {
       path: "/transaksi",
       icon: <FormOutlined />,
       cName: "nav-text",
+    },
+    {
+      title:"History",
+      path:"/history",
+      icon : <HistoryOutlined />,
+      cName: "nav-text"
     },
     {
       title: "Keluar",

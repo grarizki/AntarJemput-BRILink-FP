@@ -60,7 +60,18 @@ const CardAgent = (props) => {
         props.transaction.id,
         {statusTransaction: 2},
         props.refetchTransactions,
+        () => {console.log("Error ", Error)},
+        () => { Swal.fire({
+            icon: "success",
+            title: "Login Success",
+            showConfirmButton: false,
+            timer: 2000,
+        })}
+
     )
+
+
+
 
     return (
         <Card
@@ -162,12 +173,12 @@ const CardAgent = (props) => {
                             Batalkan
                         </Button>
 
-                        <Button className="btn btn-primary" style={{marginLeft:"50px"}} onClick={doneTransaction}>
+                        <Button className="btn btn-primary" style={{marginLeft:"50px", borderRadius:"5px"}} onClick={doneTransaction}>
                             <FontAwesomeIcon
                                 icon={faClipboardCheck}
                                 style={{marginRight: "8px"}}
                             />
-                            Transaksi Selesai
+                             Selesai
                         </Button>
                     </>
                 ) : props.transaction.statusTransaction === 2 ? (

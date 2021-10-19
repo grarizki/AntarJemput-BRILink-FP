@@ -16,8 +16,8 @@ const RegisterCustomer = () => {
     noHandphone: " "
   })
 
-  const { mutate : registerCustomer} = useCreateCustomer(customerState, (result) => {
-    console.log("success mutation >> ", result)
+  const { mutate : registerCustomer} = useCreateCustomer(customerState, () => {
+   history.push("/")
   })
   const [password, setPassword] = useState("")
   const [errorPassword, setErrorPassword] = useState("")
