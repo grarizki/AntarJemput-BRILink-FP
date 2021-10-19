@@ -16,7 +16,7 @@ const RegisterCustomer = () => {
     noHandphone: " "
   })
 
-  const { mutate } = useCreateCustomer(customerState, (result) => {
+  const { mutate : registerCustomer} = useCreateCustomer(customerState, (result) => {
     //FIXME: Bug route customer ke home agent
     console.log("success mutation >> ", result)
     history.push("/")
