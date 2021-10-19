@@ -4,24 +4,48 @@ import Cookies from "universal-cookie"
 const cookies = new Cookies()
 
 const useLogin = (loginData, onSuccess, onError) => {
+  console.log("ini login", loginData)
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
-      const response = await fetch(`http://localhost:5000/users`, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(loginData), // body data type must match "Content-Type" header
-      })
-      if (!response.ok) {
-        throw new Error("Network response was not ok")
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify(loginData), // body data type must match "Content-Type" header
+        })
+        console.log("ini response ", response)
+        if (response.ok) {
+          const result = await response.json()
+
+          cookies.set("accessToken", result.data.accessToken, { path: "/" })
+
+          return result
+        }
+        const errorResult = await response.json()
+        let errorMessage = ""
+        switch (errorResult.message) {
+          case "Error in field: Role":
+            errorMessage = "Role Tidak Boleh Kosong"
+            throw new Error(errorMessage)
+          case "Error in field: Password":
+            errorMessage = "Password Tidak Boleh Kosong"
+            throw new Error(errorMessage)
+          case "Error in field: Username":
+            errorMessage = "Username Tidak Boleh Kosong"
+            throw new Error(errorMessage)
+          case "There is no match record in our database":
+            errorMessage = "Tidak ada user tersebut di database"
+            throw new Error(errorMessage)
+          default:
+            errorMessage = errorResult.message
+            throw new Error(errorMessage)
+        }
+      } catch (error) {
+        throw new Error(error)
       }
-      const result = await response.json()
-
-      cookies.set("accessToken", result.data.accessToken, { path: "/" })
-
-      return result
     },
     { onError, onSuccess }
   )

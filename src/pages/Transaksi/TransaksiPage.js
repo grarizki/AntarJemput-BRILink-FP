@@ -14,8 +14,6 @@ import {
 } from "antd"
 import { useHistory } from "react-router-dom"
 
-// import DataAgent from "./DataAgent"
-import DataAlamat from "./DataAlamat"
 import JenisTransaksi from "./DataJenisTransaksi"
 import useGetAgen from "../../Query/useGetAgen"
 import useGetProvinces from "../../Query/useGetProvinces"
@@ -31,19 +29,15 @@ const { Text } = Typography
 const TransaksiPage = () => {
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
-  const [selectedKecamatan, setSelectedKecamatan] = useState(null)
+  const [selectedDistrictID, setSelectedDistrictID] = useState(null)
   const [showTableAgen, setShowTableAgen] = useState(false)
   const history = useHistory()
   const [formState, setFormState] = useState({
-    created_date: new Date().toString(),
-    jenis_transaksi: "",
-    provinsi_customer: " ",
-    kabupaten_customer: " ",
-    kecamatan_customer: " ",
+    agentId: "",
+    address: "",
     districtId: "",
-    alamat_lengkap: " ",
-    nominal_transaksi: "",
-    status: "0",
+    amount: "",
+    transactionTypeId: "",
   })
 
   const { mutate, isLoading, isError } = useCreateTransaction(
@@ -54,10 +48,26 @@ const TransaksiPage = () => {
     }
   )
 
-  const { data, isErrorAgent, isLoadingAgent } = useGetAgen()
-  const { dataProvinces, isLoadingProvinces, isErrorProvinces } = useGetProvinces()
-  const { dataCity, isLoadingCity, isErrorCity } = useGetCity()
-  const { dataDistrictID, isLoadingDistrictID, isErrorDistrictID } = useGetCity()
+  const {
+    data,
+    isError: isErrorAgent,
+    isLoading: isLoadingAgent,
+  } = useGetAgen(selectedDistrictID)
+  const {
+    data: dataProvinces,
+    isLoading: isLoadingProvinces,
+    isError: isErrorProvinces,
+  } = useGetProvinces()
+  const {
+    data: dataCity,
+    isLoading: isLoadingCity,
+    isError: isErrorCity,
+  } = useGetCity(selectedProvinsi)
+  const {
+    data: dataDistrictID,
+    isLoading: isLoadingDistrictID,
+    isError: isErrorDistrictID,
+  } = useGetDistrictID(selectedKabupaten)
 
   const currencyParser = (val) => {
     try {
@@ -97,37 +107,14 @@ const TransaksiPage = () => {
     setSelectedKabupaten(value)
   }
 
-  const handleSelectedKecamatan = (value) => {
-    setSelectedKecamatan(value)
+  const handleSelectedDistrictID = (value) => {
+    setSelectedDistrictID(value)
   }
-
-  const handleFormProvinsi = (value) => {
-    setFormState({ ...formState, provinsi_customer: value })
+  const handleFormDistrictID = (value) => {
+    setFormState({ ...formState, districtId: value })
+    console.log(formState)
+    console.log(value)
   }
-  const handleFormKabupaten = (value) => {
-    setFormState({ ...formState, kabupaten_customer: value })
-  }
-  const handleFormKecamatan = (value) => {
-    setFormState({ ...formState, kecamatan_customer: value })
-  }
-
-  // const handleDistrictID = (value) => {
-  //   setFormState({ ...formState, districtId: value })
-  // }
-
-  const dataKabupaten = useMemo(() => {
-    return (
-      DataAlamat?.find((provinsi) => provinsi.name === selectedProvinsi)
-        ?.kabupaten || []
-    )
-  }, [selectedProvinsi])
-
-  const dataKecamatan = useMemo(() => {
-    return (
-      dataKabupaten?.find((kabupaten) => kabupaten.name === selectedKabupaten)
-        ?.kecamatan || []
-    )
-  }, [selectedKabupaten, dataKabupaten])
 
   const getTableAgen = () => setShowTableAgen(true)
 
@@ -188,7 +175,7 @@ const TransaksiPage = () => {
                     <Select
                       placeholder="Pilih Jenis Transaksi"
                       onChange={(value) => {
-                        setFormState({ ...formState, jenis_transaksi: value })
+                        setFormState({ ...formState, transactionTypeId: value })
                       }}
                     >
                       {JenisTransaksi.map((option) => (
@@ -227,11 +214,11 @@ const TransaksiPage = () => {
                       }
                       parser={currencyParser}
                       onChange={(value) => {
-                        console.log("value >> ", value)
                         setFormState({
                           ...formState,
-                          nominal_transaksi: value,
+                          amount: value,
                         })
+                        console.log("value >> ", formState)
                       }}
                     />
                   </Col>
@@ -255,17 +242,11 @@ const TransaksiPage = () => {
                         placeholder="Pilih Provinsi"
                         onChange={(e) => {
                           handleSelectedProvinsi(e)
-                          handleFormProvinsi(e)
                         }}
                       >
-                        {/* {dataProvinces?.map((provinces, id) => (
+                        {dataProvinces?.map((provinces, id) => (
                           <Option key={id.toString()} value={provinces.id}>
                             {provinces.name}
-                          </Option>
-                        ))} */}
-                        {DataAlamat.map((provinsi, index) => (
-                          <Option key={index.toString()} value={provinsi.name}>
-                            {provinsi.name}
                           </Option>
                         ))}
                       </Select>
@@ -275,17 +256,11 @@ const TransaksiPage = () => {
                         placeholder="Pilih Kabupaten"
                         onChange={(e) => {
                           handleSelectedKabupaten(e)
-                          handleFormKabupaten(e)
                         }}
                       >
-                        {/* {dataCity?.map((city, id) => (
+                        {dataCity?.map((city, id) => (
                           <Option key={id.toString()} value={city.id}>
                             {city.name}
-                          </Option>
-                        ))} */}
-                        {dataKabupaten.map((kabupaten, index) => (
-                          <Option key={index.toString()} value={kabupaten.name}>
-                            {kabupaten.name}
                           </Option>
                         ))}
                       </Select>
@@ -294,18 +269,13 @@ const TransaksiPage = () => {
                       <Select
                         placeholder="Pilih Kecamatan"
                         onChange={(e) => {
-                          handleSelectedKecamatan(e)
-                          handleFormKecamatan(e)
+                          handleSelectedDistrictID(e)
+                          handleFormDistrictID(e)
                         }}
                       >
-                        {/* {dataDistrictID?.map((district, id) => (
+                        {dataDistrictID?.map((district, id) => (
                           <Option key={id.toString()} value={district.id}>
                             {district.name}
-                          </Option>
-                        ))} */}
-                        {dataKecamatan.map((kecamatan, index) => (
-                          <Option key={index.toString()} value={kecamatan}>
-                            {kecamatan}
                           </Option>
                         ))}
                       </Select>
@@ -314,11 +284,11 @@ const TransaksiPage = () => {
                   <Row>
                     <Input.TextArea
                       onChange={(event) => {
-                        console.log("value >> ", event.target.value)
                         setFormState({
                           ...formState,
-                          alamat_lengkap: event.target.value,
+                          address: event.target.value,
                         })
+                        console.log("value >> ", formState)
                       }}
                     />
                   </Row>
@@ -345,11 +315,27 @@ const TransaksiPage = () => {
             ) : isError ? (
               <Space align="center" direction="vertical" size="large">
                 <Text style={{ color: "red" }}> Gagal memilih Agen</Text>
-                <Table columns={ColumnsAgen} dataSource={data} pagination={false} />
+                <Table
+                  columns={ColumnsAgen}
+                  dataSource={data?.map((row) => ({
+                    agentName: row.agentName,
+                    noHandphone: row.noHandphone,
+                    address: row.address,
+                  }))}
+                  pagination={false}
+                />
               </Space>
             ) : (
               showTableAgen && (
-                <Table columns={ColumnsAgen} dataSource={data} pagination={false} />
+                <Table
+                  columns={ColumnsAgen}
+                  dataSource={data?.map((row) => ({
+                    agentName: row.agentName,
+                    noHandphone: row.noHandphone,
+                    address: row.address,
+                  }))}
+                  pagination={false}
+                />
               )
             )}
           </Row>

@@ -1,31 +1,32 @@
 import { useQuery } from "react-query"
-import Cookies from "universal-cookie"
+// import Cookies from "universal-cookie"
 
-const cookies = new Cookies()
+// const cookies = new Cookies()
 
 const useGetProvinces = () => {
   const fetchData = async () => {
-    const response = await fetch(`http://35.229.233.212/locations/provinces`, {
-      headers: new Headers({
-        Authorization: "Bearer " + cookies.get("accessToken"),
-      }),
-    })
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/locations/provinces`,
+      {
+        headers: new Headers({
+          // Authorization: "Bearer " + cookies.get("accessToken"),
+        }),
+      }
+    )
     if (!response.ok) {
       throw new Error("Network response was not ok")
     }
 
-    return response.json()
+    const result = await response.json()
+
+    return result.data
   }
 
-  const { dataProvinces, isLoadingProvinces, isErrorProvinces } = useQuery(
-    `provinces:`,
-    fetchData,
-    {
-      cacheTime: 0,
-    }
-  )
+  const { data, isLoading, isError } = useQuery(`provinces:`, fetchData, {
+    cacheTime: 0,
+  })
 
-  return { dataProvinces, isLoadingProvinces, isErrorProvinces }
+  return { data, isLoading, isError }
 }
 
 export default useGetProvinces

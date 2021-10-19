@@ -1,34 +1,36 @@
 import { useQuery } from "react-query"
-import Cookies from "universal-cookie"
+// import Cookies from "universal-cookie"
 
-const cookies = new Cookies()
+// const cookies = new Cookies()
 
-const useGetDistrictID = (id = "") => {
+const useGetDistrictID = (regencyId) => {
   const fetchData = async () => {
     const response = await fetch(
-      `http://35.229.233.212/locations/districts?regencyId=${id}`,
+      `${process.env.REACT_APP_BASE_URL}/locations/districts?regencyId=${regencyId}`,
       {
         headers: new Headers({
-          Authorization: "Bearer " + cookies.get("accessToken"),
+          // Authorization: "Bearer " + cookies.get("accessToken"),
         }),
       }
     )
     if (!response.ok) {
       throw new Error("Network response was not ok")
     }
+    const result = await response.json()
 
-    return response.json()
+    return result.data
   }
 
-  const { dataDistrictID, isLoadingDistrictID, isErrorDistrictID } = useQuery(
-    `districtID:`,
+  const { data, isLoading, isError } = useQuery(
+    ["districtID:", regencyId],
     fetchData,
     {
       cacheTime: 0,
+      enabled: !!regencyId,
     }
   )
 
-  return { dataDistrictID, isLoadingDistrictID, isErrorDistrictID }
+  return { data, isLoading, isError }
 }
 
 export default useGetDistrictID
