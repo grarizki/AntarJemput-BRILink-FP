@@ -14,7 +14,7 @@ import RestrictedWrapper from "./RestrictedWrapper"
 import { AuthorizedContextProvider } from "./AuthorizedContext"
 import RateComponent from "./pages/Rating/RateComponent"
 import HomeAgent from "./pages/HomeAgent/HomeAgent"
-import RatingAgent from "./pages/Rating/RatingAgent"
+
 
 // Create a client
 const queryClient = new QueryClient({
@@ -44,9 +44,6 @@ function App() {
             </Route>
             <Route path="/rate" exact>
               <RateComponent />
-            </Route>
-            <Route path="/rating-agent" exact>
-              <RatingAgent />
             </Route>
             <AuthorizedRoute
               path="/Transaksi"

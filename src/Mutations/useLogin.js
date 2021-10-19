@@ -16,18 +16,36 @@ const useLogin = (loginData, onSuccess, onError) => {
           },
           body: JSON.stringify(loginData), // body data type must match "Content-Type" header
         })
-
+        console.log("ini response ", response)
         if (response.ok) {
-          console.log("ini response ", response)
-
           const result = await response.json()
 
-          cookies.set("accessToken", result.data.accessToken, { path: "/" })
+          let date = new Date(result.data.expiredAt)
+          console.log("ini date " + date)
+          cookies.set("accessToken", result.data.accessToken, { path: "/" , expires: date})
 
           return result
         }
         const errorResult = await response.json()
-        throw new Error(errorResult)
+        let errorMessage = ''
+        switch (errorResult.message) {
+          case "Error in field: Role":
+            errorMessage = "Role Tidak Boleh Kosong"
+            throw new Error(errorMessage)
+          case "Error in field: Password":
+            errorMessage = "Password Tidak Boleh Kosong"
+            throw new Error(errorMessage)
+          case "Error in field: Username" :
+            errorMessage = "Username Tidak Boleh Kosong"
+            throw new Error(errorMessage)
+          case "There is no match record in our database":
+            errorMessage = "Tidak ada user tersebut di database"
+            throw new Error(errorMessage)
+          default :
+            errorMessage = errorResult.message
+            throw new Error(errorMessage)
+        }
+
       } catch (error) {
         throw new Error(error)
       }
