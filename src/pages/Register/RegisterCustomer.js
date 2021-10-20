@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import { Form, Input, Button, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
 
@@ -13,10 +13,10 @@ const RegisterCustomer = () => {
     username: " ",
     password: " ",
     name: " ",
-    noHandphone: " "
+    noHandphone: " ",
   })
 
-  const { mutate : registerCustomer} = useCreateCustomer(customerState, (result) => {
+  const { mutate: registerCustomer } = useCreateCustomer(customerState, (result) => {
     //FIXME: Bug route customer ke home agent
     console.log("success mutation >> ", result)
     history.push("/")
@@ -24,9 +24,9 @@ const RegisterCustomer = () => {
   const [password, setPassword] = useState("")
   const [errorPassword, setErrorPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [errorNumber, setErrorNumber] = useState("")
   const [errorConfirmPassword, setErrorConfirmPassword] = useState("")
-
-
 
   const changePassword = (e) => {
     const value = e.target.value
@@ -45,6 +45,23 @@ const RegisterCustomer = () => {
     })
   }
 
+  const changeNoHandphone = (e) => {
+    const value = e.target.value
+    console.log("value >>", value)
+    setPhoneNumber(value)
+    if (!value) {
+      setErrorNumber("Nomor Handphone tidak boleh kosong")
+    } else if (value.length < 9) {
+      setErrorNumber("Nomor Handphone min harus 9 Angka")
+    } else {
+      setErrorNumber("")
+    }
+    setCustomerState({
+      ...customerState,
+      noHandphone: e.target.value,
+    })
+  }
+
   const changeConfirmPassword = (e) => {
     const value = e.target.value
     setConfirmPassword(value)
@@ -53,14 +70,14 @@ const RegisterCustomer = () => {
     if (!value) {
       setErrorConfirmPassword("Konfirmasi Password tidak boleh kosong")
     } else if (password != value) {
-      setErrorConfirmPassword("password tidak cocok")
+      setErrorConfirmPassword("Password tidak cocok")
     } else {
       setErrorConfirmPassword("")
     }
   }
-  // const handleRegisterCustomerBtn = useCallback(() => {
-  //   history.push("/")
-  // }, [history])
+  const handleBackCustomerBtn = useCallback(() => {
+    history.push("/")
+  }, [history])
 
   return (
     <div className="outer-login">
@@ -110,15 +127,11 @@ const RegisterCustomer = () => {
             ]}
           >
             <Input
+              minLength="9"
+              maxLength="12"
               placeholder="Masukkan Nomor Handphone"
               name="nomor-handphone"
-              onChange={(event) => {
-                console.log("value >> ", customerState)
-                setCustomerState({
-                  ...customerState,
-                  noHandphone: event.target.value,
-                })
-              }}
+              onChange={changeNoHandphone}
             />
           </Form.Item>
           <Form.Item
@@ -196,8 +209,18 @@ const RegisterCustomer = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-registerAgenCustomer" onClick={registerCustomer} >
+              <Button
+                className="btn-registerAgenCustomer"
+                onClick={registerCustomer}
+              >
                 Register Customer
+              </Button>
+
+              <Button
+                className="btn-registerCustomerBack"
+                onClick={handleBackCustomerBtn}
+              >
+                Kembali
               </Button>
             </Col>
           </Form.Item>

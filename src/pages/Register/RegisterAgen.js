@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react"
-import { Row, Form, Input, Button, Select, Col, Typography } from "antd"
+import React, { useState, useMemo, useCallback } from "react"
+import { Row, Form, Input, Button, Select, Col, Typography, Space } from "antd"
 import { useHistory } from "react-router-dom"
 
 import DataAlamat from "../Transaksi/DataAlamat"
@@ -21,12 +21,13 @@ const RegisterAgen = () => {
     agentName: "",
     noHandphone: "",
     districtId: "",
-    address: ""
+    address: "",
   })
-
+  const handleBackAgentBtn = useCallback(() => {
+    history.push("/")
+  }, [history])
   const { mutate } = useCreateAgen(agentState, (result) => {
-    //FIXME: kenapa bisa login kedalem tanpa accesstoken
-    //TODO: bisa dapet accesstoken setelah login  
+    //TODO: bisa dapet accesstoken setelah login
     console.log("success mutation >> ", result)
     history.push("/")
   })
@@ -167,8 +168,6 @@ const RegisterAgen = () => {
                     //TODO: fetching dropdown bawaan kabupaten kota
 
                     //TODO: register agen langsung masuk ke dalem home
-                    
-                
 
                     DataAlamat.map((provinsi, index) => (
                       <Option key={index.toString()} value={provinsi.name}>
@@ -247,6 +246,8 @@ const RegisterAgen = () => {
             ]}
           >
             <Input
+              minLength="9"
+              maxLength="12"
               placeholder="Masukkan Nomor Handphone"
               name="Nomor-Handphone"
               onChange={(event) => {
@@ -326,6 +327,7 @@ const RegisterAgen = () => {
           <Form.Item>
             <Col
               span={12}
+              offset={2}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -334,6 +336,10 @@ const RegisterAgen = () => {
             >
               <Button className="btn-registerAgenCustomer" onClick={mutate}>
                 Register Agen
+              </Button>
+
+              <Button className="btn-registerAgenBack" onClick={handleBackAgentBtn}>
+                Kembali
               </Button>
             </Col>
           </Form.Item>

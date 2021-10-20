@@ -23,3 +23,17 @@ Button.btn-registerAgenCustomer {
   border-radius: 10px;
   margin-left: 190px;
 }
+
+Button.btn-registerAgenBack {
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+  margin-left: 100px;
+}
+
+Button.btn-registerCustomerBack {
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+  margin-left: 100px;
+}
