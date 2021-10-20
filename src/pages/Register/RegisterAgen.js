@@ -1,10 +1,10 @@
 import React, { useState, useMemo, useCallback } from "react"
 import { Row, Form, Input, Button, Select, Col, Typography, Space } from "antd"
 import { useHistory } from "react-router-dom"
+import Swal from "sweetalert2"
 
 import DataAlamat from "../Transaksi/DataAlamat"
 import useCreateAgen from "../../Mutations/useCreateAgen"
-import Login from "../login/Login"
 import "./Register.css"
 
 const { Option } = Select
@@ -23,14 +23,33 @@ const RegisterAgen = () => {
     districtId: "",
     address: "",
   })
+
+  const handleErrorRegisterAgent = useCallback((error) => {
+    //FIXME: error tidak muncul sesuai dengan console
+    if (error) {
+      Swal.fire({
+        icon: "error",
+        text: error.message,
+        title: "Gagal Registrasi",
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      history.push("/")
+    }
+  }, [])
+
   const handleBackAgentBtn = useCallback(() => {
     history.push("/")
   }, [history])
-  const { mutate } = useCreateAgen(agentState, (result) => {
-    //TODO: bisa dapet accesstoken setelah login
-    console.log("success mutation >> ", result)
-    history.push("/")
-  })
+
+  const { mutate: registerAgent } = useCreateAgen(
+    agentState,
+    (result) => {
+      console.log("success mutation >> ", result)
+      history.push("/")
+    },
+    handleErrorRegisterAgent
+  )
   //TODO: ditambah isi fetching data kabupaten kota, trus isi ke dropdownnya kabko
   const handleSelectedProvinsi = (value) => {
     setSelectedProvinsi(value)
@@ -334,7 +353,7 @@ const RegisterAgen = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-registerAgenCustomer" onClick={mutate}>
+              <Button className="btn-registerAgenCustomer" onClick={registerAgent}>
                 Register Agen
               </Button>
 

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react"
 import { Form, Input, Button, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
+import Swal from "sweetalert2"
 
 import useCreateCustomer from "../../Mutations/useCreateCustomer"
 import "./Register.css"
@@ -16,11 +17,29 @@ const RegisterCustomer = () => {
     noHandphone: " ",
   })
 
-  const { mutate: registerCustomer } = useCreateCustomer(customerState, (result) => {
-    //FIXME: Bug route customer ke home agent
-    console.log("success mutation >> ", result)
-    history.push("/")
-  })
+  const handleErrorRegisterCust = useCallback((error) => {
+    //FIXME: error tidak terspesifikasi namanya
+    if (error) {
+      Swal.fire({
+        icon: "error",
+        text: error.message,
+        title: "Gagal Registrasi",
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      history.push("/")
+    }
+  }, [])
+
+  const { mutate: registerCustomer } = useCreateCustomer(
+    customerState,
+    (result) => {
+      //FIXME: Bug route customer ke home agent
+      console.log("success mutation >> ", result)
+      history.push("/")
+    },
+    handleErrorRegisterCust
+  )
   const [password, setPassword] = useState("")
   const [errorPassword, setErrorPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
