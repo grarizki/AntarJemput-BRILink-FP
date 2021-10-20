@@ -3,7 +3,9 @@ import { Row, Form, Input, Button, Select, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
 import Swal from "sweetalert2"
 
-import DataAlamat from "../Transaksi/DataAlamat"
+import useGetProvinces from "../../Query/useGetProvinces"
+import useGetCity from "../../Query/useGetCity"
+import useGetDistrictID from "../../Query/useGetDistrictID"
 import useCreateAgen from "../../Mutations/useCreateAgen"
 import "./Register.css"
 import { useAuthorizedContext } from "../../AuthorizedContext"
@@ -16,7 +18,7 @@ const RegisterAgen = () => {
   const { setAuthorizedValue } = useAuthorizedContext()
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
-  const [selectedKecamatan, setSelectedKecamatan] = useState(null)
+  const [selectedDistrictID, setSelectedDistrictID] = useState(null)
   const [agentState, setAgentState] = useState({
     username: "",
     password: "",
@@ -25,6 +27,23 @@ const RegisterAgen = () => {
     districtId: "",
     address: "",
   })
+
+  const {
+    data: dataProvinces,
+    isLoading: isLoadingProvinces,
+    isError: isErrorProvinces,
+  } = useGetProvinces()
+  const {
+    data: dataCity,
+    isLoading: isLoadingCity,
+    isError: isErrorCity,
+  } = useGetCity(selectedProvinsi)
+  const {
+    data: dataDistrictID,
+    isLoading: isLoadingDistrictID,
+    isError: isErrorDistrictID,
+  } = useGetDistrictID(selectedKabupaten)
+
 
   const handleSuccessRegister = useCallback(() => {
     setAuthorizedValue(true)
@@ -68,33 +87,14 @@ const RegisterAgen = () => {
     setSelectedKabupaten(value)
   }
 
-  const handleSelectedKecamatan = (value) => {
-    setSelectedKecamatan(value)
+  const handleSelectedDistrictID = (value) => {
+    setSelectedDistrictID(value)
   }
-
-  const handleFormProvinsi = (value) => {
-    setAgentState({ ...agentState, province: value })
+  const handleFormDistrictID = (value) => {
+    setAgentState({ ...agentState, districtId: value })
+    console.log(agentState)
+    console.log(value)
   }
-  const handleFormKabupaten = (value) => {
-    setAgentState({ ...agentState, city: value })
-  }
-  const handleFormKecamatan = (value) => {
-    setAgentState({ ...agentState, district: value })
-  }
-
-  const dataKabupaten = useMemo(() => {
-    return (
-      DataAlamat?.find((provinsi) => provinsi.name === selectedProvinsi)
-        ?.kabupaten || []
-    )
-  }, [selectedProvinsi])
-
-  const dataKecamatan = useMemo(() => {
-    return (
-      dataKabupaten?.find((kabupaten) => kabupaten.name === selectedKabupaten)
-        ?.kecamatan || []
-    )
-  }, [selectedKabupaten, dataKabupaten])
 
   return (
     <div className="outer-register">
@@ -151,12 +151,11 @@ const RegisterAgen = () => {
                   placeholder="Pilih Provinsi"
                   onChange={(e) => {
                     handleSelectedProvinsi(e)
-                    handleFormProvinsi(e)
                   }}
                 >
-                  {DataAlamat.map((provinsi, index) => (
-                    <Option key={index.toString()} value={provinsi.name}>
-                      {provinsi.name}
+                  {dataProvinces?.map((provinces, id) => (
+                    <Option key={id.toString()} value={provinces.id}>
+                      {provinces.name}
                     </Option>
                   ))}
                 </Select>
@@ -166,28 +165,26 @@ const RegisterAgen = () => {
                   placeholder="Pilih Kabupaten"
                   onChange={(e) => {
                     handleSelectedKabupaten(e)
-                    handleFormKabupaten(e)
                   }}
                 >
-                  {dataKabupaten.map((kabupaten, index) => (
-                    <Option key={index.toString()} value={kabupaten.name}>
-                      {kabupaten.name}
+                  {dataCity?.map((city, id) => (
+                    <Option key={id.toString()} value={city.id}>
+                      {city.name}
                     </Option>
                   ))}
                 </Select>
               </Col>
               <Col span={7}>
                 <Select
-                  name="Alamat"
                   placeholder="Pilih Kecamatan"
                   onChange={(e) => {
-                    handleSelectedKecamatan(e)
-                    handleFormKecamatan(e)
+                    handleSelectedDistrictID(e)
+                    handleFormDistrictID(e)
                   }}
                 >
-                  {dataKecamatan.map((kecamatan, index) => (
-                    <Option key={index.toString()} value={kecamatan}>
-                      {kecamatan}
+                  {dataDistrictID?.map((district, id) => (
+                    <Option key={id.toString()} value={district.id}>
+                      {district.name}
                     </Option>
                   ))}
                 </Select>
