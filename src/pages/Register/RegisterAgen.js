@@ -56,6 +56,11 @@ const RegisterAgen = () => {
     history.push("/home")
   }, [setAuthorizedValue, history])
 
+  const handleBackLogin = useCallback(()=>{
+    setAuthorizedValue(false)
+    history.push("/")
+  },[setAuthorizedValue, history])
+
   const handleErrorRegister = useCallback((error) => {
     if (error) {
       Swal.fire({
@@ -98,12 +103,15 @@ const RegisterAgen = () => {
 
   return (
     <div className="outer-register">
-      <div className="inner-register">
-        <div className="logo" style={{ marginTop: "0", marginBottom: "45px" }}>
+      <div className="inner-register" >
+        <div >
+          <Button type="link" style={{ marginLeft: "-40px", fontSize:'15px' }} onClick={handleBackLogin}>Kembali</Button>
+        </div>
+        <div className="logo" style={{ marginTop: "20px", marginBottom: "45px" }}>
           <Title style={{ textAlign: "center" }}>Sign Up</Title>
         </div>
         <Form
-          name="normal_register"
+          name="normal_register" s
           className="register-form"
           layout="vertical"
           initialValues={{

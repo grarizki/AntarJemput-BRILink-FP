@@ -2,20 +2,30 @@ import React, { useState, useCallback } from "react"
 import { Form, Input, Button, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
 
+import { useAuthorizedContext } from "../../AuthorizedContext"
 import "./Register.css"
 
 const { Title } = Typography
 
 const RegisterCustomer = () => {
   const history = useHistory()
+  const { setAuthorizedValue } = useAuthorizedContext()
 
   const handleRegisterCustomerBtn = useCallback(() => {
     history.push("/")
   }, [])
 
+  const handleBackLogin = useCallback(()=>{
+    setAuthorizedValue(false)
+    history.push("/")
+  },[setAuthorizedValue, history])
+
   return (
     <div className="outer-login">
       <div className="inner-login">
+        <div >
+          <Button type="link" style={{ marginLeft: "-40px", fontSize: '15px' }} onClick={handleBackLogin}>Kembali</Button>
+        </div>
         <div className="logo" style={{ marginTop: '0', marginBottom: "45px" }}>
           <Title style={{ textAlign: "center" }}>Sign Up</Title>
         </div>
