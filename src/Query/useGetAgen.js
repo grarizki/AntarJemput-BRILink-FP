@@ -5,8 +5,7 @@ const cookies = new Cookies()
 
 const useGetAgen = () => {
   const fetchData = async () => {
-    // backend api masih blom 24/7 sementara pake heroku wulan
-    const response = await fetch(process.env.REACT_APP_BACKEND_API_URL+'/agent', {
+    const response = await fetch(process.env.REACT_APP_BACKEND_API_URL + "/agent", {
       headers: new Headers({
         Authorization: "Bearer " + cookies.get("accessToken"),
       }),

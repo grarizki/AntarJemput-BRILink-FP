@@ -7,7 +7,7 @@ const useCreateCustomer = (registerCusData, onSuccess, onError) => {
     async () => {
       try {
         const response = await fetch(
-          `http://147.139.193.211:8080/customers`,
+          `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_CUSTOMERS}`,
           {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             headers: {
