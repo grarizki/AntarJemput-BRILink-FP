@@ -1,4 +1,7 @@
 import { useMutation } from "react-query"
+import Cookies from "universal-cookie"
+
+const cookies = new Cookies()
 
 const useCreateTransaction = (transaction, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
@@ -10,6 +13,7 @@ const useCreateTransaction = (transaction, onSuccess, onError) => {
           headers: {
             "Content-Type": "application/json",
             // 'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: "Bearer " + cookies.get("accessToken"),
           },
           redirect: "follow", // manual, *follow, error
           referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url

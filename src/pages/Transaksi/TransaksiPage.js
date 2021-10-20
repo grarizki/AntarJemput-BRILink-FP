@@ -39,7 +39,7 @@ const TransaksiPage = () => {
     amount: "",
     transactionTypeId: "",
   })
-  console.log('formstate >>', formState)
+  console.log("formstate >>", formState)
 
   const { mutate, isLoading, isError } = useCreateTransaction(
     formState,
@@ -116,11 +116,11 @@ const TransaksiPage = () => {
     console.log(formState)
     console.log(value)
   }
-  const handleSelectedAgentID = (value)=>{
-    setFormState({ ...formState, agentId:value})
-    console.log(formState)
-    console.log("value>>",value)
-   }
+
+  const handleCreateTransactions = (value) => {
+    setFormState({ ...formState, agentId: value })
+    console.log("formState", formState)
+  }
 
   const getTableAgen = () => setShowTableAgen(true)
 
@@ -129,11 +129,13 @@ const TransaksiPage = () => {
       title: "Nama Agen",
       dataIndex: "agentName",
       key: "agentName",
+      align: "center",
     },
     {
       title: "Nomer Whatsapp",
       dataIndex: "noHandphone",
       key: "noHandphone",
+      align: "center",
       render: (text) => (
         <Button type="link" href={"https://wa.me/62" + text}>
           {text}
@@ -144,14 +146,26 @@ const TransaksiPage = () => {
       title: "Alamat Agen",
       dataIndex: "address",
       key: "address",
+      align: "center",
+    },
+    {
+      title: "Rating",
+      dataIndex: "agentRating",
+      key: "agentRating",
+      align: "center",
+      render: (agentRating) =>
+        isNaN(agentRating) ? 0 : Math.floor(agentRating * 100) / 100,
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text,record) => (
-        <Button type="link" onClick={mutate,() => (handleSelectedAgentID(record.key))}>
-          pilih Agent
+      align: "center",
+      render: (_, record) => (
+        // !!! KURANG MUTATION
+        // !!! MUTATION DIBUAT DI SWEET ALERT
+        <Button type="link" onClick={() => handleCreateTransactions(record.key)}>
+          Pilih Agen
         </Button>
       ),
     },
@@ -324,10 +338,11 @@ const TransaksiPage = () => {
                 <Table
                   columns={ColumnsAgen}
                   dataSource={data?.map((row) => ({
-                    agentName: row.aget.agentName,
+                    agentName: row.agent.agentName,
                     noHandphone: row.agent.noHandphone,
                     address: row.agent.address,
-                    key:row.id
+                    agentRating: row.agent.agentRating,
+                    key: row.id,
                   }))}
                   pagination={false}
                 />
@@ -335,13 +350,14 @@ const TransaksiPage = () => {
             ) : (
               showTableAgen && (
                 <Table
-                value
+                  value
                   columns={ColumnsAgen}
                   dataSource={data?.map((row) => ({
                     agentName: row.agent.agentName,
                     noHandphone: row.agent.noHandphone,
                     address: row.agent.address,
-                    key:row.id
+                    agentRating: row.agent.agentRating,
+                    key: row.id,
                   }))}
                   pagination={false}
                 />
