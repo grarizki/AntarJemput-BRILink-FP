@@ -39,6 +39,7 @@ const TransaksiPage = () => {
     amount: "",
     transactionTypeId: "",
   })
+  console.log('formstate >>', formState)
 
   const { mutate, isLoading, isError } = useCreateTransaction(
     formState,
@@ -115,6 +116,11 @@ const TransaksiPage = () => {
     console.log(formState)
     console.log(value)
   }
+  const handleSelectedAgentID = (value)=>{
+    setFormState({ ...formState, agentId:value})
+    console.log(formState)
+    console.log("value>>",value)
+   }
 
   const getTableAgen = () => setShowTableAgen(true)
 
@@ -143,9 +149,9 @@ const TransaksiPage = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: () => (
-        <Button type="link" onClick={mutate}>
-          Pilih Agen
+      render: (text,record) => (
+        <Button type="link" onClick={mutate,() => (handleSelectedAgentID(record.key))}>
+          pilih Agent
         </Button>
       ),
     },
@@ -318,9 +324,10 @@ const TransaksiPage = () => {
                 <Table
                   columns={ColumnsAgen}
                   dataSource={data?.map((row) => ({
-                    agentName: row.agentName,
-                    noHandphone: row.noHandphone,
-                    address: row.address,
+                    agentName: row.aget.agentName,
+                    noHandphone: row.agent.noHandphone,
+                    address: row.agent.address,
+                    key:row.id
                   }))}
                   pagination={false}
                 />
@@ -328,11 +335,13 @@ const TransaksiPage = () => {
             ) : (
               showTableAgen && (
                 <Table
+                value
                   columns={ColumnsAgen}
                   dataSource={data?.map((row) => ({
-                    agentName: row.agentName,
-                    noHandphone: row.noHandphone,
-                    address: row.address,
+                    agentName: row.agent.agentName,
+                    noHandphone: row.agent.noHandphone,
+                    address: row.agent.address,
+                    key:row.id
                   }))}
                   pagination={false}
                 />
