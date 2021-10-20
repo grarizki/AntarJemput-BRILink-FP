@@ -14,60 +14,60 @@ on:
       - feature-rate
       - feature-login
       - feature-data-agent
-# env:
-#   TEAM_NAME: ${{ secrets.TEAM_NAME }}
+env:
+  TEAM_NAME: ${{ secrets.TEAM_NAME }}
 jobs:
-  # install-dependencies:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: installing dependencies
-  #       run: npm install
-  #     - name: Caching node modules
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: node_modules
-  #         if-no-files-found: error
-  #         path: node_modules
-  # testing:
-  #   needs: install-dependencies
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: installing dependencies
-  #       run: npm install
-  #     - name: Run eslint test
-  #       run: npm run lint
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [12.x]
-  #     steps:
-  #       - name: Set up Node.js ${{ matrix.node-version }}
-  #         uses: actions/setup-node@v1
-  #         with:
-  #           node-version: ${{ matrix.node-version }}
+  install-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: installing dependencies
+        run: npm install
+      - name: Caching node modules
+        uses: actions/upload-artifact@v2
+        with:
+          name: node_modules
+          if-no-files-found: error
+          path: node_modules
+  testing:
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: installing dependencies
+        run: npm install
+      - name: Run eslint test
+        run: npm run lint
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+      steps:
+        - name: Set up Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ matrix.node-version }}
 
-  #       - name: Install
-  #         run: npm install
+        - name: Install
+          run: npm install
 
-  #       - name: Build
-  #         run: npm run build
+        - name: Build
+          run: npm run build
 
-  #       - name: Update app.yml
-  #         run: | -
-  #           envsubst < app.yaml.sh > app.yaml
+        - name: Update app.yml
+          run: | -
+            envsubst < app.yaml.sh > app.yaml
 
-  #       - name: Deploy to App Engine
-  #         id: deploy
-  #         uses: google-github-actions/deploy-appengine@v0.2.0
-  #         with:
-  #           deliverables: app.yaml
-  #           project_id: ${{ secrets.GCP_PROJECT }}
-  #           credentials: ${{ secrets.GCP_SA_KEY }}
+        - name: Deploy to App Engine
+          id: deploy
+          uses: google-github-actions/deploy-appengine@v0.2.0
+          with:
+            deliverables: app.yaml
+            project_id: ${{ secrets.GCP_PROJECT }}
+            credentials: ${{ secrets.GCP_SA_KEY }}
 
-  #       - name: Show Output
-  #         run: echo ${{ steps.deploy.outputs.url }}
+        - name: Show Output
+          run: echo ${{ steps.deploy.outputs.url }}
