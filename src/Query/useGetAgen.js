@@ -3,29 +3,31 @@ import Cookies from "universal-cookie"
 
 const cookies = new Cookies()
 
-const useGetAgen = () => {
+const useGetAgen = (id) => {
   const fetchData = async () => {
-    const response = await fetch(process.env.REACT_APP_BACKEND_API_URL + "/agent", {
-      headers: new Headers({
-        Authorization: "Bearer " + cookies.get("accessToken"),
-      }),
-    })
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/agents?districtId=${id}`,
+      {
+        headers: new Headers({
+          Authorization: "Bearer " + cookies.get("accessToken"),
+        }),
+      }
+    )
     if (!response.ok) {
       throw new Error("Network response was not ok")
     }
+    const result = await response.json()
+    console.log("result.data", result.data)
 
-    return response.json()
+    return result.data
   }
 
-  const { dataAgent, isLoadingAgent, isErrorAgent, refetch } = useQuery(
-    `agents:`,
-    fetchData,
-    {
-      cacheTime: 0,
-    }
-  )
+  const { data, isLoading, isError, refetch } = useQuery(["agent:", id], fetchData, {
+    cacheTime: 0,
+    enabled: !!id,
+  })
 
-  return { dataAgent, isLoadingAgent, isErrorAgent, refetch }
+  return { data, isLoading, isError, refetch }
 }
 
 export default useGetAgen

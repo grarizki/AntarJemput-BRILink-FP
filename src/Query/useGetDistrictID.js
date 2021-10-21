@@ -3,10 +3,10 @@ import { useQuery } from "react-query"
 
 // const cookies = new Cookies()
 
-const useGetProvinces = () => {
+const useGetDistrictID = (regencyId) => {
   const fetchData = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/locations/provinces`,
+      `${process.env.REACT_APP_BASE_URL}/locations/districts?regencyId=${regencyId}`,
       {
         headers: new Headers({
           // Authorization: "Bearer " + cookies.get("accessToken"),
@@ -16,17 +16,21 @@ const useGetProvinces = () => {
     if (!response.ok) {
       throw new Error("Network response was not ok")
     }
-
     const result = await response.json()
 
     return result.data
   }
 
-  const { data, isLoading, isError } = useQuery(`provinces:`, fetchData, {
-    cacheTime: 0,
-  })
+  const { data, isLoading, isError } = useQuery(
+    ["districtID:", regencyId],
+    fetchData,
+    {
+      cacheTime: 0,
+      enabled: !!regencyId,
+    }
+  )
 
   return { data, isLoading, isError }
 }
 
-export default useGetProvinces
+export default useGetDistrictID

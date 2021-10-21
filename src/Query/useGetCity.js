@@ -1,26 +1,32 @@
 import { useQuery } from "react-query"
+// import Cookies from "universal-cookie"
 
+// const cookies = new Cookies()
 
 const useGetCity = (provinceId) => {
-    const fetchData = async () => {
-        const response = await fetch(`http://147.139.193.211:8080/locations?provinceId=${provinceId}` , {
-            method: 'GET'
-        });
-        if (!response.ok) {
-            throw new Error("Network response was not ok")
-        }
-        return response.json()
-    }
-
-    const { data, isLoading, isError, refetch } = useQuery(
-        `cities:`,
-        fetchData,
-        {
-            cacheTime: 0,
-        }
+  const fetchData = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/locations?provinceId=${provinceId}`,
+      {
+        headers: new Headers({
+          // Authorization: "Bearer " + cookies.get("accessToken"),
+        }),
+      }
     )
+    if (!response.ok) {
+      throw new Error("Network response was not ok")
+    }
+    const result = await response.json()
 
-    return { data, isLoading, isError, refetch  }
+    return result.data
+  }
+
+  const { data, isLoading, isError } = useQuery(["city:", provinceId], fetchData, {
+    cacheTime: 0,
+    enabled: !!provinceId,
+  })
+
+  return { data, isLoading, isError }
 }
 
 export default useGetCity

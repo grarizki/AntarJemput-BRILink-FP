@@ -81,7 +81,7 @@ function NavbarComponent() {
             onClick={showSidebar}
             onKeyDown={showSidebar}
           >
-            <li className="navbar-toggle" style={{color:"white"}}>
+            <li className="navbar-toggle" style={{ color: "white" }}>
               <img src={Logo} alt="Logo" />
               <Link to="#" className="menu-bars"></Link>
             </li>
@@ -94,9 +94,20 @@ function NavbarComponent() {
                 }
               }
               return (
-                <li key={index} className={item.cName} onClick={onClick} style={{color:"white"}}>
+                <li
+                  key={index}
+                  className={item.cName}
+                  onClick={onClick}
+                  style={{ color: "white" }}
+                >
                   {item.icon}
-                  <span style={{ marginLeft: "10px", color: "white", fontWeight:"bold"}} >
+                  <span
+                    style={{
+                      marginLeft: "10px",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
                     {item.title}
                   </span>
                 </li>

@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useEffect } from "react"
+import React, { useState, useCallback } from "react"
 import { Form, Input, Button, Col, Typography } from "antd"
 import { useHistory } from "react-router-dom"
 import Swal from "sweetalert2"
 
 import useCreateCustomer from "../../Mutations/useCreateCustomer"
+import { useAuthorizedContext } from "../../AuthorizedContext"
 import "./Register.css"
 
 const { Title } = Typography
@@ -16,6 +17,7 @@ const RegisterCustomer = () => {
     name: " ",
     noHandphone: " ",
   })
+  const { setAuthorizedValue } = useAuthorizedContext()
 
   const handleErrorRegisterCust = useCallback((error) => {
     //FIXME: error tidak terspesifikasi namanya
@@ -93,13 +95,24 @@ const RegisterCustomer = () => {
       setErrorConfirmPassword("")
     }
   }
-  const handleBackCustomerBtn = useCallback(() => {
+
+  const handleBackLogin = useCallback(() => {
+    setAuthorizedValue(false)
     history.push("/")
-  }, [history])
+  }, [setAuthorizedValue, history])
 
   return (
-    <div className="outer-register">
-      <div className="inner-register">
+    <div className="outer-login">
+      <div className="inner-login">
+        <div>
+          <Button
+            type="link"
+            style={{ marginLeft: "-40px", fontSize: "15px" }}
+            onClick={handleBackLogin}
+          >
+            Kembali
+          </Button>
+        </div>
         <div className="logo" style={{ marginTop: "0", marginBottom: "45px" }}>
           <Title style={{ textAlign: "center" }}>Sign Up</Title>
         </div>
@@ -230,13 +243,6 @@ const RegisterCustomer = () => {
                 onClick={registerCustomer}
               >
                 Register Customer
-              </Button>
-
-              <Button
-                className="btn-registerCustomerBack"
-                onClick={handleBackCustomerBtn}
-              >
-                Kembali
               </Button>
             </Col>
           </Form.Item>

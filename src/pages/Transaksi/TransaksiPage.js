@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useCallback} from "react"
+import React, { useState, useCallback } from "react"
 import {
   Row,
   Col,
@@ -13,16 +13,16 @@ import {
   Space,
 } from "antd"
 import { useHistory } from "react-router-dom"
+import Swal from "sweetalert2"
 
-// import DataAgent from "./DataAgent"
-import DataAlamat from "./DataAlamat"
 import JenisTransaksi from "./DataJenisTransaksi"
 import useGetAgen from "../../Query/useGetAgen"
+import useGetProvinces from "../../Query/useGetProvinces"
+import useGetCity from "../../Query/useGetCity"
+import useGetDistrictID from "../../Query/useGetDistrictID"
 import useCreateTransaction from "../../Mutations/useCreateTransaction"
 import NavbarComponent from "../../components/navbar/NavbarComponent"
 import "./TransaksiPage.css"
-import useGetProvinces from "../../Query/useGetProvinces";
-import useGetCity from "../../Query/useGetCity";
 
 const { Option } = Select
 const { Text } = Typography
@@ -30,49 +30,75 @@ const { Text } = Typography
 const TransaksiPage = () => {
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
-  const [selectedKecamatan, setSelectedKecamatan] = useState(null)
+  const [selectedDistrictID, setSelectedDistrictID] = useState(null)
   const [showTableAgen, setShowTableAgen] = useState(false)
+  const [disableButton, setDisableButton] = useState(true)
   const history = useHistory()
 
   const [formState, setFormState] = useState({
+    address: " ",
+    agentId: " ",
+    amount: " ",
+    districtId: " ",
+    transactionTypeId: " ",
+  })
+  console.log("formstate >>", formState)
 
-    created_date: new Date().toString(),
-    jenis_transaksi: "",
-    provinsi_customer: " ",
-    kabupaten_customer: " ",
-    kecamatan_customer: " ",
-    alamat_lengkap: " ",
-    nominal_transaksi: "",
-    status: "0",
+  const handleSelectedProvince = useCallback((value) => {
+    setSelectedProvinsi(value)
+    console.log(value)
   })
 
+  console.log("ini select " + selectedProvinsi)
 
- const handleSelectedProvince = useCallback( (value) => {
-        setSelectedProvinsi(value)
-        console.log(value)
- })
+  const {
+    data: provinceData,
+    isError,
+    isLoading,
+    refetch: refetchProvinces,
+  } = useGetProvinces()
 
-    console.log("ini select "  + selectedProvinsi)
+  const {
+    data: cities,
+    isError: errorCity,
+    isLoading: loadingCity,
+    refetch: refetchCity,
+  } = useGetCity(selectedProvinsi)
+  console.log("ini city " + cities)
 
-  const {data : provinceData, isError, isLoading, refetch: refetchProvinces} = useGetProvinces()
+  const { mutate, loading, error } = useCreateTransaction(formState, (result) => {
+    console.log("success mutation >> ", result)
+    history.replace("/home")
+  })
 
+  const {
+    data,
+    isError: isErrorAgent,
+    isLoading: isLoadingAgent,
+  } = useGetAgen(selectedDistrictID)
+  const {
+    data: dataProvinces,
+    isLoading: isLoadingProvinces,
+    isError: isErrorProvinces,
+  } = useGetProvinces()
+  const {
+    data: dataCity,
+    isLoading: isLoadingCity,
+    isError: isErrorCity,
+  } = useGetCity(selectedProvinsi)
+  const {
+    data: dataDistrictID,
+    isLoading: isLoadingDistrictID,
+    isError: isErrorDistrictID,
+  } = useGetDistrictID(selectedKabupaten)
 
-
-  const {data : cities, isError:errorCity,  isLoading :loadingCity, refetch: refetchCity} = useGetCity(
-      selectedProvinsi
-  )
-    console.log("ini city " + cities)
-
-
-  const { mutate, loading, error } = useCreateTransaction(
-    formState,
-    (result) => {
-      console.log("success mutation >> ", result)
-      history.replace("/home")
-    }
-  )
-
-  const { dataAgent, isLoadingAgent } = useGetAgen()
+  const dataTable = data?.map((row) => ({
+    agentName: row.agent.agentName,
+    noHandphone: row.agent.noHandphone,
+    address: row.agent.address,
+    agentRating: row.agent.agentRating,
+    key: row.id,
+  }))
 
   const currencyParser = (val) => {
     try {
@@ -104,52 +130,42 @@ const TransaksiPage = () => {
     }
   }
 
-
   const handleSelectedKabupaten = (value) => {
     setSelectedKabupaten(value)
   }
 
-  const handleSelectedKecamatan = (value) => {
-    setSelectedKecamatan(value)
+  const handleSelectedProvinsi = (value) => {
+    setSelectedProvinsi(value)
   }
 
-  const handleFormProvinsi = (value) => {
-    setFormState({ ...formState, provinsi_customer: value })
+  const handleSelectedDistrictID = (value) => {
+    setSelectedDistrictID(value)
   }
-  const handleFormKabupaten = (value) => {
-    setFormState({ ...formState, kabupaten_customer: value })
-  }
-  const handleFormKecamatan = (value) => {
-    setFormState({ ...formState, kecamatan_customer: value })
+  const handleFormDistrictID = (value) => {
+    setFormState({ ...formState, districtId: value })
+    console.log(formState)
+    console.log(value)
   }
 
-  const dataKabupaten = useMemo(() => {
-    return (
-      DataAlamat?.find((provinsi) => provinsi.name === selectedProvinsi)
-        ?.kabupaten || []
-    )
-  }, [selectedProvinsi])
-
-  const dataKecamatan = useMemo(() => {
-    return (
-      dataKabupaten?.find((kabupaten) => kabupaten.name === selectedKabupaten)
-        ?.kecamatan || []
-    )
-  }, [selectedKabupaten, dataKabupaten])
+  const handleCreateTransactions = (value) => {
+    setFormState({ ...formState, agentId: value })
+    setDisableButton(false)
+  }
 
   const getTableAgen = () => setShowTableAgen(true)
-
 
   const ColumnsAgen = [
     {
       title: "Nama Agen",
-      dataIndex: "agent_name",
-      key: "agent_name",
+      dataIndex: "agentName",
+      key: "agentName",
+      align: "center",
     },
     {
       title: "Nomer Whatsapp",
-      dataIndex: "no_hp",
-      key: "no_hp",
+      dataIndex: "noHandphone",
+      key: "noHandphone",
+      align: "center",
       render: (text) => (
         <Button type="link" href={"https://wa.me/62" + text}>
           {text}
@@ -158,16 +174,26 @@ const TransaksiPage = () => {
     },
     {
       title: "Alamat Agen",
-      dataIndex: "agent_address",
-      key: "agent_address",
+      dataIndex: "address",
+      key: "address",
+      align: "center",
+    },
+    {
+      title: "Rating",
+      dataIndex: "agentRating",
+      key: "agentRating",
+      align: "center",
+      render: (agentRating) =>
+        isNaN(agentRating) ? 0 : Math.floor(agentRating * 100) / 100,
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text) => (
-        <Button type="link" onClick={mutate}>
-          {text}
+      align: "center",
+      render: (_, record) => (
+        <Button type="link" onClick={() => handleCreateTransactions(record.key)}>
+          Pilih Agen
         </Button>
       ),
     },
@@ -197,7 +223,10 @@ const TransaksiPage = () => {
                     <Select
                       placeholder="Pilih Jenis Transaksi"
                       onChange={(value) => {
-                        setFormState({ ...formState, jenis_transaksi: value })
+                        setFormState({
+                          ...formState,
+                          transactionTypeId: parseInt(value),
+                        })
                       }}
                     >
                       {JenisTransaksi.map((option) => (
@@ -236,11 +265,11 @@ const TransaksiPage = () => {
                       }
                       parser={currencyParser}
                       onChange={(value) => {
-                        console.log("value >> ", value)
                         setFormState({
                           ...formState,
-                          nominal_transaksi: value,
+                          amount: parseInt(value),
                         })
+                        console.log("value >> ", formState)
                       }}
                     />
                   </Col>
@@ -262,12 +291,13 @@ const TransaksiPage = () => {
                     <Col span={7}>
                       <Select
                         placeholder="Pilih Provinsi"
-                        value={selectedProvinsi}
-                        onChange={handleSelectedProvince}
+                        onChange={(e) => {
+                          handleSelectedProvinsi(e)
+                        }}
                       >
-                        {provinceData?.data?.map((provinsi, index) => (
-                          <Option key={index.toString()} value={provinsi.id}>
-                            {provinsi.name}
+                        {dataProvinces?.map((provinces, id) => (
+                          <Option key={id.toString()} value={provinces.id}>
+                            {provinces.name}
                           </Option>
                         ))}
                       </Select>
@@ -277,12 +307,11 @@ const TransaksiPage = () => {
                         placeholder="Pilih Kabupaten"
                         onChange={(e) => {
                           handleSelectedKabupaten(e)
-                          handleFormKabupaten(e)
                         }}
                       >
-                        {cities?.data?.map((kabupaten, index) => (
-                          <Option key={index.toString()} value={kabupaten.id}>
-                            {kabupaten.name}
+                        {dataCity?.map((city, id) => (
+                          <Option key={id.toString()} value={city.id}>
+                            {city.name}
                           </Option>
                         ))}
                       </Select>
@@ -291,13 +320,13 @@ const TransaksiPage = () => {
                       <Select
                         placeholder="Pilih Kecamatan"
                         onChange={(e) => {
-                          handleSelectedKecamatan(e)
-                          handleFormKecamatan(e)
+                          handleSelectedDistrictID(e)
+                          handleFormDistrictID(e)
                         }}
                       >
-                        {dataKecamatan.map((kecamatan, index) => (
-                          <Option key={index.toString()} value={kecamatan}>
-                            {kecamatan}
+                        {dataDistrictID?.map((district, id) => (
+                          <Option key={id.toString()} value={district.id}>
+                            {district.name}
                           </Option>
                         ))}
                       </Select>
@@ -306,11 +335,11 @@ const TransaksiPage = () => {
                   <Row>
                     <Input.TextArea
                       onChange={(event) => {
-                        console.log("value >> ", event.target.value)
                         setFormState({
                           ...formState,
-                          alamat_lengkap: event.target.value,
+                          address: event.target.value,
                         })
+                        console.log("value >> ", formState)
                       }}
                     />
                   </Row>
@@ -330,7 +359,7 @@ const TransaksiPage = () => {
           </Row>
         </div>
 
-        <div style={{ margin: "50px 0" }}>
+        <div style={{ marginTop: "50px" }}>
           <Row justify="center">
             {isLoading ? (
               <Spin />
@@ -339,19 +368,35 @@ const TransaksiPage = () => {
                 <Text style={{ color: "red" }}> Gagal memilih Agen</Text>
                 <Table
                   columns={ColumnsAgen}
-                  dataSource={dataAgent}
+                  dataSource={dataTable}
                   pagination={false}
                 />
               </Space>
             ) : (
               showTableAgen && (
                 <Table
+                  value
                   columns={ColumnsAgen}
-                  dataSource={dataAgent}
+                  dataSource={dataTable}
                   pagination={false}
                 />
               )
             )}
+          </Row>
+        </div>
+
+        <div>
+          <Row justify="center">
+            <Button
+              type="primary"
+              className="searching-agent"
+              style={{ margin: "50px 0" }}
+              hidden={disableButton}
+              disabled={disableButton}
+              onClick={mutate}
+            >
+              Buat Transaksi
+            </Button>
           </Row>
         </div>
       </div>
