@@ -20,7 +20,6 @@ const useCreateAgent = (agent, onSuccess, onError) => {
       return response.json()
     },
     {
-      //TODO: sistem access token tanpa refresh token gapapa
       onError: (error, variables, context) => {
         console.log("error", error)
       },

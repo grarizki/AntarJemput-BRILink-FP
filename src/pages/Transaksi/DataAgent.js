@@ -21,7 +21,5 @@ const DataAgent = [
     action: "Pilih Agen",
   },
 ]
-//TODO: gunakan sebagai data simulasi sebelum connect backend 
-// ! bisa di delete
 
 export default DataAgent

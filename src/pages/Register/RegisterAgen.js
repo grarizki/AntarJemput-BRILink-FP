@@ -50,11 +50,9 @@ const RegisterAgen = () => {
     },
     handleErrorRegisterAgent
   )
-  //TODO: ditambah isi fetching data kabupaten kota, trus isi ke dropdownnya kabko
   const handleSelectedProvinsi = (value) => {
     setSelectedProvinsi(value)
   }
-  //TODO: ditambah isi fetching data dari district lalu isi ke dropdown district
   const handleSelectedKabupaten = (value) => {
     setSelectedKabupaten(value)
   }
@@ -182,18 +180,11 @@ const RegisterAgen = () => {
                     handleFormProvinsi(e)
                   }}
                 >
-                  {
-                    //TODO: fetching berurutan (provinsi -> kabko + kecamatan)
-                    //TODO: fetching dropdown bawaan kabupaten kota
-
-                    //TODO: register agen langsung masuk ke dalem home
-
-                    DataAlamat.map((provinsi, index) => (
-                      <Option key={index.toString()} value={provinsi.name}>
-                        {provinsi.name}
-                      </Option>
-                    ))
-                  }
+                  {DataAlamat.map((provinsi, index) => (
+                    <Option key={index.toString()} value={provinsi.name}>
+                      {provinsi.name}
+                    </Option>
+                  ))}
                 </Select>
               </Col>
               <Col span={7}>
@@ -221,7 +212,6 @@ const RegisterAgen = () => {
                   }}
                 >
                   {dataKecamatan.map((kecamatan, index) => (
-                    //TODO: Keynya ID valuenya String dari backend
                     <Option key={index.toString()} value={kecamatan}>
                       {kecamatan}
                     </Option>
