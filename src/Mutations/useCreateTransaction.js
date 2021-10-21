@@ -6,12 +6,13 @@ const cookies = new Cookies()
 const useCreateTransaction = (transaction, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/transactions`,
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/transactions`,
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
             // 'Content-Type': 'application/x-www-form-urlencoded',
             Authorization: "Bearer " + cookies.get("accessToken"),
           },
@@ -23,8 +24,12 @@ const useCreateTransaction = (transaction, onSuccess, onError) => {
       if (!response.ok) {
         throw new Error("Network response was not ok")
       }
-      return response.json()
+      const result = await response.json()
+      console.log("respon ghbjgj >>", response.json())
+      return result
+      
     },
+    
     { onError, onSuccess }
   )
 
