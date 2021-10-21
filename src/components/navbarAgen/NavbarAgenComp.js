@@ -28,7 +28,7 @@ function NavbarAgenComp() {
     },
     {
       title: "My Profile",
-      path: "/my-profile",
+      path: "/ProfileAgent",
       icon: <IoIcons.IoIosPaper />,
       cName: "nav-text",
     },
