@@ -99,8 +99,8 @@ const RegisterCustomer = () => {
   }, [history])
 
   return (
-    <div className="outer-login">
-      <div className="inner-login">
+    <div className="outer-register">
+      <div className="inner-register">
         <div className="logo" style={{ marginTop: "0", marginBottom: "45px" }}>
           <Title style={{ textAlign: "center" }}>Sign Up</Title>
         </div>
