@@ -8,7 +8,7 @@ import Swal from "sweetalert2"
 import Cookies from "universal-cookie"
 
 import { useAuthorizedContext } from "../../AuthorizedContext"
-import "./navbarAgen.sass"
+import "../navbarAgen/navbarAgen.sass"
 import Logo from "../../assets/image/BRI-AJ-v2.png"
 
 const cookies = new Cookies()

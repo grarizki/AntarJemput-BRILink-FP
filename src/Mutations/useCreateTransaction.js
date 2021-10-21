@@ -6,7 +6,8 @@ const cookies = new Cookies()
 const useCreateTransaction = (transaction, onSuccess, onError) => {
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/transactions`,
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/transactions`,
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
@@ -24,12 +25,9 @@ const useCreateTransaction = (transaction, onSuccess, onError) => {
       if (!response.ok) {
         throw new Error("Network response was not ok")
       }
-      const result = await response.json()
-      console.log("respon ghbjgj >>", response.json())
-      return result
-      
+      return response.json()
     },
-    
+
     { onError, onSuccess }
   )
 

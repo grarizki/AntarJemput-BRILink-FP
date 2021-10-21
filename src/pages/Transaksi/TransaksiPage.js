@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import React, { useState } from "react"
 import {
   Row,
   Col,
@@ -32,25 +32,25 @@ const TransaksiPage = () => {
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
   const [selectedDistrictID, setSelectedDistrictID] = useState(null)
   const [showTableAgen, setShowTableAgen] = useState(false)
+  const [disableButton, setDisableButton] = useState(true)
   const history = useHistory()
   const [formState, setFormState] = useState({
     address: " ",
     agentId: " ",
     amount: " ",
     districtId: " ",
-    transactionTypeId: " "
+    transactionTypeId: " ",
   })
   console.log("formstate >>", formState)
 
-  const { mutate, data:dataMutasi, isLoading, isError } = useCreateTransaction(
+  const { mutate, isLoading, isError } = useCreateTransaction(
     formState,
-    console.log('formstate mutate>>', formState),
     (result) => {
       console.log("success mutation >> ", result)
       history.replace("/home")
     }
   )
-  
+
   const {
     data,
     isError: isErrorAgent,
@@ -121,18 +121,7 @@ const TransaksiPage = () => {
 
   const handleCreateTransactions = (value) => {
     setFormState({ ...formState, agentId: value })
-    Swal.fire({
-      title: "Anda yakin ingin memilih agen ini?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Terima !",
-    }).then((result) => {
-      if (result.isConfirmed) {
-      }
-    })
-    console.log("formState", formState)
+    setDisableButton(false)
   }
 
   const getTableAgen = () => setShowTableAgen(true)
@@ -174,26 +163,9 @@ const TransaksiPage = () => {
       dataIndex: "action",
       key: "action",
       align: "center",
-      render: (_,record) => (
-        // !!! KURANG MUTATION
-        // !!! MUTATION DIBUAT DI SWEET ALERT
-        <Button type="link" onClick={()=>handleCreateTransactions(record.key)}
-        >
+      render: (_, record) => (
+        <Button type="link" onClick={() => handleCreateTransactions(record.key)}>
           Pilih Agen
-        </Button>
-      ),
-    },
-    {
-      title: "Mutasi",
-      dataIndex: "mutasi",
-      key: "mutasi",
-      align: "center",
-      render: () => (
-        // !!! KURANG MUTATION
-        // !!! MUTATION DIBUAT DI SWEET ALERT
-        <Button type="link" onClick={mutate}
-        >
-          Mutasi
         </Button>
       ),
     },
@@ -223,7 +195,10 @@ const TransaksiPage = () => {
                     <Select
                       placeholder="Pilih Jenis Transaksi"
                       onChange={(value) => {
-                        setFormState({ ...formState, transactionTypeId: parseInt(value) })
+                        setFormState({
+                          ...formState,
+                          transactionTypeId: parseInt(value),
+                        })
                       }}
                     >
                       {JenisTransaksi.map((option) => (
@@ -356,7 +331,7 @@ const TransaksiPage = () => {
           </Row>
         </div>
 
-        <div style={{ margin: "50px 0" }}>
+        <div style={{ marginTop: "50px" }}>
           <Row justify="center">
             {isLoading ? (
               <Spin />
@@ -391,6 +366,21 @@ const TransaksiPage = () => {
                 />
               )
             )}
+          </Row>
+        </div>
+
+        <div>
+          <Row justify="center">
+            <Button
+              type="primary"
+              className="searching-agent"
+              style={{ margin: "50px 0" }}
+              hidden={disableButton}
+              disabled={disableButton}
+              onClick={mutate}
+            >
+              Buat Transaksi
+            </Button>
           </Row>
         </div>
       </div>
