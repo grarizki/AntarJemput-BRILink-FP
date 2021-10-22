@@ -239,7 +239,7 @@ const RegisterCustomer = () => {
               }}
             >
               <Button
-                className="btn-registerAgenCustomer"
+                className="btn-registerCustomer"
                 onClick={registerCustomer}
               >
                 Register Customer

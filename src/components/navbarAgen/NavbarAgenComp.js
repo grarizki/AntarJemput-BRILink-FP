@@ -22,7 +22,7 @@ function NavbarAgenComp() {
   const SidebarDataAgen = [
     {
       title: "Beranda",
-      path: "/home",
+      path: "/home-agent",
       icon: <AiIcons.AiFillHome />,
       cName: "nav-text",
     },
@@ -70,7 +70,7 @@ function NavbarAgenComp() {
 
   return (
     <>
-      <IconContext.Provider value={{ color: "#1E212D" }}>
+      <IconContext.Provider value={{ color: "#373e38" }}>
         <div className="navbar">
           <Link to="#" className="menu-bars">
             <FaIcons.FaBars onClick={showSidebar} />

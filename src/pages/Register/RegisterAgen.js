@@ -366,7 +366,7 @@ const RegisterAgen = () => {
                 justifyContent: "center",
               }}
             >
-              <Button className="btn-registerAgenCustomer" onClick={registerAgent}>
+              <Button className="btn-registerAgen" onClick={registerAgent}>
                 Register Agen
               </Button>
             </Col>

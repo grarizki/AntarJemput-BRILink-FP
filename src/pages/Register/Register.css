@@ -19,9 +19,16 @@
   transition: all 0.3s;
 }
 
-Button.btn-registerAgenCustomer {
+Button.btn-registerAgen {
   background-color: #292961;
   color: #fff;
   border-radius: 10px;
-  margin: 0 auto;
+  margin-left: 15vh ;
+}
+
+Button.btn-registerCustomer {
+  background-color: #292961;
+  color: #fff;
+  border-radius: 10px;
+  margin-left: 25vh ;
 }

@@ -33,7 +33,6 @@ function NavbarComponent() {
     },
     {
       title: "Keluar",
-      // path: "/signout",
       icon: <LogoutOutlined/>,
       cName: "nav-text",
       onClick: () => {
