@@ -276,10 +276,12 @@ const TransaksiPage = () => {
                         onChange={(e) => {
                           handleSelectedProvinsi(e)
                         }}
-                      >{dataProvinces?.map((provinces, id) => (
+                      >
+                        {dataProvinces?.map((provinces, id) => (
                           <Option key={id.toString()} value={provinces.id}>
                             {provinces.name}
-                          </Option>))}
+                          </Option>
+                        ))}
                       </Select>
                     </Row>
                     <Row
@@ -387,31 +389,28 @@ const TransaksiPage = () => {
 
         <div>
           <Row justify="center">
-            {isLoading ? (
-              <Spin />
-            ) : isError(
-            <Space align="center" direction="vertical" size="large">
-            <Text style={{ color: "red" }}>Gagal memilih Agen</Text>
+            
+                <Button
+                  type="primary"
+                  className="searching-agent"
+                  style={{
+                    marginTop: "10px",
+                    marginBottom: "40px",
+                    color: "white",
+                    paddingRight: "15px",
+                    backgroundColor: "#000080",
+                    fontWeight: "bold",
+                    borderRadius: "5px",
+                    marginLeft: "50px",
+                  }}
+                  hidden={disableButton}
+                  disabled={disableButton}
+                  onClick={mutate}
+                >
+                  Buat Transaksi
+                </Button>
+            
             <Button
-              type="primary"
-              className="searching-agent"
-              style={{
-                marginTop: "10px",
-                marginBottom: "40px",
-                color: "white",
-                paddingRight: "15px",
-                backgroundColor: "#000080",
-                fontWeight: "bold",
-                borderRadius: "5px",
-                marginLeft: "50px",
-              }}
-              hidden={disableButton}
-              disabled={disableButton}
-              onClick={mutate}
-            >
-              Buat Transaksi
-            </Button>
-            </Space>) }<Button
               type="primary"
               className="searching-agent"
               style={{
