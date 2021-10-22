@@ -7,12 +7,11 @@ const desc = ["terrible", "bad", "normal", "good", "wonderful"]
 const { Text } = Typography
 
 function RatingAgent(props) {
-    const [currentValue, setCurrentValue] = useState()
-    const history = useHistory()
 
-    const handleBack = () => {
-        history.push("/home-agent")
-    }
+    let numberOfRating = props.transaction.rating
+    if(isNaN(numberOfRating)) numberOfRating = 0
+
+    let totalReview = props.transaction.userAgent.agent.totalReviewTransactions
 
     return (
         <div className="outer-rate">
@@ -34,35 +33,18 @@ function RatingAgent(props) {
           <Text
               style={{ marginLeft: "100px", fontWeight: "bold", fontSize: "30px" }}
           >
-              {Math.floor(props.transaction.userAgent.agent.agentRating).toFixed(1)}
+
+             {Math.floor(numberOfRating).toFixed(1)}
           </Text>
           <Text> / 5</Text> <br />
           <Rate
               allowHalf
-              value={Math.floor(props.transaction.userAgent.agent.agentRating).toFixed(1)}
+              value={Math.floor(numberOfRating).toFixed(1)}
               style={{ marginRight: "15px", marginLeft: "70px" }}
           />
         </span> <br /> <br />
-         <Text style={{marginLeft:"100px"}}>{props.transaction.userAgent.agent.totalReviewTransactions} Transaksi</Text>
-                {/*<Progress percent={30} strokeColor={'#F9E926'}/>*/}
-                {/*<Progress percent={50} strokeColor={'#F9E926'}/>*/}
-                {/*<Progress percent={70}  strokeColor={'#F9E926'}/>*/}
-                {/*<Progress percent={30} strokeColor={'#F9E926'}/>*/}
-                {/*<Progress percent={50} strokeColor={'#F9E926'}/>*/}
+         <Text style={{marginLeft:"100px"}}>{totalReview ? totalReview : 0  } Transaksi</Text>
                 <br /> <br />
-                {/*<Button*/}
-                {/*    style={{*/}
-                {/*        backgroundColor: "#292961 ",*/}
-                {/*        borderRadius: "10px",*/}
-                {/*        color: "white",*/}
-                {/*        marginTop: "30px",*/}
-                {/*        alignContent: "center",*/}
-                {/*    }}*/}
-                {/*    onClick={handleBack}*/}
-                {/*>*/}
-                {/*    {" "}*/}
-                {/*    KEMBALI KE HALAMAN UTAMA*/}
-                {/*</Button>*/}
             </div>
         </div>
     )
