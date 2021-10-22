@@ -86,7 +86,6 @@ const CardComponent = (props) => {
     props.transaction.id,
     { rating: currentValue },
     props.refetchTransactions,
-    console.log("error ", Error),
     { handleOk }
   )
 

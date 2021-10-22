@@ -32,7 +32,6 @@ const useCreateRate = (transactionId, rating, onSuccess, onError) => {
       } else {
         const errorResult = await response.json()
         let errorMessage = ""
-        console.log(errorResult.message)
         if (errorResult.message == "Error in field: Rating") {
           errorMessage = "Silahkan Isi Rating"
           Swal.fire({
@@ -46,7 +45,6 @@ const useCreateRate = (transactionId, rating, onSuccess, onError) => {
         } else {
           throw new Error("Network response was not ok")
         }
-        // eslint-disable-next-line no-unreachable
       }
     },
     { onError, onSuccess }

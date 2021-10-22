@@ -79,7 +79,6 @@ const RegisterAgen = () => {
   } = useCreateAgen(
     agentState,
     (result) => {
-      console.log("success mutation >> ", result)
       history.push("/")
     },
     handleSuccessRegister,
@@ -97,8 +96,6 @@ const RegisterAgen = () => {
   }
   const handleFormDistrictID = (value) => {
     setAgentState({ ...agentState, districtId: value })
-    console.log(agentState)
-    console.log(value)
   }
 
   const [password, setPassword] = useState("")
@@ -108,7 +105,6 @@ const RegisterAgen = () => {
 
   const changePassword = (e) => {
     const value = e.target.value
-    console.log("value >>", value)
     setPassword(value)
     if (!value) {
       setErrorPassword("Password tidak boleh kosong")
@@ -126,8 +122,6 @@ const RegisterAgen = () => {
   const changeConfirmPassword = (e) => {
     const value = e.target.value
     setConfirmPassword(value)
-    console.log("value >>", value)
-    console.log("password >>", password)
     if (!value) {
       setErrorConfirmPassword("Konfirmasi Password tidak boleh kosong")
     } else if (password != value) {
@@ -178,7 +172,6 @@ const RegisterAgen = () => {
               placeholder="Masukkan Nama"
               name="Nama"
               onChange={(event) => {
-                console.log("value >> ", agentState)
                 setAgentState({
                   ...agentState,
                   agentName: event.target.value,
@@ -258,7 +251,6 @@ const RegisterAgen = () => {
               placeholder="Masukkan Detail Alamat Kantor Anda"
               name="alamat-Kantor"
               onChange={(event) => {
-                console.log("value >> ", agentState)
                 setAgentState({
                   ...agentState,
                   address: event.target.value,
@@ -283,7 +275,6 @@ const RegisterAgen = () => {
               placeholder="Masukkan Nomor Handphone"
               name="Nomor-Handphone"
               onChange={(event) => {
-                console.log("value >> ", agentState)
                 setAgentState({
                   ...agentState,
                   noHandphone: event.target.value,
@@ -306,7 +297,6 @@ const RegisterAgen = () => {
               placeholder="Masukkan Username"
               name="Username"
               onChange={(event) => {
-                console.log("value >> ", agentState)
                 setAgentState({
                   ...agentState,
                   username: event.target.value,
