@@ -7,12 +7,12 @@ import "./CardAgent.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faCheck,
+  faBan,
   faClipboardCheck,
-  faEye,
   faTimesCircle,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons"
-import { useHistory } from "react-router-dom"
+// import { useHistory } from "react-router-dom"
 import useUpdateTransaction from "../../Mutations/useUpdateTransaction"
 import RatingAgent from "../Rating/RatingAgent"
 
@@ -72,7 +72,7 @@ const CardAgent = (props) => {
         acceptedTransaction()
       }
     })
-  }, [deleteTransaction])
+  }, [acceptedTransaction])
 
   const { mutate: doneTransaction } = useUpdateTransaction(
     props.transaction.id,
@@ -99,7 +99,7 @@ const CardAgent = (props) => {
 
   const handleRejectedTransaction = useCallback(() => {
     Swal.fire({
-      title: "Anda yakin ingin menerima transaksi ini?",
+      title: "Anda yakin ingin membatalkan transaksi ini?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -107,7 +107,7 @@ const CardAgent = (props) => {
       confirmButtonText: "Ya, Terima !",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Berhasil", "Transaksi Diterima.", "success")
+        Swal.fire("Berhasil", "Transaksi Dibatalkan.", "success")
         rejectedTransaction()
       }
     })
@@ -164,12 +164,12 @@ const CardAgent = (props) => {
           {props.transaction.statusTransaction === 0
             ? "Menunggu konfirmasi agen"
             : props.transaction.statusTransaction === 1
-            ? "Agen dalam perjalanan"
-            : props.transaction.statusTransaction === 2
-            ? "Dibatalkan"
-            : props.transaction.statusTransaction === 3
-            ? "Selesai"
-            : "Error"}
+              ? "Agen dalam perjalanan"
+              : props.transaction.statusTransaction === 2
+                ? "Dibatalkan"
+                : props.transaction.statusTransaction === 3
+                  ? "Selesai"
+                  : "Error"}
         </li>
       </ul>
       <div className="float-right">
@@ -210,20 +210,21 @@ const CardAgent = (props) => {
           </>
         ) : props.transaction.statusTransaction === 1 ? (
           <>
-            {/*<Button*/}
-            {/*    style={{*/}
-            {/*        backgroundColor: "black",*/}
-            {/*        color: "white",*/}
-            {/*        fontWeight: "bold",*/}
-            {/*        borderRadius: "10px",*/}
-            {/*        paddingRight: "15px",*/}
-            {/*        margin: "0px",*/}
-            {/*        marginLeft: "50px",*/}
-            {/*    }}*/}
-            {/*>*/}
-            {/*    <FontAwesomeIcon icon={faTimesCircle} style={{marginRight: "5px"}}/>{" "}*/}
-            {/*    Batalkan*/}
-            {/*</Button>*/}
+            <Button
+              style={{
+                margin: "0px",
+                paddingRight: "15px",
+                backgroundColor: "brown",
+                color: "white",
+                fontWeight: "bold",
+                borderRadius: "5px",
+                marginLeft: "50px",
+              }}
+              onClick={handleRejectedTransaction}
+            >
+              <FontAwesomeIcon icon={faBan} style={{ marginRight: "5px" }} />{" "}
+              Batalkan
+            </Button>
 
             <Button
               className="btn btn-primary"
