@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { Modal, Form, Input, Button, Select, Col } from "antd"
+import { Form, Input, Button, Select, Col } from "antd"
 import {
   UserOutlined,
   LockOutlined,
@@ -24,8 +24,6 @@ const Login = () => {
   const [data, setData] = useState({})
   const [selectedUserLevel, setSelectedUserLevel] = useState()
   const { setAuthorizedValue } = useAuthorizedContext()
-  const [visible, setVisible] = React.useState(false)
-  const [confirmLoading, setConfirmLoading] = React.useState(false)
 
   const handleSuccessLogin = useCallback(() => {
     if (selectedUserLevel == 2) {
@@ -119,24 +117,6 @@ const Login = () => {
   console.log("Ini data", data)
   console.log("INI ROLE", selectedUserLevel)
 
-
-  const showModal = () => {
-    setVisible(true)
-  }
-
-  const handleOk = () => {
-    setConfirmLoading(true)
-    setTimeout(() => {
-      setVisible(false)
-      setConfirmLoading(false)
-    }, 1000)
-  }
-
-  const handleCancel = () => {
-    console.log("Clicked cancel button")
-    setVisible(false)
-  }
-
   const handleRegisterAgen = useCallback(() => {
     history.push("/RegisterAgen")
   }, [])
@@ -144,6 +124,23 @@ const Login = () => {
   const handleRegisterCustomer = useCallback(() => {
     history.push("/RegisterCustomer")
   }, [])
+
+  const showModal = () => {
+    Swal.fire({
+      icon:"question",
+      text: 'Register Sebagai',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Customer',
+      denyButtonText: `Agen`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleRegisterCustomer()
+      } else if (result.isDenied) {
+        handleRegisterAgen()
+      }
+    })
+  }
 
   return (
     <div className="outer-login" style={{ backgroundImage: `url(${Background})` }}>
@@ -240,22 +237,6 @@ const Login = () => {
             </Col>
           </Form.Item>
         </Form>
-        <Modal
-          className="my-modal-window"
-          visible={visible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={[
-            <Button key="Agen" type="primary" onClick={handleRegisterAgen}>
-              Agen
-            </Button>,
-            <Button key="Customer" type="primary" onClick={handleRegisterCustomer}>
-              Customer
-            </Button>,
-          ]}
-        >
-          <p>Register sebagai</p>
-        </Modal>
       </div>
     </div>
   )
