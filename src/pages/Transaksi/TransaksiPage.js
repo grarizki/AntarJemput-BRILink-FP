@@ -31,6 +31,7 @@ const TransaksiPage = () => {
   const [selectedProvinsi, setSelectedProvinsi] = useState(null)
   const [selectedKabupaten, setSelectedKabupaten] = useState(null)
   const [selectedDistrictID, setSelectedDistrictID] = useState(null)
+  const [showForm, setShowForm] = useState(false)
   const [showTableAgen, setShowTableAgen] = useState(false)
   const [disableButton, setDisableButton] = useState(true)
   const history = useHistory()
@@ -44,12 +45,9 @@ const TransaksiPage = () => {
   })
   console.log("formstate >>", formState)
 
-  const handleSelectedProvince = useCallback((value) => {
-    setSelectedProvinsi(value)
-    console.log(value)
-  })
-
-  console.log("ini select " + selectedProvinsi)
+  const handleShowForm = () => {
+    setShowForm(true)
+  }
 
   const {
     data: provinceData,
@@ -192,12 +190,20 @@ const TransaksiPage = () => {
       key: "action",
       align: "center",
       render: (_, record) => (
-        <Button type="link" onClick={() => handleCreateTransactions(record.key)}>
+        <Button type="link" onClick={() => { handleCreateTransactions(record.key) }}>
           Pilih Agen
         </Button>
       ),
     },
   ]
+
+  const handleJenisTransaksi = (value) => {
+    setShowForm(true),
+      setFormState({
+        ...formState,
+        transactionTypeId: parseInt(value),
+      })
+  }
 
   return (
     <div>
@@ -222,12 +228,7 @@ const TransaksiPage = () => {
                   <Col>
                     <Select
                       placeholder="Pilih Jenis Transaksi"
-                      onChange={(value) => {
-                        setFormState({
-                          ...formState,
-                          transactionTypeId: parseInt(value),
-                        })
-                      }}
+                      onChange={handleJenisTransaksi}
                     >
                       {JenisTransaksi.map((option) => (
                         <Option
@@ -241,6 +242,8 @@ const TransaksiPage = () => {
                     </Select>
                   </Col>
                 </Form.Item>
+              </Form>
+              {showForm ? <Form style={{ width: "100%" }}>
                 <Form.Item
                   labelCol={{ span: 6 }}
                   wrapperCol={{ span: 24 }}
@@ -274,7 +277,6 @@ const TransaksiPage = () => {
                     />
                   </Col>
                 </Form.Item>
-
                 <Form.Item
                   labelCol={{ span: 6 }}
                   wrapperCol={{ span: 24 }}
@@ -287,53 +289,53 @@ const TransaksiPage = () => {
                     },
                   ]}
                 >
-                  <Row justify="space-between" style={{ marginBottom: "10px" }}>
-                    <Col span={7}>
-                      <Select
-                        placeholder="Pilih Provinsi"
-                        onChange={(e) => {
-                          handleSelectedProvinsi(e)
-                        }}
-                      >
-                        {dataProvinces?.map((provinces, id) => (
-                          <Option key={id.toString()} value={provinces.id}>
-                            {provinces.name}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Col>
-                    <Col span={7}>
-                      <Select
-                        placeholder="Pilih Kabupaten"
-                        onChange={(e) => {
-                          handleSelectedKabupaten(e)
-                        }}
-                      >
-                        {dataCity?.map((city, id) => (
-                          <Option key={id.toString()} value={city.id}>
-                            {city.name}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Col>
-                    <Col span={7}>
-                      <Select
-                        placeholder="Pilih Kecamatan"
-                        onChange={(e) => {
-                          handleSelectedDistrictID(e)
-                          handleFormDistrictID(e)
-                        }}
-                      >
-                        {dataDistrictID?.map((district, id) => (
-                          <Option key={id.toString()} value={district.id}>
-                            {district.name}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Col>
+                  <Row span={7} style={{ marginBottom: "10px" }}>
+                    <Select
+                      placeholder="Pilih Provinsi"
+                      onChange={(e) => {
+                        handleSelectedProvinsi(e)
+                      }}
+                    >
+                      {dataProvinces?.map((provinces, id) => (
+                        <Option key={id.toString()} value={provinces.id}>
+                          {provinces.name}
+                        </Option>
+                      ))}
+                    </Select>
                   </Row>
+                  <Row span={7} justify="space-between" style={{ marginBottom: "10px" }}>
+                    <Select
+                      placeholder="Pilih Kabupaten"
+                      onChange={(e) => {
+                        handleSelectedKabupaten(e)
+                      }}
+                    >
+                      {dataCity?.map((city, id) => (
+                        <Option key={id.toString()} value={city.id}>
+                          {city.name}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Row>
+                  <Row span={7} justify="space-between" style={{ marginBottom: "10px" }}>
+                    <Select
+                      placeholder="Pilih Kecamatan"
+                      onChange={(e) => {
+                        handleSelectedDistrictID(e)
+                        handleFormDistrictID(e)
+                      }}
+                    >
+                      {dataDistrictID?.map((district, id) => (
+                        <Option key={id.toString()} value={district.id}>
+                          {district.name}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Row>
+
                   <Row>
                     <Input.TextArea
+                      placeholder="Nama Jalan, Gedung, No. Rumah"
                       onChange={(event) => {
                         setFormState({
                           ...formState,
@@ -344,22 +346,34 @@ const TransaksiPage = () => {
                     />
                   </Row>
                 </Form.Item>
+                <Form.Item>
+                  <Col>
+                    <Row justify="center">
+                      <Button
+                        type="primary"
+                        className="searching-agent"
+                        style={{
+                          marginTop: "20px",
+                          color: "white",
+                          paddingRight: "15px",
+                          backgroundColor: "#000080",
+                          fontWeight: "bold",
+                          borderRadius: "5px",
+                          marginLeft: "50px",
+                        }}
+                        onClick={getTableAgen}
+                      >
+                        Cari Agen
+                      </Button>
+                    </Row>
+                  </Col>
+                </Form.Item>
               </Form>
+                : null}
             </Col>
           </Row>
-          <Row justify="center">
-            <Button
-              type="primary"
-              className="searching-agent"
-              style={{ marginTop: "50px" }}
-              onClick={getTableAgen}
-            >
-              Cari Agen
-            </Button>
-          </Row>
         </div>
-
-        <div style={{ marginTop: "50px" }}>
+        <div style={{ marginTop: "30px", marginBottom: '30px' }}>
           <Row justify="center">
             {isLoading ? (
               <Spin />
@@ -390,7 +404,16 @@ const TransaksiPage = () => {
             <Button
               type="primary"
               className="searching-agent"
-              style={{ margin: "50px 0" }}
+              style={{
+                marginTop: "10px",
+                marginBottom: '40px',
+                color: "white",
+                paddingRight: "15px",
+                backgroundColor: "#000080",
+                fontWeight: "bold",
+                borderRadius: "5px",
+                marginLeft: "50px",
+              }}
               hidden={disableButton}
               disabled={disableButton}
               onClick={mutate}
