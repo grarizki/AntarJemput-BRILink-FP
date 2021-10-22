@@ -10,7 +10,6 @@ const useCreateRate = (transactionId, rating, onSuccess, onError) => {
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_TRANSACTIONS}/rating/${transactionId}`,
         {
-          //FIXME: ERROR 500 record not found, gagal beri rating
           method: "PUT", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",

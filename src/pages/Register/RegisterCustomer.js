@@ -20,7 +20,6 @@ const RegisterCustomer = () => {
   const { setAuthorizedValue } = useAuthorizedContext()
 
   const handleErrorRegisterCust = useCallback((error) => {
-    //FIXME: error tidak terspesifikasi namanya
     if (error) {
       Swal.fire({
         icon: "error",

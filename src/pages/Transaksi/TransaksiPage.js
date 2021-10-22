@@ -389,27 +389,6 @@ const TransaksiPage = () => {
 
         <div>
           <Row justify="center">
-            
-                <Button
-                  type="primary"
-                  className="searching-agent"
-                  style={{
-                    marginTop: "10px",
-                    marginBottom: "40px",
-                    color: "white",
-                    paddingRight: "15px",
-                    backgroundColor: "#000080",
-                    fontWeight: "bold",
-                    borderRadius: "5px",
-                    marginLeft: "50px",
-                  }}
-                  hidden={disableButton}
-                  disabled={disableButton}
-                  onClick={mutate}
-                >
-                  Buat Transaksi
-                </Button>
-            
             <Button
               type="primary"
               className="searching-agent"

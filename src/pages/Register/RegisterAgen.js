@@ -132,7 +132,6 @@ const RegisterAgen = () => {
   }
 
   return (
-    //FIXME: ERROR HANDLING WITH SWAL IS NOT BUILD
     <div className="outer-register">
       <div className="inner-register">
         <div>
@@ -239,7 +238,7 @@ const RegisterAgen = () => {
           <Form.Item
             style={{ marginBottom: " 8px", padding: "0px" }}
             name="alamat-Kantor"
-            label="Alamat Kantor"
+            label="Detail Alamat"
             rules={[
               {
                 required: true,
@@ -248,7 +247,7 @@ const RegisterAgen = () => {
             ]}
           >
             <Input
-              placeholder="Masukkan Detail Alamat Kantor Anda"
+              placeholder="Masukkan Detail Alamat Anda"
               name="alamat-Kantor"
               onChange={(event) => {
                 setAgentState({
