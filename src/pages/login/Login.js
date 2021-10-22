@@ -118,11 +118,11 @@ const Login = () => {
   console.log("INI ROLE", selectedUserLevel)
 
   const handleRegisterAgen = useCallback(() => {
-    history.push("/RegisterAgen")
+    history.push("/register-agen")
   }, [])
 
   const handleRegisterCustomer = useCallback(() => {
-    history.push("/RegisterCustomer")
+    history.push("/register-customer")
   }, [])
 
   const showModal = () => {

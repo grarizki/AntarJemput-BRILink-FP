@@ -36,10 +36,10 @@ function App() {
                 <Login />
               </RestrictedWrapper>
             </Route>
-            <Route path="/RegisterAgen" exact>
+            <Route path="/register-agen" exact>
               <RegisterAgen />
             </Route>
-            <Route path="/RegisterCustomer" exact>
+            <Route path="/register-customer" exact>
               <RegisterCustomer />
             </Route>
             <Route path="/rate" exact>
