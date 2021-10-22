@@ -98,7 +98,7 @@ function NavbarAgenComp() {
               return (
                 <li key={index} className={item.cName} onClick={onClick}>
                   {item.icon}
-                  <span style={{ marginLeft: "10px", color: "black" }}>
+                  <span style={{ marginLeft: "10px", color: "white" }}>
                     {item.title}
                   </span>
                 </li>
