@@ -143,7 +143,7 @@ const CardComponent = (props) => {
             : props.transaction.statusTransaction === 1
             ? "Agen dalam perjalanan"
             : props.transaction.statusTransaction === 2
-            ? "Dibatalkan"
+            ? "Ditolak atau Dibatalkan"
             : props.transaction.statusTransaction === 3
             ? "Selesai"
             : "Error"}

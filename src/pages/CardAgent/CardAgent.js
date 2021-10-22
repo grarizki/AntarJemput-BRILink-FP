@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { Button, Card, Modal, Rate, Typography } from "antd"
+import { Button, Card, Modal, Rate, Typography, Anchor } from "antd"
 import moment from "moment"
 import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import Swal from "sweetalert2"
@@ -16,6 +16,7 @@ import {
 import useUpdateTransaction from "../../Mutations/useUpdateTransaction"
 import RatingAgent from "../Rating/RatingAgent"
 
+const { Link } = Anchor
 const { Text } = Typography
 const CardAgent = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -150,14 +151,25 @@ const CardAgent = (props) => {
           <b>Nominal Transaksi</b>Rp{formatMoney(props.transaction.amount)}
         </li>
         <li>
-          <b>Alamat Anda</b>
+          <b>Alamat Customer</b>
           {props.transaction.address}
+        </li>
+        <li>
+          <b>Nomer Customer</b>
+          <Button
+          type='link'
+          style={
+            {padding:"0px"}
+          }
+          href={"https://wa.me/62"+ props.transaction.userCustomer.customer.NoHandphone}>
+          {props.transaction.userCustomer.customer.NoHandphone}
+          </Button>
         </li>
         <li>
           <b>Agen BRILink</b> {props.transaction.userAgent.agent.agentName}
         </li>
         <li>
-          <b>Alamat Agen</b> {props.transaction.userAgent.agent.address}
+          <b>Alamat Anda</b> {props.transaction.userAgent.agent.address}
         </li>
         <li>
           <b>Status</b>{" "}
@@ -166,7 +178,7 @@ const CardAgent = (props) => {
             : props.transaction.statusTransaction === 1
               ? "Agen dalam perjalanan"
               : props.transaction.statusTransaction === 2
-                ? "Dibatalkan"
+                ? "Ditolak atau Dibatalkan"
                 : props.transaction.statusTransaction === 3
                   ? "Selesai"
                   : "Error"}
