@@ -279,7 +279,7 @@ const TransaksiPage = () => {
                       >{dataProvinces?.map((provinces, id) => (
                           <Option key={id.toString()} value={provinces.id}>
                             {provinces.name}
-                          </Option>}
+                          </Option>))}
                       </Select>
                     </Row>
                     <Row
@@ -389,7 +389,7 @@ const TransaksiPage = () => {
           <Row justify="center">
             {isLoading ? (
               <Spin />
-            ) : isError
+            ) : isError(
             <Space align="center" direction="vertical" size="large">
             <Text style={{ color: "red" }}>Gagal memilih Agen</Text>
             <Button
@@ -411,7 +411,7 @@ const TransaksiPage = () => {
             >
               Buat Transaksi
             </Button>
-            </Space>) : <Button
+            </Space>) }<Button
               type="primary"
               className="searching-agent"
               style={{
@@ -429,7 +429,7 @@ const TransaksiPage = () => {
               onClick={mutate}
             >
               Buat Transaksi
-            </Button>}
+            </Button>
           </Row>
         </div>
       </div>
