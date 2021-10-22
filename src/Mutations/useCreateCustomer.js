@@ -7,7 +7,7 @@ const useCreateCustomer = (registerCusData, onSuccess, onError) => {
     async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/customers`,
+          `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_BE_CUSTOMERS}`,
           {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             headers: {
