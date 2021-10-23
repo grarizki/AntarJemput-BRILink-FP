@@ -53,6 +53,7 @@ const RegisterAgen = () => {
     if (error) {
       Swal.fire({
         icon: "error",
+        text: error.message,
         title: "Register gagal",
         showConfirmButton: false,
         timer: 2000,

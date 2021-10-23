@@ -31,7 +31,29 @@ const useCreateCustomer = (registerCusData, onSuccess, onError) => {
           return result
         }
         const errorResult = await response.json()
-        throw new Error(errorResult)
+          let errorMessage = ""
+          switch (errorResult.message) {
+              case "Error in field: NoHandphone" :
+                  errorMessage = "Input Handphone wajib diisi"
+                  throw new Error(errorMessage)
+              case "Error in field: Username" :
+                  errorMessage = "Username wajib diisi"
+                  throw new Error(errorMessage)
+              case "Error in field: Password" :
+                  errorMessage = "Password wajib diisi"
+                  throw new Error(errorMessage)
+              case "Error in field: Name" :
+                  errorMessage = "Nama wajib diisi"
+                  throw new Error(errorMessage)
+              case "Username Already is exist":
+                  errorMessage = "Username sudah terdaftar"
+                  throw new Error(errorMessage)
+              default:
+                  errorMessage = errorResult.message
+                  throw new Error(errorMessage)
+          }
+
+
       } catch (error) {
         throw new Error(error)
       }

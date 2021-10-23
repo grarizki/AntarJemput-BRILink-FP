@@ -21,8 +21,10 @@ const RegisterCustomer = () => {
 
   const handleErrorRegisterCust = useCallback((error) => {
     if (error) {
+  console.log("ini error " + error)
       Swal.fire({
         icon: "error",
+        text : error.message,
         title: "Gagal Registrasi",
         showConfirmButton: false,
         timer: 2000,
