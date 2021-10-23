@@ -1,8 +1,9 @@
 import { useMutation } from "react-query"
-
+import { useHistory } from "react-router-dom"
 import Swal from "sweetalert2";
 
 const useCreateCustomer = (registerCusData, onSuccess, onError) => {
+  const history = useHistory()
   const { mutate, data, isLoading, isError } = useMutation(
     async () => {
       try {
@@ -26,7 +27,7 @@ const useCreateCustomer = (registerCusData, onSuccess, onError) => {
             showConfirmButton: false,
             timer: 2000,
           })
-          history.push("/")
+          history.push('/')
           return result
         }
         const errorResult = await response.json()

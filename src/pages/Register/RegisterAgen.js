@@ -44,17 +44,6 @@ const RegisterAgen = () => {
     isError: isErrorDistrictID,
   } = useGetDistrictID(selectedKabupaten)
 
-  const handleSuccessRegister = useCallback(() => {
-    setAuthorizedValue(true)
-    Swal.fire({
-      icon: "success",
-      title: "Register Success",
-      showConfirmButton: false,
-      timer: 2000,
-    })
-    history.push("/home")
-  }, [setAuthorizedValue, history])
-
   const handleBackLogin = useCallback(() => {
     setAuthorizedValue(false)
     history.push("/")
@@ -64,8 +53,7 @@ const RegisterAgen = () => {
     if (error) {
       Swal.fire({
         icon: "error",
-        text: error,
-        title: "Login gagal",
+        title: "Register gagal",
         showConfirmButton: false,
         timer: 2000,
       })
@@ -74,14 +62,13 @@ const RegisterAgen = () => {
 
   const {
     mutate: registerAgent,
-    isLoadingAgent,
-    isErrorAgent,
+   isLoading:isLoadingAgent,
+    isError: isErrorAgent,
   } = useCreateAgen(
     agentState,
     (result) => {
       history.push("/")
     },
-    handleSuccessRegister,
     handleErrorRegister
   )
   const handleSelectedProvinsi = (value) => {
@@ -134,6 +121,15 @@ const RegisterAgen = () => {
   return (
     <div className="outer-register">
       <div className="inner-register">
+      <div style={{marginTop:'30px'}}>
+          <Button
+            type="link"
+            style={{ marginLeft: "-40px", fontSize: "15px" }}
+            onClick={handleBackLogin}
+          >
+            Kembali
+          </Button>
+        </div>
         <div>
           <Button
             type="link"

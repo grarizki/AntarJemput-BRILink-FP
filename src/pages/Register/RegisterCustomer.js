@@ -23,12 +23,10 @@ const RegisterCustomer = () => {
     if (error) {
       Swal.fire({
         icon: "error",
-        text: error.message,
         title: "Gagal Registrasi",
         showConfirmButton: false,
         timer: 2000,
       })
-      history.push("/")
     }
   }, [])
 
