@@ -3,7 +3,7 @@ import { Button, Card, Modal, Rate, Typography, Anchor } from "antd"
 import moment from "moment"
 import useDeleteTransaction from "../../Mutations/useDeleteTransaction"
 import Swal from "sweetalert2"
-import "./CardAgent.css"
+import "./CardAgent.sass"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faCheck,

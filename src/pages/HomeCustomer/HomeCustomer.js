@@ -1,6 +1,6 @@
 import React from "react"
 import {Typography, Spin, Space, Alert, PageHeader, Button, Descriptions, Image} from "antd"
-import "./Home.css"
+import "./Home.sass"
 import NavbarComponent from "../../components/navbar/NavbarComponent"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 import useGetTransaction from "../../Query/useGetTransaction"

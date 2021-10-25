@@ -5,7 +5,7 @@ import Swal from "sweetalert2"
 
 import useCreateCustomer from "../../Mutations/useCreateCustomer"
 import { useAuthorizedContext } from "../../AuthorizedContext"
-import "./Register.css"
+import "./Register.sass"
 
 const { Title } = Typography
 
@@ -21,10 +21,10 @@ const RegisterCustomer = () => {
 
   const handleErrorRegisterCust = useCallback((error) => {
     if (error) {
-  console.log("ini error " + error)
+      console.log("ini error " + error)
       Swal.fire({
         icon: "error",
-        text : error.message,
+        text: error.message,
         title: "Gagal Registrasi",
         showConfirmButton: false,
         timer: 2000,

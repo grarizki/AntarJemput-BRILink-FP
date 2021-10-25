@@ -21,7 +21,7 @@ import useGetCity from "../../Query/useGetCity"
 import useGetDistrictID from "../../Query/useGetDistrictID"
 import useCreateTransaction from "../../Mutations/useCreateTransaction"
 import NavbarComponent from "../../components/navbar/NavbarComponent"
-import "./TransaksiPage.css"
+import "./TransaksiPage.sass"
 
 const { Option } = Select
 const { Text } = Typography

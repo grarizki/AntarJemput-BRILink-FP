@@ -7,7 +7,7 @@ import useGetProvinces from "../../Query/useGetProvinces"
 import useGetCity from "../../Query/useGetCity"
 import useGetDistrictID from "../../Query/useGetDistrictID"
 import useCreateAgen from "../../Mutations/useCreateAgen"
-import "./Register.css"
+import "./Register.sass"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 
 const { Option } = Select

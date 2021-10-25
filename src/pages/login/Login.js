@@ -9,7 +9,7 @@ import {
 import { useHistory } from "react-router-dom"
 import Swal from "sweetalert2"
 
-import "./login.css"
+import "./login.sass"
 import BRI from "../../assets/image/BRI2.png"
 import { useAuthorizedContext } from "../../AuthorizedContext"
 import useLogin from "../../Mutations/useLogin"
