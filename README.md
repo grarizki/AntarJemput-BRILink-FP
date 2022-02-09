@@ -18,7 +18,7 @@ Group of
 Use the package manager npm or yarn to install the packages
 
 ```bash
-npm install
+npm install or npm install --save --legacy-peer-deps
 ```
 
 ## Usage
